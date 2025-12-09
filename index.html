@@ -419,7 +419,7 @@
         function checkCustomDuration(select) { const c = document.getElementById('venta-duracion-custom'); if (select.value === 'Otra') { c.classList.remove('hidden'); c.required = true; select.classList.add('w-1/2'); c.classList.add('w-1/2'); } else { c.classList.add('hidden'); c.required = false; select.classList.remove('w-1/2'); } }
         function checkCustomCaptacion(select) { const c = document.getElementById('venta-captacion-custom'); if (select.value === 'custom') { c.classList.remove('hidden'); c.required = true; select.classList.add('w-1/2'); c.classList.add('w-1/2'); } else { c.classList.add('hidden'); c.required = false; select.classList.remove('w-1/2'); } }
         
-        // MODIFICACIÓN DEL MENSAJE DE CONFIRMACIÓN EN LA WEB APP
+        // MODIFICACIÓN DEL MENSAJE DE CONFIRMACIÓN EN LA WEB APP (ELIMINADO EL ALERT)
         function enviarCita(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btn-cita'); 
@@ -441,7 +441,7 @@
             
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
                 .then(() => { 
-                    alert('CITA AGENDADA, PARA CUALQUIER CONSULTA COMUNICARSE AL WHATSAPP.'); 
+                    // El mensaje de alerta fue ELIMINADO aquí.
                     e.target.reset(); 
                     showSection('home'); 
                 })
