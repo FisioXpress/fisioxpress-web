@@ -276,7 +276,7 @@
 
     <script>
         // ¡URL ACTUALIZADA!
-        const API_URL = 'https://script.google.com/macros/s/AKfycbykcFT-tM76VhZ7-1KEE7ZuVlkSFmcD0lf5m2pWj1wvzqfbIug2jzonnWwmtmHFLjongA/exec'; 
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyZrpiWRNHcKIv2cSTxmsZcHhMk4pOxeGeq3fLYPE17NfZxq6pRBET3BpSRVVXgg3skAg/exec'; 
 
         let currentTarget = '';
         let staffUser = 'Anónimo';
@@ -441,7 +441,7 @@
             
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
                 .then(() => { 
-                    alert('RESERVA DE CITA EXITOSA');
+                    alert('Reserva Exitosa, por favor revise la confirmación en el correo electrónico registrado.');
                     e.target.reset(); 
                     showSection('home'); 
                 })
