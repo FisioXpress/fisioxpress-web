@@ -10,12 +10,12 @@
             theme: {
                 extend: {
                     colors: {
-                        fisioPrimary: '#1B4D3E', 
-                        fisioAccent: '#4CAF50',  
-                        fisioLight: '#F1F8E9',   
-                        fisioHover: '#2E7D32',   
-                        fisioOrange: '#FF9800',  
-                        fisioOrangeHover: '#F57C00' 
+                        fisioPrimary: '#1B4D3E', // Verde Corporativo
+                        fisioAccent: '#4CAF50',  // Verde Vibrante
+                        fisioLight: '#F1F8E9',   // Fondo Suave
+                        fisioHover: '#2E7D32',   // Verde Interacción
+                        fisioOrange: '#FF9800',  // Naranja (Acento)
+                        fisioOrangeHover: '#F57C00' // Naranja Oscuro
                     }
                 }
             }
@@ -29,7 +29,6 @@
         body { background-color: #F1F8E9; }
         input[type="date"], select { -webkit-appearance: none; appearance: none; }
         .time-select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
-        /* Estilo para opciones deshabilitadas */
         option:disabled { background-color: #e5e7eb; color: #9ca3af; }
     </style>
 </head>
@@ -80,65 +79,38 @@
     <div id="app-citas" class="hidden-section container mx-auto p-4 max-w-2xl fade-in pb-20 pt-6">
         <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-fisioOrange">
             <h2 class="text-3xl font-bold text-fisioPrimary mb-8 text-center"><i class="fa-solid fa-calendar-days text-fisioOrange"></i> Reservar Cita</h2>
-            
             <div class="bg-orange-50 p-4 rounded-lg mb-6 border-l-4 border-fisioOrange text-sm text-orange-800 flex items-start gap-2">
                 <i class="fa-solid fa-circle-info mt-1 text-fisioOrange"></i>
-                <div>
-                    <strong>Horario de Atención:</strong> Lunes a Sábado de 9:00 am a 8:00 pm.<br>
-                    <span class="text-xs opacity-80">Domingos y Feriados cerrado.</span>
-                </div>
+                <div><strong>Horario de Atención:</strong> Lunes a Sábado de 9:00 am a 8:00 pm.<br><span class="text-xs opacity-80">Domingos y Feriados cerrado.</span></div>
             </div>
 
             <form id="form-cita" onsubmit="enviarCita(event)">
                 <p class="font-bold text-fisioPrimary mb-3 border-b border-gray-100 pb-2">Datos Personales</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <input type="text" id="cita-nombre" placeholder="Nombres" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
-                    <input type="text" id="cita-apellido" placeholder="Apellidos" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
+                    <input type="text" id="cita-nombre" placeholder="Nombre" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
+                    <input type="text" id="cita-apellido" placeholder="Apellido" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <select id="cita-doc-tipo" class="p-3 border rounded bg-gray-50 focus:border-fisioOrange outline-none transition"><option>DNI</option><option>C.E.</option><option>Pasaporte</option></select>
                     <input type="text" id="cita-doc-num" placeholder="N° Documento" required class="p-3 border rounded bg-gray-50 col-span-2 w-full focus:border-fisioOrange outline-none transition">
                 </div>
-                <div class="mb-4">
-                    <input type="email" id="cita-email" placeholder="Correo Electrónico (Para envío de confirmación)" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition">
-                </div>
-                <div class="mb-4">
-                    <input type="tel" id="cita-whatsapp" placeholder="WhatsApp" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition">
-                </div>
+                <div class="mb-4"><input type="email" id="cita-email" placeholder="Correo Electrónico (Para envío de confirmación)" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition"></div>
+                <div class="mb-4"><input type="tel" id="cita-whatsapp" placeholder="WhatsApp" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition"></div>
 
                 <p class="font-bold text-fisioPrimary mb-3 border-b border-gray-100 pb-2 mt-8">Fecha y Hora</p>
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-2">
-                    <div>
-                        <label class="text-xs font-bold text-gray-400 block mb-1">FECHA</label>
-                        <input type="date" id="cita-fecha" required class="w-full p-3 border rounded bg-white font-medium focus:border-fisioOrange outline-none transition" onchange="verificarDisponibilidad(this)">
-                    </div>
+                    <div><label class="text-xs font-bold text-gray-400 block mb-1">FECHA</label><input type="date" id="cita-fecha" required class="w-full p-3 border rounded bg-white font-medium focus:border-fisioOrange outline-none transition" onchange="verificarDisponibilidad(this)"></div>
                     <div>
                         <label class="text-xs font-bold text-gray-400 block mb-1">HORA</label>
                         <select id="cita-hora" required class="time-select w-full p-3 border rounded bg-white font-medium focus:border-fisioOrange outline-none disabled:bg-gray-100 disabled:text-gray-400">
                             <option value="">Seleccionar...</option>
-                            <option value="09:00">09:00 AM</option>
-                            <option value="09:30">09:30 AM</option>
-                            <option value="10:00">10:00 AM</option>
-                            <option value="10:30">10:30 AM</option>
-                            <option value="11:00">11:00 AM</option>
-                            <option value="11:30">11:30 AM</option>
-                            <option value="12:00">12:00 PM</option>
-                            <option value="12:30">12:30 PM</option>
-                            <option value="13:00">01:00 PM</option>
-                            <option value="13:30">01:30 PM</option>
-                            <option value="14:00">02:00 PM</option>
-                            <option value="14:30">02:30 PM</option>
-                            <option value="15:00">03:00 PM</option>
-                            <option value="15:30">03:30 PM</option>
-                            <option value="16:00">04:00 PM</option>
-                            <option value="16:30">04:30 PM</option>
-                            <option value="17:00">05:00 PM</option>
-                            <option value="17:30">05:30 PM</option>
-                            <option value="18:00">06:00 PM</option>
-                            <option value="18:30">06:30 PM</option>
-                            <option value="19:00">07:00 PM</option>
-                            <option value="19:30">07:30 PM (Último Turno)</option> </select>
+                            <option value="09:00">09:00 AM</option><option value="09:30">09:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option>
+                            <option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option>
+                            <option value="13:00">01:00 PM</option><option value="13:30">01:30 PM</option><option value="14:00">02:00 PM</option><option value="14:30">02:30 PM</option>
+                            <option value="15:00">03:00 PM</option><option value="15:30">03:30 PM</option><option value="16:00">04:00 PM</option><option value="16:30">04:30 PM</option>
+                            <option value="17:00">05:00 PM</option><option value="17:30">05:30 PM</option><option value="18:00">06:00 PM</option><option value="18:30">06:30 PM</option>
+                            <option value="19:00">07:00 PM</option><option value="19:30">07:30 PM (Último Turno)</option>
+                        </select>
                         <p id="loading-hours" class="text-xs text-fisioOrange font-bold mt-1 hidden"><i class="fa-solid fa-spinner fa-spin"></i> Verificando horarios...</p>
                     </div>
                 </div>
@@ -146,14 +118,9 @@
                 <div class="mb-8">
                     <label class="text-xs font-bold text-gray-400 block mb-1">SERVICIO</label>
                     <select id="cita-servicio" class="p-3 border rounded w-full bg-white font-medium focus:border-fisioOrange outline-none transition">
-                        <option>Evaluación Fisioterapéutica</option>
-                        <option>Masaje Relajante</option>
-                        <option>Masaje Xpress Focalizado</option>
-                        <option>Masaje Descontracturante</option>
-                        <option>Masaje Deportivo</option>
-                        <option>Drenaje Linfático</option>
-                        <option>Fisioterapia Especializada</option>
-                        <option>Paquete de Tratamiento</option>
+                        <option>Evaluación Fisioterapéutica</option><option>Masaje Relajante</option><option>Masaje Xpress Focalizado</option>
+                        <option>Masaje Descontracturante</option><option>Masaje Deportivo</option><option>Drenaje Linfático</option>
+                        <option>Fisioterapia Especializada</option><option>Paquete de Tratamiento</option>
                     </select>
                 </div>
                 <button type="submit" id="btn-cita" class="w-full bg-fisioOrange hover:bg-fisioOrangeHover text-white font-extrabold py-4 rounded-xl transition shadow-lg text-lg flex justify-center items-center gap-2">
@@ -170,33 +137,98 @@
                 <i class="fa-solid fa-user-check"></i> <span id="staff-name-display" class="font-bold">Staff</span>
             </div>
         </div>
+
         <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
             <div class="flex p-1 bg-gray-100 rounded-xl mb-8">
                 <button onclick="setStaffMode('venta')" id="tab-venta" class="flex-1 py-3 rounded-xl font-bold transition-all bg-white text-fisioAccent shadow-md">Nueva Venta</button>
                 <button onclick="setStaffMode('anulacion')" id="tab-anulacion" class="flex-1 py-3 rounded-xl font-bold text-gray-500 hover:text-fisioOrange transition-all">Anulación</button>
             </div>
+            
             <form id="form-venta" onsubmit="registrarVenta(event)">
                 <input type="hidden" id="venta-estado" value="Venta"> 
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                      <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Fecha Sesión</label><input type="date" id="venta-fecha" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
                     <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Terapeuta</label><select id="venta-terapeuta" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required><option value="">Seleccionar...</option><option>Ana Pisfil</option><option>Isabel Barriga</option><option>Carmen Rodriguez</option></select></div>
                 </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Nombres</label><input type="text" id="venta-nombres" placeholder="Ej: Juan" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
-                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Apellidos</label><input type="text" id="venta-apellidos" placeholder="Ej: Pérez" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
-                     <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">DNI</label><input type="text" id="venta-dni" placeholder="N° Doc" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
+                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Nombre</label><input type="text" id="venta-nombre" placeholder="Ej: Juan" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
+                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Apellido</label><input type="text" id="venta-apellido" placeholder="Ej: Pérez" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
+                     
+                     <div>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Documento</label>
+                        <div class="flex gap-2">
+                             <select id="venta-doc-tipo" class="p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none w-1/3 text-sm">
+                                <option>DNI</option><option>C.E.</option><option>Pasaporte</option>
+                             </select>
+                             <input type="text" id="venta-doc-num" placeholder="Número" class="w-2/3 p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <div class="col-span-2"><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Servicio / Producto</label><div class="flex gap-3"><select id="venta-servicio-select" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none transition" required onchange="checkCustomService(this)"><option value="">Seleccionar...</option><option data-price="30">Masaje Relajante (S/30)</option><option data-price="45">Masaje Xpress Focalizado (S/45)</option><option data-price="60">Masaje Descontracturante (S/60)</option><option data-price="80">Masaje Deportivo (S/80)</option><option data-price="70">Drenaje Linfático (S/70)</option><option data-price="80">Fisioterapia Especializada (S/80)</option><option value="custom">Producto / Otro ➡️</option></select><input type="text" id="venta-detalle-custom" placeholder="Detalle..." class="hidden w-full p-3 border-2 border-fisioOrange rounded-lg bg-orange-50 font-bold focus:border-fisioOrangeHover outline-none transition fade-in"></div></div>
-                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Duración (Min)</label><select id="venta-duracion" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required><option value="30">30 min</option><option value="45">45 min</option><option value="60">60 min</option><option value="80">80 min</option><option value="0">0 (Producto)</option></select></div>
+                    <div class="col-span-2">
+                         <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Servicio / Producto</label>
+                         <div class="flex gap-3">
+                            <select id="venta-servicio-select" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none transition" required onchange="checkCustomService(this)">
+                                <option value="">Seleccionar...</option>
+                                <option>Masaje Relajante</option>
+                                <option>Masaje Xpress Focalizado</option>
+                                <option>Masaje Descontracturante</option>
+                                <option>Masaje Deportivo</option>
+                                <option>Drenaje Linfático</option>
+                                <option>Fisioterapia Especializada</option>
+                                <option value="custom">Producto / Otro ➡️</option>
+                            </select>
+                            <input type="text" id="venta-detalle-custom" placeholder="Especifique..." class="hidden w-full p-3 border-2 border-fisioOrange rounded-lg bg-orange-50 font-bold focus:border-fisioOrangeHover outline-none transition fade-in">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Duración</label>
+                        <select id="venta-duracion" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
+                            <option value="30">30 min</option>
+                            <option value="45">45 min</option>
+                            <option value="60">60 min</option>
+                            <option value="80">80 min</option>
+                            <option value="0">0 (Producto)</option>
+                            <option value="Otra">Otra Duración</option>
+                        </select>
+                    </div>
                 </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Medio de Pago</label><select id="venta-pago" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required><option>YAPE/PLIN</option><option>EFECTIVO</option><option>TARJETA</option></select></div>
-                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Captación</label><select id="venta-captacion" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required><option>Redes Sociales</option><option>Flyers</option><option>Referidos</option><option>Banners</option><option>Cliente</option><option>Otros</option></select></div>
-                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Monto Total (S/)</label><input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-full p-3 border-2 border-fisioAccent rounded-lg text-3xl font-extrabold text-fisioAccent text-right focus:ring-0 outline-none bg-white transition" required></div>
+                    
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Captación</label>
+                        <div class="flex gap-2">
+                             <select id="venta-captacion" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required onchange="checkCustomCaptacion(this)">
+                                <option>Redes Sociales</option>
+                                <option>Flyers</option>
+                                <option>Referidos</option>
+                                <option>Banners</option>
+                                <option>Cliente Recurrente</option>
+                                <option value="custom">Otro ➡️</option>
+                            </select>
+                             <input type="text" id="venta-captacion-custom" placeholder="Detalle..." class="hidden w-full p-3 border-2 border-gray-100 rounded-lg bg-gray-50 focus:border-fisioAccent outline-none transition fade-in">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Monto Total (S/)</label>
+                        <input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-full p-3 border-2 border-fisioAccent rounded-lg text-3xl font-extrabold text-fisioAccent text-right focus:ring-0 outline-none bg-white transition" required>
+                    </div>
                 </div>
-                <div id="div-anulacion-motivo" class="hidden mb-8 bg-orange-50 p-6 rounded-xl border-2 border-fisioOrange fade-in"><label class="block text-fisioOrange font-bold mb-3 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Motivo de la Anulación (Obligatorio)</label><input type="text" id="anulacion-motivo" placeholder="Ej: Error de digitación..." class="w-full p-4 border-2 border-orange-200 rounded-lg focus:border-fisioOrange outline-none bg-white"></div>
-                <button type="submit" id="btn-venta" class="w-full bg-fisioAccent hover:bg-fisioPrimary text-white font-extrabold py-4 rounded-xl text-xl shadow-md transition transform hover:-translate-y-1 flex items-center justify-center gap-3"><i class="fa-solid fa-save"></i> REGISTRAR OPERACIÓN</button>
+
+                <div id="div-anulacion-motivo" class="hidden mb-8 bg-orange-50 p-6 rounded-xl border-2 border-fisioOrange fade-in">
+                    <label class="block text-fisioOrange font-bold mb-3 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Motivo de la Anulación (Obligatorio)</label>
+                    <input type="text" id="anulacion-motivo" placeholder="Ej: Error de digitación..." class="w-full p-4 border-2 border-orange-200 rounded-lg focus:border-fisioOrange outline-none bg-white">
+                </div>
+
+                <button type="submit" id="btn-venta" class="w-full bg-fisioAccent hover:bg-fisioPrimary text-white font-extrabold py-4 rounded-xl text-xl shadow-md transition transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-save"></i> REGISTRAR OPERACIÓN
+                </button>
             </form>
         </div>
     </div>
@@ -283,7 +315,8 @@
     </div>
 
     <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyCjiiaqhpPRxepqwWSLMvF0zcWd1t5IjA81DkHJ2rCnDvTBVWuzr6RiE294B9z-up3cg/exec'; 
+        // --- TU NUEVA URL DEL SCRIPT (Actualizada) ---
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyrMDIxUyyHlITYI3mpoxysx73YOTKkGJfwC55cNPCVZn6RnKRNwMAvq_Y4m0gjv9ZxlQ/exec'; 
 
         let currentTarget = '';
         let staffUser = 'Anónimo';
@@ -297,36 +330,27 @@
                  const fechaInput = document.getElementById('cita-fecha');
                  fechaInput.value = hoy;
                  fechaInput.min = hoy; 
-                 // Verificar disponibilidad al cargar por si alguien quiere cita hoy
                  verificarDisponibilidad(fechaInput);
              }
              if(document.getElementById('gasto-fecha')) document.getElementById('gasto-fecha').value = hoy;
         });
 
-        // --- NUEVA LÓGICA: VERIFICAR DISPONIBILIDAD ---
+        function validarFecha(input) { if (new Date(input.value).getUTCDay() === 0) { alert("⛔ Domingos cerrado."); input.value = ""; } }
+
         function verificarDisponibilidad(input) {
             const fecha = input.value;
             if (new Date(fecha).getUTCDay() === 0) { alert("⛔ Domingos cerrado."); input.value = ""; return; }
-            
             const selectHora = document.getElementById('cita-hora');
             const loading = document.getElementById('loading-hours');
-            
-            // Habilitar todo primero
             const opciones = selectHora.options;
             for(let i=0; i<opciones.length; i++) { opciones[i].disabled = false; opciones[i].innerText = opciones[i].innerText.replace(" (Ocupado)", ""); }
-            
-            loading.classList.remove('hidden'); // Mostrar cargando
-
-            // Consultar Backend
+            loading.classList.remove('hidden'); 
             fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerHorarios', fecha: fecha}) })
             .then(r => r.json())
             .then(data => {
                 loading.classList.add('hidden');
                 if(data.ocupados && data.ocupados.length > 0) {
                     for(let i=0; i<opciones.length; i++) {
-                        // Comparar hora del option con las ocupadas (formato string exacto)
-                        // data.ocupados podría ser ["09:00", "10:30"]
-                        // El value del option es "09:00", etc.
                         if (data.ocupados.includes(opciones[i].value)) {
                             opciones[i].disabled = true;
                             opciones[i].innerText += " (Ocupado)";
@@ -334,35 +358,76 @@
                     }
                 }
             })
-            .catch(e => {
-                console.error("Error verificando horas", e);
-                loading.classList.add('hidden');
-            });
+            .catch(e => { console.error("Error", e); loading.classList.add('hidden'); });
         }
 
+        // Lógica de "Otro Servicio" (Input extra)
         function checkCustomService(select) {
             const customInput = document.getElementById('venta-detalle-custom');
-            const montoInput = document.getElementById('venta-monto');
-            const price = select.options[select.selectedIndex].getAttribute('data-price');
             if (select.value === 'custom') {
                 customInput.classList.remove('hidden'); customInput.required = true;
                 select.classList.remove('w-full'); select.classList.add('w-1/2'); customInput.classList.add('w-1/2'); customInput.focus();
-                montoInput.value = ""; 
             } else {
                 customInput.classList.add('hidden'); customInput.required = false;
                 select.classList.remove('w-1/2'); select.classList.add('w-full');
-                if(price) montoInput.value = price;
+            }
+        }
+
+        // Lógica de "Otra Captación"
+        function checkCustomCaptacion(select) {
+            const customInput = document.getElementById('venta-captacion-custom');
+            if (select.value === 'custom') {
+                customInput.classList.remove('hidden'); customInput.required = true;
+                select.classList.remove('w-full'); select.classList.add('w-1/2'); customInput.classList.add('w-1/2'); customInput.focus();
+            } else {
+                customInput.classList.add('hidden'); customInput.required = false;
+                select.classList.remove('w-1/2'); select.classList.add('w-full');
             }
         }
 
         function registrarVenta(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-venta');
+            
+            // Servicio final (Select o Texto)
             const selectServicio = document.getElementById('venta-servicio-select');
-            let servicioFinal = selectServicio.value === 'custom' ? document.getElementById('venta-detalle-custom').value : selectServicio.options[selectServicio.selectedIndex].text.split(' (')[0];
+            let servicioFinal = selectServicio.value === 'custom' ? document.getElementById('venta-detalle-custom').value : selectServicio.options[selectServicio.selectedIndex].text;
+            
+            // Captación final (Select o Texto)
+            const selectCaptacion = document.getElementById('venta-captacion');
+            let captacionFinal = selectCaptacion.value === 'custom' ? document.getElementById('venta-captacion-custom').value : selectCaptacion.value;
+
+            // DNI Combinado
+            const dniFinal = document.getElementById('venta-doc-tipo').value + ' ' + document.getElementById('venta-doc-num').value;
+
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...'; btn.disabled = true;
-            const data = { action: 'registrarVenta', usuarioLogueado: staffUser, terapeuta: document.getElementById('venta-terapeuta').value, nombres: document.getElementById('venta-nombres').value, apellidos: document.getElementById('venta-apellidos').value, dni: document.getElementById('venta-dni').value, fechaSesion: document.getElementById('venta-fecha').value, servicio: servicioFinal, duracion: document.getElementById('venta-duracion').value, captacion: document.getElementById('venta-captacion').value, monto: document.getElementById('venta-monto').value, medioPago: document.getElementById('venta-pago').value, estado: document.getElementById('venta-estado').value, origen: document.getElementById('anulacion-motivo').value || 'Venta' };
-            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }).then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; checkCustomService(document.getElementById('venta-servicio-select')); setStaffMode('venta'); }).finally(() => { btn.innerHTML = '<i class="fa-solid fa-save"></i> REGISTRAR OPERACIÓN'; btn.disabled = false; });
+            
+            const data = {
+                action: 'registrarVenta',
+                usuarioLogueado: staffUser,
+                terapeuta: document.getElementById('venta-terapeuta').value,
+                nombre: document.getElementById('venta-nombre').value,
+                apellido: document.getElementById('venta-apellido').value,
+                dni: dniFinal,
+                fechaSesion: document.getElementById('venta-fecha').value,
+                servicio: servicioFinal,
+                duracion: document.getElementById('venta-duracion').value,
+                captacion: captacionFinal,
+                monto: document.getElementById('venta-monto').value,
+                medioPago: document.getElementById('venta-pago').value,
+                estado: document.getElementById('venta-estado').value,
+                origen: document.getElementById('anulacion-motivo').value || 'Venta' 
+            };
+
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
+            .then(() => { 
+                alert('✅ Registrado'); e.target.reset(); 
+                document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; 
+                checkCustomService(document.getElementById('venta-servicio-select')); 
+                checkCustomCaptacion(document.getElementById('venta-captacion'));
+                setStaffMode('venta'); 
+            })
+            .finally(() => { btn.innerHTML = '<i class="fa-solid fa-save"></i> REGISTRAR OPERACIÓN'; btn.disabled = false; });
         }
 
         function registrarGasto(e) {
@@ -399,9 +464,8 @@
         }
         function enviarCita(e) {
             e.preventDefault(); const btn = document.getElementById('btn-cita'); const originalHtml = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando reserva...'; btn.disabled = true;
-            const data = { action: 'nuevaCita', nombres: document.getElementById('cita-nombre').value, apellidos: document.getElementById('cita-apellido').value, dni: document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value, email: document.getElementById('cita-email').value, whatsapp: document.getElementById('cita-whatsapp').value, fecha: document.getElementById('cita-fecha').value, hora: document.getElementById('cita-hora').value, servicio: document.getElementById('cita-servicio').value };
+            const data = { action: 'nuevaCita', nombre: document.getElementById('cita-nombre').value, apellido: document.getElementById('cita-apellido').value, dni: document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value, email: document.getElementById('cita-email').value, whatsapp: document.getElementById('cita-whatsapp').value, fecha: document.getElementById('cita-fecha').value, hora: document.getElementById('cita-hora').value, servicio: document.getElementById('cita-servicio').value };
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }).then(() => { 
-                // NUEVO MENSAJE DE CONFIRMACIÓN EXACTO
                 alert('Su cita ha sido agendada, en breve recibirá el correo de confirmación. En caso de cualquier consulta, no dude en comunicarse a nuestro número de Whatsapp.\n\nIMPORTANTE: Recuerde asistir de manera puntual a su cita');
                 e.target.reset(); showSection('home'); 
             }).finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
