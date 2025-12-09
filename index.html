@@ -95,7 +95,7 @@
                     <input type="text" id="cita-doc-num" placeholder="N° Documento" required class="p-3 border rounded bg-gray-50 col-span-2 w-full focus:border-fisioOrange outline-none transition">
                 </div>
                 <div class="mb-4"><input type="email" id="cita-email" placeholder="Correo Electrónico (Para envío de confirmación)" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition"></div>
-                <div class="mb-4"><input type="tel" id="cita-whatsapp" placeholder="WhatsApp" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition"></div>
+                <div class="mb-4"><input type="tel" id="cita-whatsapp" placeholder="Número de Teléfono" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition"></div>
 
                 <p class="font-bold text-fisioPrimary mb-3 border-b border-gray-100 pb-2 mt-8">Fecha y Hora</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-2">
@@ -309,16 +309,23 @@
     </div>
 
     <div id="modal-auth" class="fixed inset-0 bg-fisioPrimary bg-opacity-90 hidden flex items-center justify-center z-50 backdrop-blur-sm fade-in">
-        <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md relative">
+        <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm relative">
              <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-fisioAccent"><i class="fa-solid fa-times text-xl"></i></button>
             <h3 class="text-2xl font-extrabold text-fisioPrimary text-center mb-6">Acceso Restringido</h3>
-            <input type="password" id="input-pass" class="w-full p-5 border-2 border-gray-200 rounded-xl text-center text-2xl font-bold text-fisioPrimary focus:border-fisioAccent outline-none mb-8" placeholder="••••••">
+            
+            <div id="div-user-auth" class="hidden mb-4">
+                <label class="block text-left text-gray-500 font-bold mb-1 text-sm ml-1">Tu Nombre (Obligatorio)</label>
+                <input type="text" id="input-user" class="w-full p-4 border-2 border-gray-200 rounded-xl text-center font-medium text-gray-700 outline-none focus:border-fisioAccent" placeholder="Ingresa tu nombre">
+            </div>
+
+            <label class="block text-left text-gray-500 font-bold mb-1 text-sm ml-1">Contraseña</label>
+            <input type="password" id="input-pass" class="w-full p-4 border-2 border-gray-200 rounded-xl text-center text-2xl font-bold text-fisioPrimary focus:border-fisioAccent outline-none mb-6" placeholder="••••••">
+            
             <button onclick="verifyPass()" class="w-full py-4 bg-fisioAccent text-white font-extrabold rounded-xl hover:bg-fisioPrimary transition shadow-lg text-lg">DESBLOQUEAR</button>
         </div>
     </div>
 
     <script>
-        // --- URL FINAL ---
         const API_URL = 'https://script.google.com/macros/s/AKfycbyrMDIxUyyHlITYI3mpoxysx73YOTKkGJfwC55cNPCVZn6RnKRNwMAvq_Y4m0gjv9ZxlQ/exec'; 
 
         let currentTarget = '';
@@ -365,26 +372,19 @@
         }
 
         // --- LÓGICAS DE VENTAS ---
-
-        // 1. Servicio: Si es Producto -> Duración = No Aplica
         function checkCustomService(select) {
             const customInput = document.getElementById('venta-detalle-custom');
             const duracionSelect = document.getElementById('venta-duracion');
-            
             if (select.value === 'custom') {
                 customInput.classList.remove('hidden'); customInput.required = true;
                 select.classList.remove('w-full'); select.classList.add('w-1/2'); customInput.classList.add('w-1/2'); customInput.focus();
-                
-                // Automáticamente poner "No Aplica" en duración
-                duracionSelect.value = "0";
-                checkCustomDuration(duracionSelect); 
+                duracionSelect.value = "0"; checkCustomDuration(duracionSelect); 
             } else {
                 customInput.classList.add('hidden'); customInput.required = false;
                 select.classList.remove('w-1/2'); select.classList.add('w-full');
             }
         }
 
-        // 2. Duración: Si es Otra -> Mostrar input, si es lista -> Ocultar input
         function checkCustomDuration(select) {
             const customInput = document.getElementById('venta-duracion-custom');
             if (select.value === 'Otra') {
@@ -396,7 +396,6 @@
             }
         }
 
-        // 3. Captación: Si es Otro -> Mostrar input
         function checkCustomCaptacion(select) {
             const customInput = document.getElementById('venta-captacion-custom');
             if (select.value === 'custom') {
@@ -411,64 +410,25 @@
         function registrarVenta(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-venta');
-            
-            // LOGICA SERVICIO
             const selectServicio = document.getElementById('venta-servicio-select');
             let servicioFinal = selectServicio.value === 'custom' ? document.getElementById('venta-detalle-custom').value : selectServicio.options[selectServicio.selectedIndex].text;
-            
-            // LOGICA DURACION CON VALIDACION
             const selectDuracion = document.getElementById('venta-duracion');
             let duracionFinal = selectDuracion.value;
-            
             if (duracionFinal === 'Otra') {
                 const customVal = document.getElementById('venta-duracion-custom').value;
-                // Validar que no sea uno de los de la lista
                 const prohibidos = ['30', '45', '60', '80', '0'];
-                if (prohibidos.includes(customVal)) {
-                    alert('⚠️ Error: La duración ingresada (' + customVal + ') ya existe en la lista. Por favor, selecciónela del menú desplegable.');
-                    return; // DETENER GUARDADO
-                }
+                if (prohibidos.includes(customVal)) { alert('⚠️ Error: La duración ingresada (' + customVal + ') ya existe en la lista. Por favor, selecciónela del menú desplegable.'); return; }
                 duracionFinal = customVal;
             }
-
-            // LOGICA CAPTACION
             const selectCaptacion = document.getElementById('venta-captacion');
             let captacionFinal = selectCaptacion.value === 'custom' ? document.getElementById('venta-captacion-custom').value : selectCaptacion.value;
-
-            // DNI Combinado
             const dniFinal = document.getElementById('venta-doc-tipo').value + ' ' + document.getElementById('venta-doc-num').value;
 
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...'; btn.disabled = true;
-            
-            const data = {
-                action: 'registrarVenta',
-                usuarioLogueado: staffUser,
-                terapeuta: document.getElementById('venta-terapeuta').value,
-                nombre: document.getElementById('venta-nombre').value,
-                apellido: document.getElementById('venta-apellido').value,
-                dni: dniFinal,
-                fechaSesion: document.getElementById('venta-fecha').value,
-                servicio: servicioFinal,
-                duracion: duracionFinal,
-                captacion: captacionFinal,
-                monto: document.getElementById('venta-monto').value,
-                medioPago: document.getElementById('venta-pago').value,
-                estado: document.getElementById('venta-estado').value,
-                origen: document.getElementById('anulacion-motivo').value || 'Venta' 
-            };
+            const data = { action: 'registrarVenta', usuarioLogueado: staffUser, terapeuta: document.getElementById('venta-terapeuta').value, nombre: document.getElementById('venta-nombre').value, apellido: document.getElementById('venta-apellido').value, dni: dniFinal, fechaSesion: document.getElementById('venta-fecha').value, servicio: servicioFinal, duracion: duracionFinal, captacion: captacionFinal, monto: document.getElementById('venta-monto').value, medioPago: document.getElementById('venta-pago').value, estado: document.getElementById('venta-estado').value, origen: document.getElementById('anulacion-motivo').value || 'Venta' };
 
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
-            .then(() => { 
-                alert('✅ Registrado'); e.target.reset(); 
-                document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; 
-                
-                // Resetear campos visuales
-                checkCustomService(document.getElementById('venta-servicio-select')); 
-                checkCustomCaptacion(document.getElementById('venta-captacion'));
-                checkCustomDuration(document.getElementById('venta-duracion'));
-                
-                setStaffMode('venta'); 
-            })
+            .then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; checkCustomService(document.getElementById('venta-servicio-select')); checkCustomCaptacion(document.getElementById('venta-captacion')); checkCustomDuration(document.getElementById('venta-duracion')); setStaffMode('venta'); })
             .finally(() => { btn.innerHTML = '<i class="fa-solid fa-save"></i> REGISTRAR OPERACIÓN'; btn.disabled = false; });
         }
 
@@ -496,14 +456,58 @@
             });
         }
 
+        // --- SISTEMA DE SECCIONES Y MODAL DE LOGIN (ACTUALIZADO) ---
         function showSection(id) { document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none'); document.getElementById(id).style.display = 'block'; window.scrollTo(0,0); }
-        function checkAuth(target) { currentTarget = target; document.getElementById('modal-auth').classList.remove('hidden'); document.getElementById('input-pass').value = ''; document.getElementById('input-pass').focus(); }
+        
+        function checkAuth(target) { 
+            currentTarget = target; 
+            document.getElementById('modal-auth').classList.remove('hidden'); 
+            
+            // Limpiar inputs
+            document.getElementById('input-pass').value = ''; 
+            document.getElementById('input-user').value = '';
+
+            // Lógica para mostrar/ocultar el nombre según corresponda
+            const userDiv = document.getElementById('div-user-auth');
+            if (target.includes('staff')) {
+                userDiv.classList.remove('hidden'); // Mostrar campo de nombre para Staff
+                document.getElementById('input-user').focus(); // Foco en el nombre
+            } else {
+                userDiv.classList.add('hidden'); // Ocultar para Gerencia
+                document.getElementById('input-pass').focus();
+            }
+        }
+        
         function closeModal() { document.getElementById('modal-auth').classList.add('hidden'); }
+        
         function verifyPass() {
             const pass = document.getElementById('input-pass').value;
-            if (currentTarget.includes('staff')) { if (pass === 'Fisio.123') { staffUser = prompt("¿Quién eres?", "") || "Staff"; document.getElementById('staff-name-display').innerText = staffUser; closeModal(); showSection(currentTarget === 'staff' ? 'app-staff' : 'app-historia'); } else alert('⛔ Clave incorrecta');
-            } else if (currentTarget === 'gerencia') { if (pass === 'marioyavril.') { closeModal(); showSection('app-gerencia'); cargarFinanzas(); } else alert('⛔ Clave incorrecta'); }
+            const userName = document.getElementById('input-user').value.trim();
+
+            if (currentTarget.includes('staff')) { 
+                if (pass === 'Fisio.123') { 
+                    if (userName === "") {
+                        alert("⚠️ Por favor, ingresa tu nombre para continuar."); // Validación obligatoria
+                        return;
+                    }
+                    staffUser = userName; 
+                    document.getElementById('staff-name-display').innerText = staffUser; 
+                    closeModal(); 
+                    showSection(currentTarget === 'staff' ? 'app-staff' : 'app-historia'); 
+                } else {
+                    alert('⛔ Clave incorrecta');
+                }
+            } else if (currentTarget === 'gerencia') { 
+                if (pass === 'marioyavril.') { 
+                    closeModal(); 
+                    showSection('app-gerencia'); 
+                    cargarFinanzas(); 
+                } else {
+                    alert('⛔ Clave incorrecta'); 
+                }
+            }
         }
+        
         function enviarCita(e) {
             e.preventDefault(); const btn = document.getElementById('btn-cita'); const originalHtml = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando reserva...'; btn.disabled = true;
             const data = { action: 'nuevaCita', nombre: document.getElementById('cita-nombre').value, apellido: document.getElementById('cita-apellido').value, dni: document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value, email: document.getElementById('cita-email').value, whatsapp: document.getElementById('cita-whatsapp').value, fecha: document.getElementById('cita-fecha').value, hora: document.getElementById('cita-hora').value, servicio: document.getElementById('cita-servicio').value };
