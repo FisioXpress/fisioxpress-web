@@ -10,12 +10,12 @@
             theme: {
                 extend: {
                     colors: {
-                        fisioPrimary: '#1B4D3E', // Verde Corporativo
-                        fisioAccent: '#4CAF50',  // Verde Vibrante
-                        fisioLight: '#F1F8E9',   // Fondo Suave
-                        fisioHover: '#2E7D32',   // Verde Interacción
-                        fisioOrange: '#FF9800',  // Naranja (Acento)
-                        fisioOrangeHover: '#F57C00' // Naranja Oscuro
+                        fisioPrimary: '#1B4D3E', 
+                        fisioAccent: '#4CAF50',  
+                        fisioLight: '#F1F8E9',   
+                        fisioHover: '#2E7D32',   
+                        fisioOrange: '#FF9800',  
+                        fisioOrangeHover: '#F57C00' 
                     }
                 }
             }
@@ -87,8 +87,8 @@
             <form id="form-cita" onsubmit="enviarCita(event)">
                 <p class="font-bold text-fisioPrimary mb-3 border-b border-gray-100 pb-2">Datos Personales</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <input type="text" id="cita-nombre" placeholder="Nombre" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
-                    <input type="text" id="cita-apellido" placeholder="Apellido" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
+                    <input type="text" id="cita-nombre" placeholder="INGRESE SU NOMBRE" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
+                    <input type="text" id="cita-apellido" placeholder="INGRESE SU APELLIDO" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <select id="cita-doc-tipo" class="p-3 border rounded bg-gray-50 focus:border-fisioOrange outline-none transition"><option>DNI</option><option>C.E.</option><option>Pasaporte</option></select>
@@ -153,8 +153,8 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Nombre</label><input type="text" id="venta-nombre" placeholder="Ej: Juan" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
-                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Apellido</label><input type="text" id="venta-apellido" placeholder="Ej: Pérez" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
+                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Nombre</label><input type="text" id="venta-nombre" placeholder="INGRESE SU NOMBRE" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
+                    <div><label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Apellido</label><input type="text" id="venta-apellido" placeholder="INGRESE SU APELLIDO" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required></div>
                      
                      <div>
                         <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Documento</label>
@@ -186,14 +186,17 @@
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Duración</label>
-                        <select id="venta-duracion" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
-                            <option value="30">30 min</option>
-                            <option value="45">45 min</option>
-                            <option value="60">60 min</option>
-                            <option value="80">80 min</option>
-                            <option value="0">0 (Producto)</option>
-                            <option value="Otra">Otra Duración</option>
-                        </select>
+                        <div class="flex gap-2">
+                            <select id="venta-duracion" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required onchange="checkCustomDuration(this)">
+                                <option value="30">30 min</option>
+                                <option value="45">45 min</option>
+                                <option value="60">60 min</option>
+                                <option value="80">80 min</option>
+                                <option value="0">No Aplica</option>
+                                <option value="Otra">Otra Duración</option>
+                            </select>
+                            <input type="number" id="venta-duracion-custom" placeholder="Min" class="hidden w-1/2 p-3 border-2 border-fisioOrange rounded-lg bg-orange-50 font-bold focus:border-fisioOrangeHover outline-none transition fade-in">
+                        </div>
                     </div>
                 </div>
 
@@ -315,7 +318,7 @@
     </div>
 
     <script>
-        // --- TU NUEVA URL DEL SCRIPT (Actualizada) ---
+        // --- URL FINAL ---
         const API_URL = 'https://script.google.com/macros/s/AKfycbyrMDIxUyyHlITYI3mpoxysx73YOTKkGJfwC55cNPCVZn6RnKRNwMAvq_Y4m0gjv9ZxlQ/exec'; 
 
         let currentTarget = '';
@@ -361,10 +364,30 @@
             .catch(e => { console.error("Error", e); loading.classList.add('hidden'); });
         }
 
-        // Lógica de "Otro Servicio" (Input extra)
+        // --- LÓGICAS DE VENTAS ---
+
+        // 1. Servicio: Si es Producto -> Duración = No Aplica
         function checkCustomService(select) {
             const customInput = document.getElementById('venta-detalle-custom');
+            const duracionSelect = document.getElementById('venta-duracion');
+            
             if (select.value === 'custom') {
+                customInput.classList.remove('hidden'); customInput.required = true;
+                select.classList.remove('w-full'); select.classList.add('w-1/2'); customInput.classList.add('w-1/2'); customInput.focus();
+                
+                // Automáticamente poner "No Aplica" en duración
+                duracionSelect.value = "0";
+                checkCustomDuration(duracionSelect); 
+            } else {
+                customInput.classList.add('hidden'); customInput.required = false;
+                select.classList.remove('w-1/2'); select.classList.add('w-full');
+            }
+        }
+
+        // 2. Duración: Si es Otra -> Mostrar input, si es lista -> Ocultar input
+        function checkCustomDuration(select) {
+            const customInput = document.getElementById('venta-duracion-custom');
+            if (select.value === 'Otra') {
                 customInput.classList.remove('hidden'); customInput.required = true;
                 select.classList.remove('w-full'); select.classList.add('w-1/2'); customInput.classList.add('w-1/2'); customInput.focus();
             } else {
@@ -373,7 +396,7 @@
             }
         }
 
-        // Lógica de "Otra Captación"
+        // 3. Captación: Si es Otro -> Mostrar input
         function checkCustomCaptacion(select) {
             const customInput = document.getElementById('venta-captacion-custom');
             if (select.value === 'custom') {
@@ -389,11 +412,26 @@
             e.preventDefault();
             const btn = document.getElementById('btn-venta');
             
-            // Servicio final (Select o Texto)
+            // LOGICA SERVICIO
             const selectServicio = document.getElementById('venta-servicio-select');
             let servicioFinal = selectServicio.value === 'custom' ? document.getElementById('venta-detalle-custom').value : selectServicio.options[selectServicio.selectedIndex].text;
             
-            // Captación final (Select o Texto)
+            // LOGICA DURACION CON VALIDACION
+            const selectDuracion = document.getElementById('venta-duracion');
+            let duracionFinal = selectDuracion.value;
+            
+            if (duracionFinal === 'Otra') {
+                const customVal = document.getElementById('venta-duracion-custom').value;
+                // Validar que no sea uno de los de la lista
+                const prohibidos = ['30', '45', '60', '80', '0'];
+                if (prohibidos.includes(customVal)) {
+                    alert('⚠️ Error: La duración ingresada (' + customVal + ') ya existe en la lista. Por favor, selecciónela del menú desplegable.');
+                    return; // DETENER GUARDADO
+                }
+                duracionFinal = customVal;
+            }
+
+            // LOGICA CAPTACION
             const selectCaptacion = document.getElementById('venta-captacion');
             let captacionFinal = selectCaptacion.value === 'custom' ? document.getElementById('venta-captacion-custom').value : selectCaptacion.value;
 
@@ -411,7 +449,7 @@
                 dni: dniFinal,
                 fechaSesion: document.getElementById('venta-fecha').value,
                 servicio: servicioFinal,
-                duracion: document.getElementById('venta-duracion').value,
+                duracion: duracionFinal,
                 captacion: captacionFinal,
                 monto: document.getElementById('venta-monto').value,
                 medioPago: document.getElementById('venta-pago').value,
@@ -423,8 +461,12 @@
             .then(() => { 
                 alert('✅ Registrado'); e.target.reset(); 
                 document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; 
+                
+                // Resetear campos visuales
                 checkCustomService(document.getElementById('venta-servicio-select')); 
                 checkCustomCaptacion(document.getElementById('venta-captacion'));
+                checkCustomDuration(document.getElementById('venta-duracion'));
+                
                 setStaffMode('venta'); 
             })
             .finally(() => { btn.innerHTML = '<i class="fa-solid fa-save"></i> REGISTRAR OPERACIÓN'; btn.disabled = false; });
