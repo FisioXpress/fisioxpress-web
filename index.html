@@ -378,7 +378,7 @@
         }
         function validarFecha(input) { if (new Date(input.value).getUTCDay() === 0) { alert("⛔ Domingos cerrado."); input.value = ""; } }
         
-        /** * LÓGICA CLAVE DE BLOQUEO DE HORARIOS
+        /** * LÓGICA CLAVE DE BLOQUEO DE HORARIOS (Añadido: Deshabilitar horas pasadas)
          * Recoge los horarios ocupados del Backend y los deshabilita en el <select>.
          */
         function verificarDisponibilidad(input) {
@@ -388,24 +388,47 @@
             const selectHora = document.getElementById('cita-hora'); 
             const loading = document.getElementById('loading-hours'); 
             const opciones = selectHora.options;
+            
+            // --- NUEVA LÓGICA DE TIEMPO TRANSCURRIDO ---
+            const hoy = new Date().toISOString().split('T')[0];
+            const isToday = fecha === hoy;
+            const now = new Date();
+            // Calcula el tiempo actual en minutos desde la medianoche
+            // Se resta 5 minutos para dar un pequeño margen de reserva al slot inmediatamente anterior, o deshabilitar el slot actual si ya pasaron 5 minutos.
+            const currentTimeInMinutes = (now.getHours() * 60) + now.getMinutes();
+            // ---------------------------------------------
 
-            // 1. Reiniciar opciones (quitar 'Ocupado' y re-habilitar)
+            // 1. Reiniciar opciones (quitar 'Ocupado' y re-habilitar/quitar Pasado)
             for(let i=0; i<opciones.length; i++) { 
                 opciones[i].disabled = false; 
-                opciones[i].innerText = opciones[i].innerText.replace(" (Ocupado)", ""); 
+                // Elimina ambos mensajes de estado al inicio de la verificación
+                opciones[i].innerText = opciones[i].innerText.replace(" (Ocupado)", "").replace(" (Pasado)", "");
+                
+                // 2. BLOQUEO POR HORA PASADA (SOLO SI ES HOY)
+                if (isToday && opciones[i].value) {
+                    const [optionHour, optionMinute] = opciones[i].value.split(':').map(Number);
+                    const optionTimeInMinutes = (optionHour * 60) + optionMinute;
+                    
+                    // Si el slot de la cita es igual o anterior al tiempo actual, se deshabilita
+                    if (optionTimeInMinutes <= currentTimeInMinutes) {
+                        opciones[i].disabled = true;
+                        opciones[i].innerText += " (Pasado)";
+                    }
+                }
             }
             
             loading.classList.remove('hidden'); 
             
-            // 2. Llamada al Backend para obtener horarios ocupados
+            // 3. Llamada al Backend para obtener horarios ocupados
             fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerHorarios', fecha: fecha}) })
                 .then(r => r.json())
                 .then(data => { 
                     loading.classList.add('hidden'); 
                     if(data.ocupados) { 
-                        // 3. Bloquear horarios: Si el valor de la opción coincide con un horario ocupado (ej. "09:00"), se deshabilita
+                        // 4. Bloquear horarios ocupados
                         for(let i=0; i<opciones.length; i++) { 
-                            if (data.ocupados.includes(opciones[i].value)) { 
+                            // Solo se bloquea si no está ya bloqueado por ser hora pasada
+                            if (!opciones[i].disabled && data.ocupados.includes(opciones[i].value)) { 
                                 opciones[i].disabled = true; 
                                 opciones[i].innerText += " (Ocupado)"; 
                             } 
