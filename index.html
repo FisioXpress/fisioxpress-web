@@ -275,8 +275,8 @@
     </div>
 
     <script>
-        // ¡URL ACTUALIZADA CON EL ÚLTIMO LINK!
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyV6QanSAhDcJIPvGPL7-Cyq5b-ZPi4I64fe9T1mP_Jp2a-cEk6KdZ1-7o3bfnJZzE__Q/exec'; 
+        // ¡URL ACTUALIZADA!
+        const API_URL = 'https://script.google.com/macros/s/AKfycbykcFT-tM76VhZ7-1KEE7ZuVlkSFmcD0lf5m2pWj1wvzqfbIug2jzonnWwmtmHFLjongA/exec'; 
 
         let currentTarget = '';
         let staffUser = 'Anónimo';
@@ -379,19 +379,17 @@
         function validarFecha(input) { if (new Date(input.value).getUTCDay() === 0) { alert("⛔ Domingos cerrado."); input.value = ""; } }
         
         /** * LÓGICA CLAVE DE BLOQUEO DE HORARIOS
-         * La función hace una petición al Apps Script para obtener los horarios Ocupados
-         * y los deshabilita en el <select> para evitar dobles reservas.
+         * Recoge los horarios ocupados del Backend y los deshabilita en el <select>.
          */
         function verificarDisponibilidad(input) {
             const fecha = input.value; 
-            // Validación de Domingo
             if (new Date(fecha).getUTCDay() === 0) { alert("⛔ Domingos cerrado."); input.value = ""; return; }
             
             const selectHora = document.getElementById('cita-hora'); 
             const loading = document.getElementById('loading-hours'); 
             const opciones = selectHora.options;
 
-            // Reiniciar opciones
+            // 1. Reiniciar opciones (quitar 'Ocupado' y re-habilitar)
             for(let i=0; i<opciones.length; i++) { 
                 opciones[i].disabled = false; 
                 opciones[i].innerText = opciones[i].innerText.replace(" (Ocupado)", ""); 
@@ -399,13 +397,13 @@
             
             loading.classList.remove('hidden'); 
             
-            // Llamada al Backend para obtener horarios ocupados
+            // 2. Llamada al Backend para obtener horarios ocupados (el Backend se encarga ahora del formato)
             fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerHorarios', fecha: fecha}) })
                 .then(r => r.json())
                 .then(data => { 
                     loading.classList.add('hidden'); 
                     if(data.ocupados) { 
-                        // Bloquear horarios ya reservados
+                        // 3. Bloquear horarios: Si el valor de la opción coincide con un horario ocupado (ej. "09:00"), se deshabilita
                         for(let i=0; i<opciones.length; i++) { 
                             if (data.ocupados.includes(opciones[i].value)) { 
                                 opciones[i].disabled = true; 
@@ -414,7 +412,7 @@
                         } 
                     } 
                 })
-                .catch(e => { loading.classList.add('hidden'); });
+                .catch(e => { loading.classList.add('hidden'); alert('Error al verificar horarios. Intente más tarde.'); });
         }
         
         function checkCustomService(select) { const c = document.getElementById('venta-detalle-custom'); const d = document.getElementById('venta-duracion'); if (select.value === 'custom') { c.classList.remove('hidden'); c.required = true; select.classList.add('w-1/2'); c.classList.add('w-1/2'); d.value = "0"; checkCustomDuration(d); } else { c.classList.add('hidden'); c.required = false; select.classList.remove('w-1/2'); } }
