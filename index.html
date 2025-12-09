@@ -377,13 +377,46 @@
             }
         }
         function validarFecha(input) { if (new Date(input.value).getUTCDay() === 0) { alert("⛔ Domingos cerrado."); input.value = ""; } }
+        
+        /** * LÓGICA CLAVE DE BLOQUEO DE HORARIOS
+         * La función hace una petición al Apps Script para obtener los horarios Ocupados
+         * y los deshabilita en el <select> para evitar dobles reservas.
+         */
         function verificarDisponibilidad(input) {
-            const fecha = input.value; if (new Date(fecha).getUTCDay() === 0) { alert("⛔ Domingos cerrado."); input.value = ""; return; }
-            const selectHora = document.getElementById('cita-hora'); const loading = document.getElementById('loading-hours'); const opciones = selectHora.options;
-            for(let i=0; i<opciones.length; i++) { opciones[i].disabled = false; opciones[i].innerText = opciones[i].innerText.replace(" (Ocupado)", ""); }
+            const fecha = input.value; 
+            // Validación de Domingo
+            if (new Date(fecha).getUTCDay() === 0) { alert("⛔ Domingos cerrado."); input.value = ""; return; }
+            
+            const selectHora = document.getElementById('cita-hora'); 
+            const loading = document.getElementById('loading-hours'); 
+            const opciones = selectHora.options;
+
+            // Reiniciar opciones
+            for(let i=0; i<opciones.length; i++) { 
+                opciones[i].disabled = false; 
+                opciones[i].innerText = opciones[i].innerText.replace(" (Ocupado)", ""); 
+            }
+            
             loading.classList.remove('hidden'); 
-            fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerHorarios', fecha: fecha}) }).then(r => r.json()).then(data => { loading.classList.add('hidden'); if(data.ocupados) { for(let i=0; i<opciones.length; i++) { if (data.ocupados.includes(opciones[i].value)) { opciones[i].disabled = true; opciones[i].innerText += " (Ocupado)"; } } } }).catch(e => { loading.classList.add('hidden'); });
+            
+            // Llamada al Backend para obtener horarios ocupados
+            fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerHorarios', fecha: fecha}) })
+                .then(r => r.json())
+                .then(data => { 
+                    loading.classList.add('hidden'); 
+                    if(data.ocupados) { 
+                        // Bloquear horarios ya reservados
+                        for(let i=0; i<opciones.length; i++) { 
+                            if (data.ocupados.includes(opciones[i].value)) { 
+                                opciones[i].disabled = true; 
+                                opciones[i].innerText += " (Ocupado)"; 
+                            } 
+                        } 
+                    } 
+                })
+                .catch(e => { loading.classList.add('hidden'); });
         }
+        
         function checkCustomService(select) { const c = document.getElementById('venta-detalle-custom'); const d = document.getElementById('venta-duracion'); if (select.value === 'custom') { c.classList.remove('hidden'); c.required = true; select.classList.add('w-1/2'); c.classList.add('w-1/2'); d.value = "0"; checkCustomDuration(d); } else { c.classList.add('hidden'); c.required = false; select.classList.remove('w-1/2'); } }
         function checkCustomDuration(select) { const c = document.getElementById('venta-duracion-custom'); if (select.value === 'Otra') { c.classList.remove('hidden'); c.required = true; select.classList.add('w-1/2'); c.classList.add('w-1/2'); } else { c.classList.add('hidden'); c.required = false; select.classList.remove('w-1/2'); } }
         function checkCustomCaptacion(select) { const c = document.getElementById('venta-captacion-custom'); if (select.value === 'custom') { c.classList.remove('hidden'); c.required = true; select.classList.add('w-1/2'); c.classList.add('w-1/2'); } else { c.classList.add('hidden'); c.required = false; select.classList.remove('w-1/2'); } }
