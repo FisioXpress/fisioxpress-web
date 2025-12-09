@@ -10,14 +10,12 @@
             theme: {
                 extend: {
                     colors: {
-                        // PALETA VERDE (Base)
-                        fisioPrimary: '#1B4D3E', // Verde Oscuro Profundo
+                        fisioPrimary: '#1B4D3E', // Verde Corporativo Oscuro
                         fisioAccent: '#4CAF50',  // Verde Vibrante
-                        fisioLight: '#F1F8E9',   // Verde Muy Claro (Fondos)
-                        fisioHover: '#2E7D32',   // Verde Medio (Hover)
-                        // NUEVA PALETA NARANJA (Acento/Cliente)
-                        fisioOrange: '#FF9800',  // Naranja Principal
-                        fisioOrangeHover: '#F57C00' // Naranja Oscuro (Hover)
+                        fisioLight: '#F1F8E9',   // Fondo Verde Suave
+                        fisioHover: '#2E7D32',   // Verde Interacción
+                        fisioOrange: '#FF9800',  // Naranja (Acento/Llamada a la acción)
+                        fisioOrangeHover: '#F57C00' // Naranja Oscuro
                     }
                 }
             }
@@ -29,9 +27,8 @@
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         body { background-color: #F1F8E9; }
-        /* Asegurar que los inputs de fecha y select se vean bien */
         input[type="date"], select { -webkit-appearance: none; appearance: none; }
-        /* Estilo para el select de hora */
+        /* Icono de reloj para selectores */
         .time-select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
     </style>
 </head>
@@ -61,6 +58,7 @@
                 <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Citas</h3>
                 <p class="text-sm text-center text-gray-500">Agenda aquí. Atención hasta 8:00 PM</p>
             </div>
+            
             <div onclick="checkAuth('staff')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-8 border-fisioPrimary group transform hover:-translate-y-2">
                 <div class="text-fisioPrimary group-hover:text-fisioOrange text-5xl mb-6 text-center transition"><i class="fa-solid fa-cash-register"></i></div>
                 <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Control Interno</h3>
@@ -92,7 +90,7 @@
             </div>
 
             <form id="form-cita" onsubmit="enviarCita(event)">
-                <p class="font-bold text-fisioPrimary mb-3 border-b border-gray-100 pb-2">Datos Personales (Obligatorios)</p>
+                <p class="font-bold text-fisioPrimary mb-3 border-b border-gray-100 pb-2">Datos Personales</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <input type="text" id="cita-nombre" placeholder="Nombres" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
                     <input type="text" id="cita-apellido" placeholder="Apellidos" required class="p-3 border rounded bg-gray-50 w-full focus:border-fisioOrange outline-none transition">
@@ -102,29 +100,29 @@
                     <input type="text" id="cita-doc-num" placeholder="N° Documento" required class="p-3 border rounded bg-gray-50 col-span-2 w-full focus:border-fisioOrange outline-none transition">
                 </div>
                 <div class="mb-4">
-                    <input type="email" id="cita-email" placeholder="Correo Electrónico (Para confirmación)" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition">
+                    <input type="email" id="cita-email" placeholder="Correo Electrónico (Para envío de confirmación)" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition">
                 </div>
                 <div class="mb-4">
                     <input type="tel" id="cita-whatsapp" placeholder="WhatsApp" required class="p-3 border rounded w-full bg-gray-50 focus:border-fisioOrange outline-none transition">
                 </div>
 
-                <p class="font-bold text-fisioPrimary mb-3 border-b border-gray-100 pb-2 mt-8">Selección de Fecha y Hora</p>
+                <p class="font-bold text-fisioPrimary mb-3 border-b border-gray-100 pb-2 mt-8">Fecha y Hora</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-2">
                     <div>
-                        <label class="text-xs font-bold text-gray-400 block mb-1">FECHA (LUN-SAB)</label>
+                        <label class="text-xs font-bold text-gray-400 block mb-1">FECHA</label>
                         <input type="date" id="cita-fecha" required class="w-full p-3 border rounded bg-white font-medium focus:border-fisioOrange outline-none transition" onchange="validarFecha(this)">
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-gray-400 block mb-1">HORA DE INICIO (Format 12h)</label>
+                        <label class="text-xs font-bold text-gray-400 block mb-1">HORA</label>
                         <select id="cita-hora" required class="time-select w-full p-3 border rounded bg-white font-medium focus:border-fisioOrange outline-none">
-                            <option value="">Seleccionar Hora...</option>
+                            <option value="">Seleccionar...</option>
                             <option value="09:00">09:00 AM</option>
                             <option value="09:30">09:30 AM</option>
                             <option value="10:00">10:00 AM</option>
                             <option value="10:30">10:30 AM</option>
                             <option value="11:00">11:00 AM</option>
                             <option value="11:30">11:30 AM</option>
-                            <option value="12:00">12:00 PM (Mediodía)</option>
+                            <option value="12:00">12:00 PM</option>
                             <option value="12:30">12:30 PM</option>
                             <option value="13:00">01:00 PM</option>
                             <option value="13:30">01:30 PM</option>
@@ -138,24 +136,26 @@
                             <option value="17:30">05:30 PM</option>
                             <option value="18:00">06:00 PM</option>
                             <option value="18:30">06:30 PM</option>
-                            <option value="19:00">07:00 PM (Último turno)</option>
+                            <option value="19:00">07:00 PM (Último Turno)</option>
                         </select>
                     </div>
                 </div>
-                <p class="text-xs text-gray-500 mb-6 text-right">La última cita comienza a las 7:00 PM para finalizar a las 8:00 PM.</p>
 
                 <div class="mb-8">
                     <label class="text-xs font-bold text-gray-400 block mb-1">SERVICIO</label>
                     <select id="cita-servicio" class="p-3 border rounded w-full bg-white font-medium focus:border-fisioOrange outline-none transition">
                         <option>Evaluación Fisioterapéutica</option>
                         <option>Masaje Relajante</option>
+                        <option>Masaje Xpress Focalizado</option>
                         <option>Masaje Descontracturante</option>
                         <option>Masaje Deportivo</option>
+                        <option>Drenaje Linfático</option>
+                        <option>Fisioterapia Especializada</option>
                         <option>Paquete de Tratamiento</option>
                     </select>
                 </div>
                 <button type="submit" id="btn-cita" class="w-full bg-fisioOrange hover:bg-fisioOrangeHover text-white font-extrabold py-4 rounded-xl transition shadow-lg text-lg flex justify-center items-center gap-2">
-                    CONFIRMAR Y ENVIAR CORREO <i class="fa-solid fa-paper-plane"></i>
+                    CONFIRMAR Y ENVIAR <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </form>
         </div>
@@ -178,7 +178,11 @@
             <form id="form-venta" onsubmit="registrarVenta(event)">
                 <input type="hidden" id="venta-estado" value="Venta"> 
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                     <div>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Fecha Sesión</label>
+                        <input type="date" id="venta-fecha" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
+                    </div>
                     <div>
                         <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Terapeuta</label>
                         <select id="venta-terapeuta" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
@@ -188,39 +192,70 @@
                             <option>Carmen Rodriguez</option>
                         </select>
                     </div>
-                    <div class="col-span-2">
-                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Paciente</label>
-                        <input type="text" id="venta-paciente" placeholder="Nombre Completo" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
-                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
-                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Fecha</label>
-                        <input type="date" id="venta-fecha" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Nombres</label>
+                        <input type="text" id="venta-nombres" placeholder="Ej: Juan" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
                     </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Apellidos</label>
+                        <input type="text" id="venta-apellidos" placeholder="Ej: Pérez" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
+                    </div>
+                     <div>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">DNI</label>
+                        <input type="text" id="venta-dni" placeholder="N° Doc" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div class="col-span-2">
                          <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Servicio / Producto</label>
                          <div class="flex gap-3">
                             <select id="venta-servicio-select" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none transition" required onchange="checkCustomService(this)">
                                 <option value="">Seleccionar...</option>
-                                <option data-price="30">Masaje Relajante 30min (S/30)</option>
-                                <option data-price="45">Masaje 45min (S/45)</option>
-                                <option data-price="80">Paquete 3 Sesiones (S/80)</option>
-                                <option data-price="700">Paquete 10 Fisioterapia (S/700)</option>
-                                <option value="custom">Otro / Producto (Especifique) ➡️</option>
+                                <option data-price="30">Masaje Relajante (S/30)</option>
+                                <option data-price="45">Masaje Xpress Focalizado (S/45)</option>
+                                <option data-price="60">Masaje Descontracturante (S/60)</option>
+                                <option data-price="80">Masaje Deportivo (S/80)</option>
+                                <option data-price="70">Drenaje Linfático (S/70)</option>
+                                <option data-price="80">Fisioterapia Especializada (S/80)</option>
+                                <option value="custom">Producto / Otro ➡️</option>
                             </select>
-                            <input type="text" id="venta-detalle-custom" placeholder="¿Qué producto es?" class="hidden w-full p-3 border-2 border-fisioOrange rounded-lg bg-orange-50 font-bold focus:border-fisioOrangeHover outline-none transition fade-in">
+                            <input type="text" id="venta-detalle-custom" placeholder="Detalle..." class="hidden w-full p-3 border-2 border-fisioOrange rounded-lg bg-orange-50 font-bold focus:border-fisioOrangeHover outline-none transition fade-in">
                         </div>
                     </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Duración (Min)</label>
+                        <select id="venta-duracion" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
+                            <option value="30">30 min</option>
+                            <option value="45">45 min</option>
+                            <option value="60">60 min</option>
+                            <option value="80">80 min</option>
+                            <option value="0">0 (Producto)</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
                         <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Medio de Pago</label>
                         <select id="venta-pago" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
                             <option>YAPE/PLIN</option>
                             <option>EFECTIVO</option>
                             <option>TARJETA</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Captación</label>
+                        <select id="venta-captacion" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
+                            <option>Redes Sociales</option>
+                            <option>Flyers</option>
+                            <option>Referidos</option>
+                            <option>Banners</option>
+                            <option>Cliente</option>
+                            <option>Otros</option>
                         </select>
                     </div>
                     <div>
@@ -231,7 +266,7 @@
 
                 <div id="div-anulacion-motivo" class="hidden mb-8 bg-orange-50 p-6 rounded-xl border-2 border-fisioOrange fade-in">
                     <label class="block text-fisioOrange font-bold mb-3 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Motivo de la Anulación (Obligatorio)</label>
-                    <input type="text" id="anulacion-motivo" placeholder="Ej: Error de digitación, Cliente solicitó devolución..." class="w-full p-4 border-2 border-orange-200 rounded-lg focus:border-fisioOrange outline-none bg-white">
+                    <input type="text" id="anulacion-motivo" placeholder="Ej: Error de digitación..." class="w-full p-4 border-2 border-orange-200 rounded-lg focus:border-fisioOrange outline-none bg-white">
                 </div>
 
                 <button type="submit" id="btn-venta" class="w-full bg-fisioAccent hover:bg-fisioPrimary text-white font-extrabold py-4 rounded-xl text-xl shadow-md transition transform hover:-translate-y-1 flex items-center justify-center gap-3">
@@ -246,7 +281,6 @@
             <div class="bg-fisioAccent p-3 rounded-xl text-white"><i class="fa-solid fa-heart-pulse text-2xl"></i></div>
             <h2 class="text-2xl font-bold text-fisioPrimary">Historias Clínicas</h2>
         </div>
-        
         <div class="bg-white p-8 rounded-2xl shadow-xl mb-8">
             <div class="flex gap-4">
                 <input type="text" id="historia-search" placeholder="Buscar por DNI o Apellido..." class="flex-grow p-4 border-2 border-gray-100 rounded-xl focus:border-fisioAccent outline-none text-lg bg-gray-50">
@@ -256,7 +290,6 @@
             </div>
             <div id="resultados-historia" class="mt-6 p-6 bg-fisioLight border border-fisioAccent rounded-xl hidden"></div>
         </div>
-
         <div class="bg-white p-8 rounded-2xl shadow-xl border-t-8 border-fisioPrimary">
             <h3 class="text-xl font-bold mb-6 text-fisioPrimary flex items-center gap-2"><i class="fa-solid fa-pen-fancy"></i> Evolución / Historia</h3>
             <form onsubmit="guardarHistoria(event)">
@@ -266,21 +299,19 @@
                     <input id="hc-edad" placeholder="Edad" class="p-4 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <textarea id="hc-motivo" placeholder="Motivo Consulta / Diagnóstico" class="p-4 border-2 border-gray-100 rounded-lg h-32 focus:border-fisioAccent outline-none resize-none"></textarea>
+                    <textarea id="hc-motivo" placeholder="Motivo Consulta" class="p-4 border-2 border-gray-100 rounded-lg h-32 focus:border-fisioAccent outline-none resize-none"></textarea>
                     <textarea id="hc-antecedentes" placeholder="Antecedentes" class="p-4 border-2 border-gray-100 rounded-lg h-32 focus:border-fisioAccent outline-none resize-none"></textarea>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                      <div class="p-6 border-2 border-gray-100 rounded-lg bg-fisioLight">
                         <label class="block font-bold mb-4 text-fisioPrimary">Nivel de Dolor (EVA 1-10)</label>
                         <div class="flex items-center gap-6">
-                            <div class="bg-white w-14 h-14 rounded-full border-4 border-fisioAccent flex items-center justify-center shadow-sm">
-                                <span class="text-2xl font-extrabold text-fisioAccent" id="eva-display">1</span>
-                            </div>
+                            <span class="text-2xl font-extrabold text-fisioAccent" id="eva-display">1</span>
                             <input type="range" min="1" max="10" value="1" class="w-full accent-fisioAccent h-3 bg-gray-300 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('eva-display').innerText = this.value; document.getElementById('hc-eva').value = this.value">
                             <input type="hidden" id="hc-eva" value="1">
                         </div>
                      </div>
-                     <textarea id="hc-tratamiento" placeholder="Tratamiento realizado..." class="p-4 border-2 border-gray-100 rounded-lg h-full focus:border-fisioAccent outline-none resize-none"></textarea>
+                     <textarea id="hc-tratamiento" placeholder="Tratamiento..." class="p-4 border-2 border-gray-100 rounded-lg h-full focus:border-fisioAccent outline-none resize-none"></textarea>
                 </div>
                 <button class="bg-fisioPrimary hover:bg-fisioHover text-white font-extrabold px-8 py-4 rounded-xl w-full shadow-lg transition text-lg">
                     GUARDAR HISTORIA
@@ -302,11 +333,11 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
             <div class="bg-white p-8 rounded-3xl shadow-xl border-t-4 border-green-500">
-                <p class="text-green-600 font-bold uppercase mb-2 flex items-center gap-2"><i class="fa-solid fa-arrow-up"></i> Ingresos (Mes)</p>
+                <p class="text-green-600 font-bold uppercase mb-2"><i class="fa-solid fa-arrow-up"></i> Ingresos (Mes)</p>
                 <h3 id="kpi-ingresos" class="text-4xl font-extrabold text-fisioPrimary">S/ ...</h3>
             </div>
             <div class="bg-white p-8 rounded-3xl shadow-xl border-t-4 border-fisioOrange">
-                <p class="text-fisioOrange font-bold uppercase mb-2 flex items-center gap-2"><i class="fa-solid fa-arrow-down"></i> Gastos (Mes)</p>
+                <p class="text-fisioOrange font-bold uppercase mb-2"><i class="fa-solid fa-arrow-down"></i> Gastos (Mes)</p>
                 <h3 id="kpi-gastos" class="text-4xl font-extrabold text-fisioPrimary">S/ ...</h3>
             </div>
             <div class="bg-fisioPrimary p-8 rounded-3xl shadow-xl text-white">
@@ -317,7 +348,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="bg-white rounded-2xl shadow-xl p-6 border-l-8 border-fisioOrange">
-                <h3 class="font-bold text-fisioOrange mb-6 text-xl flex items-center gap-2"><i class="fa-solid fa-file-invoice-dollar"></i> Registrar Gasto / Costo</h3>
+                <h3 class="font-bold text-fisioOrange mb-6 text-xl flex items-center gap-2"><i class="fa-solid fa-file-invoice-dollar"></i> Registrar Gasto</h3>
                 <form onsubmit="registrarGasto(event)">
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <input type="date" id="gasto-fecha" required class="p-3 border-2 border-gray-100 rounded-lg focus:border-fisioOrange outline-none w-full">
@@ -330,44 +361,34 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <input type="text" id="gasto-concepto" placeholder="Detalle del Gasto (Ej: Compra de Agujas)" required class="p-3 border-2 border-gray-100 rounded-lg focus:border-fisioOrange outline-none w-full">
+                        <input type="text" id="gasto-concepto" placeholder="Detalle (Ej: Compra de Agujas)" required class="p-3 border-2 border-gray-100 rounded-lg focus:border-fisioOrange outline-none w-full">
                     </div>
                     <div class="mb-6 flex gap-4">
                          <div class="flex-grow relative">
                             <span class="absolute left-3 top-3 text-gray-400 font-bold">S/</span>
                             <input type="number" step="0.01" id="gasto-monto" placeholder="0.00" required class="p-3 pl-10 border-2 border-fisioOrange rounded-lg w-full font-extrabold text-xl text-fisioOrange focus:outline-none">
                          </div>
-                         <button type="submit" class="bg-fisioOrange text-white px-8 rounded-lg font-bold hover:bg-fisioOrangeHover transition shadow-md flex items-center gap-2">
-                            Guardar <i class="fa-solid fa-check"></i>
-                         </button>
+                         <button type="submit" class="bg-fisioOrange text-white px-8 rounded-lg font-bold hover:bg-fisioOrangeHover transition shadow-md flex items-center gap-2">Guardar <i class="fa-solid fa-check"></i></button>
                     </div>
                 </form>
                 
                 <div class="mt-8">
-                    <h4 class="font-bold text-gray-700 mb-4 text-sm uppercase tracking-wider border-b pb-2">Últimos Gastos Registrados</h4>
+                    <h4 class="font-bold text-gray-700 mb-4 text-sm uppercase tracking-wider border-b pb-2">Últimos Gastos</h4>
                     <div class="overflow-x-auto rounded-lg border border-gray-100">
                         <table class="w-full text-sm text-left">
-                            <thead class="bg-orange-50 text-fisioOrange font-bold">
-                                <tr><th class="p-3">Fecha</th><th class="p-3">Concepto</th><th class="p-3 text-right">Monto</th><th class="p-3 text-center">Anular</th></tr>
-                            </thead>
-                            <tbody id="tabla-gastos-body" class="divide-y divide-gray-100 bg-white">
-                                <tr><td colspan="4" class="p-4 text-center text-gray-400 italic">Cargando historial...</td></tr>
-                            </tbody>
+                            <thead class="bg-orange-50 text-fisioOrange font-bold"><tr><th class="p-3">Fecha</th><th class="p-3">Concepto</th><th class="p-3 text-right">Monto</th><th class="p-3 text-center">X</th></tr></thead>
+                            <tbody id="tabla-gastos-body" class="divide-y divide-gray-100 bg-white"><tr><td colspan="4" class="text-center p-4 italic">Cargando...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
             <div class="bg-white rounded-2xl shadow-xl p-6 border-l-8 border-fisioAccent">
-                <h3 class="font-bold text-fisioPrimary mb-6 text-xl flex items-center gap-2"><i class="fa-solid fa-money-bill-wave"></i> Últimos Ingresos (Ventas)</h3>
+                <h3 class="font-bold text-fisioPrimary mb-6 text-xl flex items-center gap-2"><i class="fa-solid fa-money-bill-wave"></i> Últimos Ingresos</h3>
                 <div class="overflow-x-auto rounded-lg border border-gray-100">
                     <table class="w-full text-sm text-left">
-                        <thead class="bg-green-50 text-fisioPrimary font-bold">
-                            <tr><th class="p-3">Fecha</th><th class="p-3">Paciente</th><th class="p-3">Servicio</th><th class="p-3 text-right">Monto</th></tr>
-                        </thead>
-                        <tbody id="tabla-resumen-body" class="divide-y divide-gray-100 bg-white">
-                            <tr><td colspan="4" class="p-4 text-center text-gray-400 italic">Cargando historial...</td></tr>
-                        </tbody>
+                        <thead class="bg-green-50 text-fisioPrimary font-bold"><tr><th class="p-3">Fecha</th><th class="p-3">Paciente</th><th class="p-3">Servicio</th><th class="p-3 text-right">Monto</th></tr></thead>
+                        <tbody id="tabla-resumen-body" class="divide-y divide-gray-100 bg-white"><tr><td colspan="4" class="text-center p-4 italic">Cargando...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -376,38 +397,23 @@
 
     <div id="modal-auth" class="fixed inset-0 bg-fisioPrimary bg-opacity-90 hidden flex items-center justify-center z-50 backdrop-blur-sm fade-in">
         <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md relative">
-             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-fisioAccent transition"><i class="fa-solid fa-times text-xl"></i></button>
-            <div class="text-center mb-8">
-                <div class="bg-fisioLight p-4 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6 border-4 border-white shadow-lg">
-                    <i class="fa-solid fa-lock text-4xl text-fisioAccent"></i>
-                </div>
-                <h3 class="text-2xl font-extrabold text-fisioPrimary">Acceso Restringido</h3>
-                <p class="text-gray-500 mt-2">Introduce tu clave de seguridad para continuar.</p>
-            </div>
-            <div class="relative mb-8">
-                <input type="password" id="input-pass" class="w-full p-5 border-2 border-gray-200 rounded-xl text-center tracking-[0.5em] text-2xl font-bold text-fisioPrimary focus:border-fisioAccent outline-none transition pl-12" placeholder="••••••">
-                <i class="fa-solid fa-key absolute left-5 top-6 text-gray-400 text-xl"></i>
-            </div>
-            <button onclick="verifyPass()" class="w-full py-4 bg-fisioAccent text-white font-extrabold rounded-xl hover:bg-fisioPrimary transition shadow-lg text-lg flex items-center justify-center gap-3">
-                DESBLOQUEAR ACCESO <i class="fa-solid fa-arrow-right"></i>
-            </button>
+             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-fisioAccent"><i class="fa-solid fa-times text-xl"></i></button>
+            <h3 class="text-2xl font-extrabold text-fisioPrimary text-center mb-6">Acceso Restringido</h3>
+            <input type="password" id="input-pass" class="w-full p-5 border-2 border-gray-200 rounded-xl text-center text-2xl font-bold text-fisioPrimary focus:border-fisioAccent outline-none mb-8" placeholder="••••••">
+            <button onclick="verifyPass()" class="w-full py-4 bg-fisioAccent text-white font-extrabold rounded-xl hover:bg-fisioPrimary transition shadow-lg text-lg">DESBLOQUEAR</button>
         </div>
     </div>
 
     <script>
-        // PEGA AQUÍ TU URL ACTUALIZADA DEL BACKEND V2
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwvpmjT4JEZqGLcbL3IwI9CG2YaMOrg-zT0JSVeZWmuVLH7-LyoYyUrUiMLDo-wE29Rdg/exec'; 
+        // PEGA TU URL DE GOOGLE APPS SCRIPT AQUÍ
+        const API_URL = 'https://script.google.com/macros/s/AKfycbze61PnStP1MQ8fyI_Lw6-zYHlwGjnLcYkSUMrWryTpGMj8Hapm-61dC69a6Dd_pZ30Fw/exec'; 
 
         let currentTarget = '';
         let staffUser = 'Anónimo';
 
-        // Función auxiliar para formatear fecha a DD/MM/YYYY
         function formatDate(dateString) {
             const date = new Date(dateString);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
+            return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -415,47 +421,26 @@
              if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
              if(document.getElementById('cita-fecha')) {
                  document.getElementById('cita-fecha').value = hoy;
-                 document.getElementById('cita-fecha').min = hoy; // No permite días pasados
+                 document.getElementById('cita-fecha').min = hoy; 
              }
              if(document.getElementById('gasto-fecha')) document.getElementById('gasto-fecha').value = hoy;
         });
 
-        // --- VALIDACIÓN CITA (SOLO DOMINGOS) ---
-        function validarFecha(input) {
-            const date = new Date(input.value);
-            if (date.getUTCDay() === 0) {
-                alert("⛔ Los Domingos no hay atención. Por favor seleccione de Lunes a Sábado.");
-                input.value = "";
-            }
-        }
-        // La validación de hora ya no es necesaria porque el <select> limita las opciones.
+        function validarFecha(input) { if (new Date(input.value).getUTCDay() === 0) { alert("⛔ Domingos cerrado."); input.value = ""; } }
 
-        // --- LÓGICA CAMPO 'OTRO' EN VENTAS ---
         function checkCustomService(select) {
             const customInput = document.getElementById('venta-detalle-custom');
             const montoInput = document.getElementById('venta-monto');
             const price = select.options[select.selectedIndex].getAttribute('data-price');
             
             if (select.value === 'custom') {
-                customInput.classList.remove('hidden');
-                customInput.required = true;
-                select.classList.remove('w-full'); select.classList.add('w-1/2');
-                customInput.classList.add('w-1/2');
-                customInput.focus();
-                montoInput.value = ""; // Limpiar monto para que lo ingresen manual
-                montoInput.readOnly = false;
-                montoInput.classList.remove('bg-gray-100'); montoInput.classList.add('bg-white');
-
+                customInput.classList.remove('hidden'); customInput.required = true;
+                select.classList.remove('w-full'); select.classList.add('w-1/2'); customInput.classList.add('w-1/2'); customInput.focus();
+                montoInput.value = ""; 
             } else {
-                customInput.classList.add('hidden');
-                customInput.required = false;
+                customInput.classList.add('hidden'); customInput.required = false;
                 select.classList.remove('w-1/2'); select.classList.add('w-full');
-                if(price) {
-                     montoInput.value = price;
-                     // Opcional: bloquear el input si es un precio fijo
-                     // montoInput.readOnly = true; 
-                     // montoInput.classList.add('bg-gray-100'); montoInput.classList.remove('bg-white');
-                }
+                if(price) montoInput.value = price;
             }
         }
 
@@ -463,18 +448,21 @@
             e.preventDefault();
             const btn = document.getElementById('btn-venta');
             const selectServicio = document.getElementById('venta-servicio-select');
-            let servicioFinal = selectServicio.value === 'custom' ? document.getElementById('venta-detalle-custom').value : selectServicio.value;
+            let servicioFinal = selectServicio.value === 'custom' ? document.getElementById('venta-detalle-custom').value : selectServicio.options[selectServicio.selectedIndex].text.split(' (')[0];
 
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
-            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...'; btn.disabled = true;
             
             const data = {
                 action: 'registrarVenta',
                 usuarioLogueado: staffUser,
                 terapeuta: document.getElementById('venta-terapeuta').value,
-                paciente: document.getElementById('venta-paciente').value,
+                nombres: document.getElementById('venta-nombres').value,
+                apellidos: document.getElementById('venta-apellidos').value,
+                dni: document.getElementById('venta-dni').value,
                 fechaSesion: document.getElementById('venta-fecha').value,
                 servicio: servicioFinal,
+                duracion: document.getElementById('venta-duracion').value,
+                captacion: document.getElementById('venta-captacion').value,
                 monto: document.getElementById('venta-monto').value,
                 medioPago: document.getElementById('venta-pago').value,
                 estado: document.getElementById('venta-estado').value,
@@ -483,8 +471,7 @@
 
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
             .then(() => { 
-                alert('✅ Operación Registrada'); 
-                e.target.reset(); 
+                alert('✅ Registrado'); e.target.reset(); 
                 document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; 
                 checkCustomService(document.getElementById('venta-servicio-select')); 
                 setStaffMode('venta'); 
@@ -492,12 +479,10 @@
             .finally(() => { btn.innerHTML = '<i class="fa-solid fa-save"></i> REGISTRAR OPERACIÓN'; btn.disabled = false; });
         }
 
-        // --- GASTOS ---
         function registrarGasto(e) {
             e.preventDefault();
-            if(!confirm("¿Confirmar registro de este gasto?")) return;
-            const btn = e.target.querySelector('button'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-
+            if(!confirm("¿Confirmar Gasto?")) return;
+            const btn = e.target.querySelector('button'); btn.disabled = true;
             const data = {
                 action: 'registrarGasto', tipo: 'Gasto',
                 fechaGasto: document.getElementById('gasto-fecha').value,
@@ -508,28 +493,19 @@
             };
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
             .then(() => { alert('✅ Gasto Guardado'); e.target.reset(); document.getElementById('gasto-fecha').value = new Date().toISOString().split('T')[0]; cargarFinanzas(); })
-            .finally(() => { btn.disabled = false; btn.innerHTML = 'Guardar <i class="fa-solid fa-check"></i>'; });
+            .finally(() => { btn.disabled = false; });
         }
 
         function anularGasto(concepto, monto) {
-            if(!confirm("⚠️ ¿Deseas ANULAR este gasto de S/" + monto + "?\nSe registrará un contra-asiento en negativo.")) return;
-            const data = {
-                action: 'registrarGasto', tipo: 'Anulacion',
-                fechaGasto: new Date().toISOString().split('T')[0],
-                categoria: 'Anulación',
-                concepto: 'ANULACIÓN: ' + concepto,
-                monto: monto,
-                usuario: 'Gerencia'
-            };
+            if(!confirm("⚠️ ¿ANULAR gasto de S/" + monto + "?")) return;
+            const data = { action: 'registrarGasto', tipo: 'Anulacion', fechaGasto: new Date().toISOString().split('T')[0], categoria: 'Anulación', concepto: 'ANULACIÓN: ' + concepto, monto: monto, usuario: 'Gerencia' };
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
-            .then(() => { alert('✅ Gasto Anulado'); cargarFinanzas(); });
+            .then(() => { alert('✅ Anulado'); cargarFinanzas(); });
         }
 
-        // --- CARGAR FINANZAS (Con formato de fecha y colores naranjas) ---
         function cargarFinanzas() {
-            const tbodyV = document.getElementById('tabla-resumen-body');
-            const tbodyG = document.getElementById('tabla-gastos-body');
-            tbodyV.innerHTML = tbodyG.innerHTML = '<tr><td colspan="4" class="p-4 text-center italic"><i class="fa-solid fa-spinner fa-spin"></i> Cargando datos...</td></tr>';
+            const tbodyV = document.getElementById('tabla-resumen-body'); const tbodyG = document.getElementById('tabla-gastos-body');
+            tbodyV.innerHTML = tbodyG.innerHTML = '<tr><td colspan="4" class="text-center p-4 italic">Cargando...</td></tr>';
 
             fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
             .then(r => r.json())
@@ -539,92 +515,40 @@
                 document.getElementById('kpi-utilidad').innerText = `S/ ${d.utilidad}`;
                 
                 let htmlV = ''; d.listaVentas.forEach(v => {
-                    htmlV += `<tr class="hover:bg-green-50 border-b transition"><td class="p-3">${formatDate(v[1])}</td><td class="p-3 font-bold text-fisioPrimary">${v[4]}</td><td class="p-3 text-sm">${v[5]}</td><td class="p-3 font-bold text-right text-fisioAccent">S/ ${v[6]}</td></tr>`;
+                    // v indices: 0=fecha, 3=cliente, 7=servicio, 9=monto
+                    htmlV += `<tr class="hover:bg-green-50 border-b"><td class="p-3">${formatDate(v[0])}</td><td class="p-3 font-bold text-fisioPrimary">${v[3]}</td><td class="p-3 text-sm">${v[7]}</td><td class="p-3 font-bold text-right text-fisioAccent">S/ ${v[9]}</td></tr>`;
                 });
-                tbodyV.innerHTML = htmlV || '<tr><td colspan="4" class="p-4 text-center text-gray-400">Sin ventas recientes</td></tr>';
+                tbodyV.innerHTML = htmlV || '<tr><td colspan="4" class="text-center p-4 text-gray-400">Sin datos</td></tr>';
 
                 let htmlG = ''; d.listaGastos.forEach(g => {
-                    let monto = g[4];
-                    // Botón de anular naranja intenso
-                    let btnAnular = monto > 0 ? `<button onclick="anularGasto('${g[2]}', ${monto})" class="text-fisioOrange hover:text-red-600 font-bold transition px-2 py-1 rounded hover:bg-orange-100" title="Anular Gasto"><i class="fa-solid fa-ban"></i></button>` : '<span class="text-gray-300">-</span>';
-                    // Los montos negativos (anulaciones) se ven en rojo, los gastos normales en naranja
-                    let colorMonto = monto < 0 ? 'text-red-500' : 'text-fisioOrange';
-                    htmlG += `<tr class="hover:bg-orange-50 border-b transition"><td class="p-3">${formatDate(g[1])}</td><td class="p-3">${g[2]}</td><td class="p-3 font-bold text-right ${colorMonto}">S/ ${monto}</td><td class="p-3 text-center">${btnAnular}</td></tr>`;
+                    let monto = g[4]; let btnAnular = monto > 0 ? `<button onclick="anularGasto('${g[2]}', ${monto})" class="text-fisioOrange font-bold hover:text-red-600">X</button>` : '-';
+                    htmlG += `<tr class="hover:bg-orange-50 border-b"><td class="p-3">${formatDate(g[1])}</td><td class="p-3">${g[2]}</td><td class="p-3 font-bold text-right ${monto < 0 ? 'text-red-500' : 'text-fisioOrange'}">S/ ${monto}</td><td class="p-3 text-center">${btnAnular}</td></tr>`;
                 });
-                tbodyG.innerHTML = htmlG || '<tr><td colspan="4" class="p-4 text-center text-gray-400">Sin gastos recientes</td></tr>';
+                tbodyG.innerHTML = htmlG || '<tr><td colspan="4" class="text-center p-4 text-gray-400">Sin datos</td></tr>';
             });
         }
 
-        // --- NAVEGACIÓN Y UTILIDADES ---
         function showSection(id) { document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none'); document.getElementById(id).style.display = 'block'; window.scrollTo(0,0); }
         function checkAuth(target) { currentTarget = target; document.getElementById('modal-auth').classList.remove('hidden'); document.getElementById('input-pass').value = ''; document.getElementById('input-pass').focus(); }
         function closeModal() { document.getElementById('modal-auth').classList.add('hidden'); }
         function verifyPass() {
             const pass = document.getElementById('input-pass').value;
-            if (currentTarget.includes('staff')) {
-                if (pass === 'Fisio.123') {
-                    staffUser = prompt("👋 ¿Quién eres?", "") || "Staff";
-                    document.getElementById('staff-name-display').innerText = staffUser; closeModal(); showSection(currentTarget === 'staff' ? 'app-staff' : 'app-historia');
-                } else alert('⛔ Clave incorrecta');
-            } else if (currentTarget === 'gerencia') {
-                if (pass === 'marioyavril.') { closeModal(); showSection('app-gerencia'); cargarFinanzas();
-                } else alert('⛔ Clave incorrecta');
-            }
+            if (currentTarget.includes('staff')) { if (pass === 'Fisio.123') { staffUser = prompt("¿Quién eres?", "") || "Staff"; document.getElementById('staff-name-display').innerText = staffUser; closeModal(); showSection(currentTarget === 'staff' ? 'app-staff' : 'app-historia'); } else alert('⛔ Clave incorrecta');
+            } else if (currentTarget === 'gerencia') { if (pass === 'marioyavril.') { closeModal(); showSection('app-gerencia'); cargarFinanzas(); } else alert('⛔ Clave incorrecta'); }
         }
         function enviarCita(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btn-cita');
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando correo y reservando...';
-            btn.disabled = true;
-            const data = {
-                action: 'nuevaCita',
-                nombres: document.getElementById('cita-nombre').value,
-                apellidos: document.getElementById('cita-apellido').value,
-                dni: document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value,
-                email: document.getElementById('cita-email').value,
-                whatsapp: document.getElementById('cita-whatsapp').value,
-                fecha: document.getElementById('cita-fecha').value,
-                hora: document.getElementById('cita-hora').value, // Ya viene en formato 24h del value del select (ej 14:00)
-                servicio: document.getElementById('cita-servicio').value
-            };
-            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
-            .then(() => { alert('✅ ¡Cita Confirmada!\n\nSe ha enviado un correo electrónico con los detalles de tu reserva.'); e.target.reset(); showSection('home'); })
-            .catch(() => alert('❌ Error de conexión. Inténtalo de nuevo.'))
-            .finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
+            e.preventDefault(); const btn = document.getElementById('btn-cita'); const originalHtml = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...'; btn.disabled = true;
+            const data = { action: 'nuevaCita', nombres: document.getElementById('cita-nombre').value, apellidos: document.getElementById('cita-apellido').value, dni: document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value, email: document.getElementById('cita-email').value, whatsapp: document.getElementById('cita-whatsapp').value, fecha: document.getElementById('cita-fecha').value, hora: document.getElementById('cita-hora').value, servicio: document.getElementById('cita-servicio').value };
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }).then(() => { alert('✅ ¡Cita Confirmada! Se envió un correo con los detalles.'); e.target.reset(); showSection('home'); }).finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
         }
         function setStaffMode(mode) {
-            const estadoInput = document.getElementById('venta-estado');
-            const btn = document.getElementById('btn-venta');
-            const motivoDiv = document.getElementById('div-anulacion-motivo');
-            const tabVenta = document.getElementById('tab-venta');
-            const tabAnulacion = document.getElementById('tab-anulacion');
-            const montoInput = document.getElementById('venta-monto');
-            
+            const estadoInput = document.getElementById('venta-estado'); const btn = document.getElementById('btn-venta'); const motivoDiv = document.getElementById('div-anulacion-motivo'); const montoInput = document.getElementById('venta-monto');
             if (mode === 'anulacion') {
-                estadoInput.value = 'Anulación';
-                btn.classList.replace('bg-fisioAccent', 'bg-fisioOrange'); // Botón Naranja
-                btn.innerHTML = '<i class="fa-solid fa-ban"></i> CONFIRMAR ANULACIÓN';
-                motivoDiv.classList.remove('hidden');
-                document.getElementById('anulacion-motivo').required = true;
-                
-                tabVenta.classList.replace('text-fisioAccent', 'text-gray-500'); tabVenta.classList.remove('shadow-md', 'bg-white');
-                tabAnulacion.classList.replace('text-gray-500', 'text-fisioOrange'); tabAnulacion.classList.add('shadow-md', 'bg-white');
-                
-                montoInput.classList.replace('text-fisioAccent', 'text-fisioOrange'); border-fisioAccent
-                montoInput.classList.replace('border-fisioAccent', 'border-fisioOrange');
-
+                estadoInput.value = 'Anulación'; btn.classList.replace('bg-fisioAccent', 'bg-fisioOrange'); btn.innerHTML = 'CONFIRMAR ANULACIÓN'; motivoDiv.classList.remove('hidden'); document.getElementById('anulacion-motivo').required = true;
+                montoInput.classList.replace('text-fisioAccent', 'text-fisioOrange'); montoInput.classList.replace('border-fisioAccent', 'border-fisioOrange');
             } else {
-                estadoInput.value = 'Venta';
-                btn.classList.replace('bg-fisioOrange', 'bg-fisioAccent'); // Botón Verde
-                btn.innerHTML = '<i class="fa-solid fa-save"></i> REGISTRAR OPERACIÓN';
-                motivoDiv.classList.add('hidden');
-                document.getElementById('anulacion-motivo').required = false;
-
-                tabAnulacion.classList.replace('text-fisioOrange', 'text-gray-500'); tabAnulacion.classList.remove('shadow-md', 'bg-white');
-                tabVenta.classList.replace('text-gray-500', 'text-fisioAccent'); tabVenta.classList.add('shadow-md', 'bg-white');
-                 montoInput.classList.replace('text-fisioOrange', 'text-fisioAccent');
-                 montoInput.classList.replace('border-fisioOrange', 'border-fisioAccent');
+                estadoInput.value = 'Venta'; btn.classList.replace('bg-fisioOrange', 'bg-fisioAccent'); btn.innerHTML = 'REGISTRAR OPERACIÓN'; motivoDiv.classList.add('hidden'); document.getElementById('anulacion-motivo').required = false;
+                montoInput.classList.replace('text-fisioOrange', 'text-fisioAccent'); montoInput.classList.replace('border-fisioOrange', 'border-fisioAccent');
             }
         }
     </script>
