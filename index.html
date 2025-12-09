@@ -10,11 +10,11 @@
             theme: {
                 extend: {
                     colors: {
-                        fisioPrimary: '#1B4D3E', // Verde Corporativo Oscuro
+                        fisioPrimary: '#1B4D3E', // Verde Corporativo
                         fisioAccent: '#4CAF50',  // Verde Vibrante
-                        fisioLight: '#F1F8E9',   // Fondo Verde Suave
+                        fisioLight: '#F1F8E9',   // Fondo Suave
                         fisioHover: '#2E7D32',   // Verde Interacción
-                        fisioOrange: '#FF9800',  // Naranja (Acento/Llamada a la acción)
+                        fisioOrange: '#FF9800',  // Naranja (Acento)
                         fisioOrangeHover: '#F57C00' // Naranja Oscuro
                     }
                 }
@@ -28,7 +28,7 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         body { background-color: #F1F8E9; }
         input[type="date"], select { -webkit-appearance: none; appearance: none; }
-        /* Icono de reloj para selectores */
+        /* Icono de flecha para selects */
         .time-select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
     </style>
 </head>
@@ -37,7 +37,7 @@
     <nav class="bg-fisioPrimary text-white p-3 shadow-lg sticky top-0 z-50 border-b-4 border-fisioAccent">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center cursor-pointer gap-3" onclick="showSection('home')">
-                <img src="https://lh3.googleusercontent.com/d/1-Oryehjw29qzgFZo9mIpWB-HpldPkNQx" alt="Logo" class="h-14 bg-white rounded-lg p-1 shadow-sm">
+                <img src="https://lh3.googleusercontent.com/d/1-Oryehjw29qzgFZo9mIpWB-HpldPkNQx" alt="Logo" class="h-14 bg-white rounded-lg p-1 shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=Fisio+Xpress&background=1B4D3E&color=fff'">
                 <h1 class="text-xl font-bold tracking-widest hidden md:block">FISIOXPRESS</h1>
             </div>
             <button onclick="showSection('home')" class="text-sm bg-fisioOrange hover:bg-fisioOrangeHover text-white px-4 py-2 rounded-lg transition flex items-center gap-2 shadow-sm font-bold">
@@ -58,7 +58,6 @@
                 <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Citas</h3>
                 <p class="text-sm text-center text-gray-500">Agenda aquí. Atención hasta 8:00 PM</p>
             </div>
-            
             <div onclick="checkAuth('staff')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-8 border-fisioPrimary group transform hover:-translate-y-2">
                 <div class="text-fisioPrimary group-hover:text-fisioOrange text-5xl mb-6 text-center transition"><i class="fa-solid fa-cash-register"></i></div>
                 <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Control Interno</h3>
@@ -405,8 +404,8 @@
     </div>
 
     <script>
-        // PEGA TU URL DE GOOGLE APPS SCRIPT AQUÍ
-        const API_URL = 'https://script.google.com/macros/s/AKfycbze61PnStP1MQ8fyI_Lw6-zYHlwGjnLcYkSUMrWryTpGMj8Hapm-61dC69a6Dd_pZ30Fw/exec'; 
+        // --- TU NUEVA URL DEL BACKEND (YA INTEGRADA) ---
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyCjiiaqhpPRxepqwWSLMvF0zcWd1t5IjA81DkHJ2rCnDvTBVWuzr6RiE294B9z-up3cg/exec'; 
 
         let currentTarget = '';
         let staffUser = 'Anónimo';
@@ -505,7 +504,7 @@
 
         function cargarFinanzas() {
             const tbodyV = document.getElementById('tabla-resumen-body'); const tbodyG = document.getElementById('tabla-gastos-body');
-            tbodyV.innerHTML = tbodyG.innerHTML = '<tr><td colspan="4" class="text-center p-4 italic">Cargando...</td></tr>';
+            tbodyV.innerHTML = tbodyG.innerHTML = '<tr><td colspan="4" class="text-center p-4 italic"><i class="fa-solid fa-spinner fa-spin"></i> Cargando...</td></tr>';
 
             fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
             .then(r => r.json())
@@ -515,7 +514,6 @@
                 document.getElementById('kpi-utilidad').innerText = `S/ ${d.utilidad}`;
                 
                 let htmlV = ''; d.listaVentas.forEach(v => {
-                    // v indices: 0=fecha, 3=cliente, 7=servicio, 9=monto
                     htmlV += `<tr class="hover:bg-green-50 border-b"><td class="p-3">${formatDate(v[0])}</td><td class="p-3 font-bold text-fisioPrimary">${v[3]}</td><td class="p-3 text-sm">${v[7]}</td><td class="p-3 font-bold text-right text-fisioAccent">S/ ${v[9]}</td></tr>`;
                 });
                 tbodyV.innerHTML = htmlV || '<tr><td colspan="4" class="text-center p-4 text-gray-400">Sin datos</td></tr>';
