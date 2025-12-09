@@ -10,9 +10,11 @@
             theme: {
                 extend: {
                     colors: {
-                        fisioGreen: '#4CAF50', // Verde Principal
-                        fisioDark: '#2E7D32',  // Verde Oscuro
-                        fisioLight: '#E8F5E9'  // Verde Claro Fondo
+                        // Paleta extraída de "FX LOGO VERDE"
+                        fisioPrimary: '#1B4D3E', // Verde Oscuro Profundo (Texto y Títulos)
+                        fisioAccent: '#4CAF50',  // Verde Hoja Vibrante (Botones y La 'X')
+                        fisioLight: '#F1F8E9',   // Verde Muy Pálido (Fondos)
+                        fisioHover: '#2E7D32'    // Verde Medio (Al pasar el mouse)
                     }
                 }
             }
@@ -23,105 +25,106 @@
         .hidden-section { display: none; }
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        body { background-color: #f3f4f6; }
+        body { background-color: #F1F8E9; /* Fondo Verde Suave */ }
     </style>
 </head>
 <body class="text-gray-800 font-sans">
 
-    <nav class="bg-fisioDark text-white p-4 shadow-lg sticky top-0 z-50">
+    <nav class="bg-fisioPrimary text-white p-3 shadow-lg sticky top-0 z-50 border-b-4 border-fisioAccent">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2 cursor-pointer" onclick="showSection('home')">
-                <i class="fa-solid fa-spa text-2xl"></i>
-                <h1 class="text-xl font-bold tracking-wider">FISIOXPRESS</h1>
+            <div class="flex items-center cursor-pointer gap-3" onclick="showSection('home')">
+                <img src="https://lh3.googleusercontent.com/d/1-Oryehjw29qzgFZo9mIpWB-HpldPkNQx" alt="Logo FisioXpress" class="h-14 bg-white rounded-lg p-1 shadow-sm">
+                <h1 class="text-xl font-bold tracking-widest hidden md:block">FISIOXPRESS</h1>
             </div>
-            <button onclick="showSection('home')" class="text-sm hover:text-gray-200 bg-white bg-opacity-20 px-3 py-1 rounded">
-                <i class="fa-solid fa-home"></i> Menú Principal
+            <button onclick="showSection('home')" class="text-sm hover:bg-fisioAccent hover:text-white bg-white bg-opacity-10 px-4 py-2 rounded transition flex items-center gap-2">
+                <i class="fa-solid fa-home"></i> <span class="hidden md:inline">Menú Principal</span>
             </button>
         </div>
     </nav>
 
     <div id="home" class="container mx-auto p-6 section fade-in min-h-screen">
-        <div class="text-center mb-10 mt-5">
-            <h2 class="text-3xl font-bold text-fisioDark mb-2">Bienvenido al Ecosistema FisioXpress</h2>
-            <p class="text-gray-600">Seleccione el portal al que desea acceder</p>
+        <div class="text-center mb-12 mt-8">
+            <h2 class="text-4xl font-extrabold text-fisioPrimary mb-3">Bienvenido al Ecosistema FisioXpress</h2>
+            <p class="text-lg text-gray-600">Tu bienestar en las mejores manos.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             
-            <div onclick="showSection('app-citas')" class="bg-white p-6 rounded-xl shadow-md hover:shadow-2xl transition cursor-pointer border-t-4 border-blue-500 group">
-                <div class="text-blue-500 text-5xl mb-4 text-center group-hover:scale-110 transition"><i class="fa-solid fa-calendar-check"></i></div>
-                <h3 class="text-xl font-bold text-center mb-2">Reserva de Citas</h3>
+            <div onclick="showSection('app-citas')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-8 border-fisioAccent group transform hover:-translate-y-2">
+                <div class="text-fisioAccent text-5xl mb-6 text-center group-hover:scale-110 transition"><i class="fa-solid fa-calendar-check"></i></div>
+                <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Reserva de Citas</h3>
                 <p class="text-sm text-center text-gray-500">Agenda tu sesión de fisioterapia o masajes.</p>
             </div>
 
-            <div onclick="checkAuth('staff')" class="bg-white p-6 rounded-xl shadow-md hover:shadow-2xl transition cursor-pointer border-t-4 border-fisioGreen group">
-                <div class="text-fisioGreen text-5xl mb-4 text-center group-hover:scale-110 transition"><i class="fa-solid fa-cash-register"></i></div>
-                <h3 class="text-xl font-bold text-center mb-2">Control Interno</h3>
+            <div onclick="checkAuth('staff')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-8 border-fisioPrimary group transform hover:-translate-y-2">
+                <div class="text-fisioPrimary text-5xl mb-6 text-center group-hover:scale-110 transition"><i class="fa-solid fa-cash-register"></i></div>
+                <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Control Interno</h3>
                 <p class="text-sm text-center text-gray-500">Acceso Staff. Registro de ventas y caja.</p>
             </div>
 
-            <div onclick="checkAuth('staff_historia')" class="bg-white p-6 rounded-xl shadow-md hover:shadow-2xl transition cursor-pointer border-t-4 border-purple-500 group">
-                <div class="text-purple-500 text-5xl mb-4 text-center group-hover:scale-110 transition"><i class="fa-solid fa-file-medical"></i></div>
-                <h3 class="text-xl font-bold text-center mb-2">Historias Clínicas</h3>
+            <div onclick="checkAuth('staff_historia')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-8 border-fisioAccent group transform hover:-translate-y-2">
+                <div class="text-fisioAccent text-5xl mb-6 text-center group-hover:scale-110 transition"><i class="fa-solid fa-file-medical-alt"></i></div>
+                <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Historias Clínicas</h3>
                 <p class="text-sm text-center text-gray-500">Acceso Staff. Evolución de pacientes.</p>
             </div>
 
-            <div onclick="checkAuth('gerencia')" class="bg-white p-6 rounded-xl shadow-md hover:shadow-2xl transition cursor-pointer border-t-4 border-gray-800 group">
-                <div class="text-gray-800 text-5xl mb-4 text-center group-hover:scale-110 transition"><i class="fa-solid fa-chart-line"></i></div>
-                <h3 class="text-xl font-bold text-center mb-2">Gerencia</h3>
+            <div onclick="checkAuth('gerencia')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-8 border-gray-800 group transform hover:-translate-y-2">
+                <div class="text-gray-800 text-5xl mb-6 text-center group-hover:scale-110 transition"><i class="fa-solid fa-chart-pie"></i></div>
+                <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Gerencia</h3>
                 <p class="text-sm text-center text-gray-500">Acceso Dueño. Finanzas y reportes.</p>
             </div>
         </div>
-        
-        <div class="mt-12 text-center">
-            <img src="https://via.placeholder.com/600x200?text=Banner+FisioXpress" alt="Banner Publicitario" class="mx-auto rounded-lg shadow opacity-50">
-            <p class="text-xs text-gray-400 mt-2">Sistema Integral v1.0</p>
-        </div>
     </div>
 
-    <div id="app-citas" class="hidden-section container mx-auto p-4 max-w-2xl fade-in pb-20">
-        <div class="bg-white rounded-lg shadow-lg p-8 border-t-4 border-blue-600">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-4">📅 Agendar Cita</h2>
+    <div id="app-citas" class="hidden-section container mx-auto p-4 max-w-2xl fade-in pb-20 pt-6">
+        <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-fisioAccent">
+            <h2 class="text-3xl font-bold text-fisioPrimary mb-8 text-center flex justify-center items-center gap-3">
+                <i class="fa-solid fa-calendar-days text-fisioAccent"></i> Agendar Cita
+            </h2>
             <form id="form-cita" onsubmit="enviarCita(event)">
                 
-                <p class="text-sm text-gray-500 mb-4 font-bold">Datos del Paciente (Obligatorios)</p>
+                <div class="bg-fisioLight p-4 rounded-lg mb-6 border-l-4 border-fisioAccent">
+                    <p class="text-sm text-fisioPrimary font-bold">Datos del Paciente</p>
+                </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <input type="text" id="cita-nombre" placeholder="Nombres" required class="p-3 border rounded bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
-                    <input type="text" id="cita-apellido" placeholder="Apellidos" required class="p-3 border rounded bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <input type="text" id="cita-nombre" placeholder="Nombres" required class="p-4 border-2 border-gray-100 rounded-lg bg-gray-50 focus:border-fisioAccent focus:bg-white outline-none transition">
+                    <input type="text" id="cita-apellido" placeholder="Apellidos" required class="p-4 border-2 border-gray-100 rounded-lg bg-gray-50 focus:border-fisioAccent focus:bg-white outline-none transition">
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <select id="cita-doc-tipo" class="p-3 border rounded bg-gray-50">
+                    <select id="cita-doc-tipo" class="p-4 border-2 border-gray-100 rounded-lg bg-gray-50 focus:border-fisioAccent outline-none">
                         <option>DNI</option><option>C.E.</option><option>Pasaporte</option>
                     </select>
-                    <input type="text" id="cita-doc-num" placeholder="N° Documento" required class="p-3 border rounded bg-gray-50 col-span-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <input type="text" id="cita-doc-num" placeholder="N° Documento" required class="p-4 border-2 border-gray-100 rounded-lg bg-gray-50 col-span-2 focus:border-fisioAccent focus:bg-white outline-none transition">
                 </div>
 
                 <div class="mb-4">
-                    <input type="email" id="cita-email" placeholder="Correo Electrónico" required class="p-3 border rounded w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <input type="email" id="cita-email" placeholder="Correo Electrónico" required class="p-4 border-2 border-gray-100 rounded-lg w-full bg-gray-50 focus:border-fisioAccent focus:bg-white outline-none transition">
                 </div>
                 
-                <div class="mb-4">
-                    <input type="tel" id="cita-whatsapp" placeholder="WhatsApp (Ej: 999888777)" required class="p-3 border rounded w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                <div class="mb-8">
+                    <input type="tel" id="cita-whatsapp" placeholder="WhatsApp (Ej: 999888777)" required class="p-4 border-2 border-gray-100 rounded-lg w-full bg-gray-50 focus:border-fisioAccent focus:bg-white outline-none transition">
                 </div>
 
-                <p class="text-sm text-gray-500 mb-4 font-bold mt-6">Detalles de la Reserva</p>
+                <div class="bg-fisioLight p-4 rounded-lg mb-6 border-l-4 border-fisioAccent">
+                    <p class="text-sm text-fisioPrimary font-bold">Detalles de la Reserva</p>
+                </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label class="text-xs text-gray-500">Fecha</label>
-                        <input type="date" id="cita-fecha" required class="w-full p-3 border rounded bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Fecha</label>
+                        <input type="date" id="cita-fecha" required class="w-full p-4 border-2 border-gray-100 rounded-lg bg-gray-50 focus:border-fisioAccent outline-none transition">
                     </div>
                     <div>
-                        <label class="text-xs text-gray-500">Hora</label>
-                        <input type="time" id="cita-hora" required class="w-full p-3 border rounded bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none" min="09:00" max="20:00">
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Hora</label>
+                        <input type="time" id="cita-hora" required class="w-full p-4 border-2 border-gray-100 rounded-lg bg-gray-50 focus:border-fisioAccent outline-none transition" min="09:00" max="20:00">
                     </div>
                 </div>
                 
                 <div class="mb-8">
-                    <label class="block text-gray-700 mb-2">Servicio de interés:</label>
-                    <select id="cita-servicio" class="p-3 border rounded w-full bg-gray-50 font-medium">
+                    <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Servicio</label>
+                    <select id="cita-servicio" class="p-4 border-2 border-gray-100 rounded-lg w-full bg-white font-medium focus:border-fisioAccent outline-none transition">
                         <option>Evaluación Fisioterapéutica</option>
                         <option>Masaje Relajante (30 min)</option>
                         <option>Masaje Descontracturante (45 min)</option>
@@ -130,34 +133,34 @@
                     </select>
                 </div>
                 
-                <button type="submit" id="btn-cita" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg transition shadow-lg transform hover:-translate-y-1">
-                    CONFIRMAR RESERVA
+                <button type="submit" id="btn-cita" class="w-full bg-fisioAccent hover:bg-fisioHover text-white font-extrabold py-4 rounded-xl transition shadow-lg transform hover:-translate-y-1 text-lg">
+                    CONFIRMAR RESERVA <i class="fa-solid fa-check ml-2"></i>
                 </button>
             </form>
         </div>
     </div>
 
-    <div id="app-staff" class="hidden-section container mx-auto p-4 max-w-4xl fade-in pb-20">
-        <div class="flex justify-between items-center mb-6 bg-white p-4 rounded shadow">
-            <h2 class="text-2xl font-bold text-fisioDark">Control Interno</h2>
-            <div class="text-sm bg-yellow-100 p-2 rounded-lg text-yellow-800 border border-yellow-200">
-                👤 Trabajando: <span id="staff-name-display" class="font-bold text-lg">Staff</span>
+    <div id="app-staff" class="hidden-section container mx-auto p-4 max-w-4xl fade-in pb-20 pt-6">
+        <div class="flex justify-between items-center mb-6 bg-white p-5 rounded-2xl shadow-md border-l-8 border-fisioPrimary">
+            <h2 class="text-2xl font-bold text-fisioPrimary flex items-center gap-3"><i class="fa-solid fa-clipboard-list"></i> Control Interno</h2>
+            <div class="bg-fisioLight p-2 px-4 rounded-full text-fisioPrimary border border-fisioAccent flex items-center gap-2">
+                <i class="fa-solid fa-user-check"></i> <span id="staff-name-display" class="font-bold">Staff</span>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <div class="flex space-x-2 mb-6 border-b">
-                <button onclick="setStaffMode('venta')" id="tab-venta" class="flex-1 pb-3 font-bold border-b-4 border-fisioGreen text-fisioDark bg-green-50">Nueva Venta</button>
-                <button onclick="setStaffMode('anulacion')" id="tab-anulacion" class="flex-1 pb-3 text-gray-500 hover:text-red-500 hover:bg-red-50 transition">Registrar Anulación</button>
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="flex p-1 bg-gray-100 rounded-xl mb-8">
+                <button onclick="setStaffMode('venta')" id="tab-venta" class="flex-1 py-3 rounded-xl font-bold transition-all bg-white text-fisioAccent shadow-md">Nueva Venta</button>
+                <button onclick="setStaffMode('anulacion')" id="tab-anulacion" class="flex-1 py-3 rounded-xl font-bold text-gray-500 hover:text-red-500 transition-all">Anulación</button>
             </div>
             
             <form id="form-venta" onsubmit="registrarVenta(event)">
                 <input type="hidden" id="venta-estado" value="Venta"> 
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
-                        <label class="text-xs text-gray-500">Terapeuta</label>
-                        <select id="venta-terapeuta" class="w-full p-2 border rounded" required>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Terapeuta</label>
+                        <select id="venta-terapeuta" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
                             <option value="">Seleccionar...</option>
                             <option>Ana Pisfil</option>
                             <option>Isabel Barriga</option>
@@ -165,19 +168,19 @@
                         </select>
                     </div>
                     <div class="col-span-2">
-                        <label class="text-xs text-gray-500">Paciente</label>
-                        <input type="text" id="venta-paciente" placeholder="Nombre Completo del Paciente" class="w-full p-2 border rounded" required>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Paciente</label>
+                        <input type="text" id="venta-paciente" placeholder="Nombre Completo" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
-                        <label class="text-xs text-gray-500">Fecha Sesión</label>
-                        <input type="date" id="venta-fecha" class="w-full p-2 border rounded" required>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Fecha</label>
+                        <input type="date" id="venta-fecha" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
                     </div>
                     <div>
-                         <label class="text-xs text-gray-500">Servicio / Producto</label>
-                        <select id="venta-servicio" class="w-full p-2 border rounded" required onchange="autoPrice(this)">
+                         <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Servicio</label>
+                        <select id="venta-servicio" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required onchange="autoPrice(this)">
                             <option value="">Seleccionar...</option>
                             <option data-price="30">Masaje Relajante 30min (S/30)</option>
                             <option data-price="45">Masaje 45min (S/45)</option>
@@ -187,8 +190,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="text-xs text-gray-500">Medio de Pago</label>
-                        <select id="venta-pago" class="w-full p-2 border rounded" required>
+                        <label class="text-xs font-bold text-gray-400 mb-1 block uppercase">Pago</label>
+                        <select id="venta-pago" class="w-full p-3 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
                             <option>YAPE/PLIN</option>
                             <option>EFECTIVO</option>
                             <option>TARJETA</option>
@@ -196,160 +199,138 @@
                     </div>
                 </div>
 
-                <div class="mb-6">
-                    <label class="text-xs text-gray-500">Monto (S/)</label>
-                    <input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-full p-3 border rounded text-2xl font-bold text-gray-700" required>
+                <div class="mb-8 p-6 bg-fisioLight rounded-xl border border-fisioAccent flex items-center justify-between">
+                    <label class="text-lg font-bold text-fisioPrimary">TOTAL A COBRAR (S/)</label>
+                    <input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-40 p-3 border-2 border-fisioAccent rounded-lg text-3xl font-extrabold text-fisioAccent text-right focus:ring-0 outline-none bg-white" required>
                 </div>
                 
-                <div id="div-anulacion-motivo" class="hidden mb-6 bg-red-50 p-4 rounded border border-red-200">
-                    <label class="block text-red-700 font-bold mb-2">⚠️ Motivo de la Anulación (Obligatorio)</label>
-                    <input type="text" id="anulacion-motivo" placeholder="Ej: Error de digitación, Cliente pidió reembolso..." class="w-full p-2 border border-red-300 rounded">
+                <div id="div-anulacion-motivo" class="hidden mb-8 bg-red-50 p-6 rounded-xl border-2 border-red-200">
+                    <label class="block text-red-700 font-bold mb-3">⚠️ Motivo de la Anulación</label>
+                    <input type="text" id="anulacion-motivo" placeholder="Ej: Error de digitación..." class="w-full p-4 border-2 border-red-300 rounded-lg bg-white">
                 </div>
 
-                <button type="submit" id="btn-venta" class="w-full bg-fisioGreen hover:bg-fisioDark text-white font-bold py-3 rounded text-lg shadow transition">
-                    REGISTRAR OPERACIÓN
+                <button type="submit" id="btn-venta" class="w-full bg-fisioAccent hover:bg-fisioHover text-white font-extrabold py-4 rounded-xl text-xl shadow-md transition transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-save"></i> REGISTRAR
                 </button>
             </form>
         </div>
     </div>
 
-    <div id="app-historia" class="hidden-section container mx-auto p-4 max-w-5xl fade-in pb-20">
-        <h2 class="text-2xl font-bold text-purple-700 mb-4 bg-white p-4 rounded shadow">Gestión de Historias Clínicas</h2>
+    <div id="app-historia" class="hidden-section container mx-auto p-4 max-w-5xl fade-in pb-20 pt-6">
+        <div class="flex items-center gap-4 mb-6 bg-white p-5 rounded-2xl shadow-md border-b-4 border-fisioAccent">
+            <div class="bg-fisioAccent p-3 rounded-xl text-white"><i class="fa-solid fa-heart-pulse text-2xl"></i></div>
+            <h2 class="text-2xl font-bold text-fisioPrimary">Historias Clínicas</h2>
+        </div>
         
-        <div class="bg-white p-6 rounded-lg shadow mb-6">
-            <label class="block text-gray-600 mb-2 font-bold">Buscar Paciente Existente</label>
-            <div class="flex gap-2">
-                <input type="text" id="historia-search" placeholder="Ingresa DNI o Apellido..." class="flex-grow p-3 border rounded bg-purple-50 focus:ring-2 focus:ring-purple-500 outline-none">
-                <button onclick="buscarHistoria()" class="bg-purple-600 hover:bg-purple-800 text-white px-6 py-2 rounded font-bold transition">
-                    <i class="fa-solid fa-search"></i> Buscar
+        <div class="bg-white p-8 rounded-2xl shadow-xl mb-8">
+            <div class="flex gap-4">
+                <input type="text" id="historia-search" placeholder="Buscar por DNI o Apellido..." class="flex-grow p-4 border-2 border-gray-100 rounded-xl focus:border-fisioAccent outline-none text-lg bg-gray-50">
+                <button onclick="buscarHistoria()" class="bg-fisioPrimary hover:bg-fisioHover text-white px-8 py-4 rounded-xl font-bold transition flex items-center gap-2 text-lg shadow-md">
+                    <i class="fa-solid fa-search"></i>
                 </button>
             </div>
-            <div id="resultados-historia" class="mt-4 p-4 bg-gray-50 border rounded hidden">
-                </div>
+            <div id="resultados-historia" class="mt-6 p-6 bg-fisioLight border border-fisioAccent rounded-xl hidden"></div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow border-l-4 border-purple-500">
-            <h3 class="text-lg font-bold mb-4 text-purple-800">📝 Nueva Evolución / Historia</h3>
+        <div class="bg-white p-8 rounded-2xl shadow-xl border-t-8 border-fisioPrimary">
+            <h3 class="text-xl font-bold mb-6 text-fisioPrimary flex items-center gap-2"><i class="fa-solid fa-pen-fancy"></i> Evolución / Historia</h3>
             <form onsubmit="guardarHistoria(event)">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                    <input id="hc-dni" placeholder="DNI" class="p-2 border rounded" required>
-                    <input id="hc-nombre" placeholder="Nombre Completo" class="p-2 border rounded col-span-2" required>
-                    <input id="hc-edad" placeholder="Edad" class="p-2 border rounded">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <input id="hc-dni" placeholder="DNI" class="p-4 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none" required>
+                    <input id="hc-nombre" placeholder="Nombre Completo" class="p-4 border-2 border-gray-100 rounded-lg col-span-2 focus:border-fisioAccent outline-none" required>
+                    <input id="hc-edad" placeholder="Edad" class="p-4 border-2 border-gray-100 rounded-lg focus:border-fisioAccent outline-none">
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <textarea id="hc-motivo" placeholder="Motivo Consulta / Diagnóstico Actual" class="p-2 border rounded h-24"></textarea>
-                    <textarea id="hc-antecedentes" placeholder="Antecedentes / Comorbilidades" class="p-2 border rounded h-24"></textarea>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <textarea id="hc-motivo" placeholder="Motivo Consulta / Diagnóstico" class="p-4 border-2 border-gray-100 rounded-lg h-32 focus:border-fisioAccent outline-none resize-none"></textarea>
+                    <textarea id="hc-antecedentes" placeholder="Antecedentes" class="p-4 border-2 border-gray-100 rounded-lg h-32 focus:border-fisioAccent outline-none resize-none"></textarea>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                     <div class="p-4 border rounded bg-gray-50">
-                        <label class="block font-bold mb-2">Nivel de Dolor (EVA 1-10)</label>
-                        <div class="flex items-center gap-4">
-                            <span class="text-2xl font-bold text-purple-600" id="eva-display">1</span>
-                            <input type="range" min="1" max="10" value="1" class="w-full accent-purple-600" oninput="document.getElementById('eva-display').innerText = this.value; document.getElementById('hc-eva').value = this.value">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                     <div class="p-6 border-2 border-gray-100 rounded-lg bg-fisioLight">
+                        <label class="block font-bold mb-4 text-fisioPrimary">Nivel de Dolor (EVA 1-10)</label>
+                        <div class="flex items-center gap-6">
+                            <div class="bg-white w-14 h-14 rounded-full border-4 border-fisioAccent flex items-center justify-center shadow-sm">
+                                <span class="text-2xl font-extrabold text-fisioAccent" id="eva-display">1</span>
+                            </div>
+                            <input type="range" min="1" max="10" value="1" class="w-full accent-fisioAccent h-3 bg-gray-300 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('eva-display').innerText = this.value; document.getElementById('hc-eva').value = this.value">
                             <input type="hidden" id="hc-eva" value="1">
                         </div>
                      </div>
-                     <textarea id="hc-tratamiento" placeholder="Tratamiento realizado hoy (Agentes, Terapia Manual, Ejercicios...)" class="p-2 border rounded h-24"></textarea>
+                     <textarea id="hc-tratamiento" placeholder="Tratamiento realizado..." class="p-4 border-2 border-gray-100 rounded-lg h-full focus:border-fisioAccent outline-none resize-none"></textarea>
                 </div>
-                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded w-full shadow transition">
-                    GUARDAR EN HISTORIA
+                <button class="bg-fisioPrimary hover:bg-fisioHover text-white font-extrabold px-8 py-4 rounded-xl w-full shadow-lg transition text-lg">
+                    GUARDAR HISTORIA
                 </button>
             </form>
         </div>
     </div>
 
-    <div id="app-gerencia" class="hidden-section container mx-auto p-4 fade-in pb-20">
-        <div class="flex justify-between items-center mb-6 bg-white p-6 rounded shadow">
+    <div id="app-gerencia" class="hidden-section container mx-auto p-4 fade-in pb-20 pt-6">
+        <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-md">
             <div>
-                <h2 class="text-3xl font-bold text-gray-800">Dashboard Gerencial</h2>
-                <p class="text-sm text-gray-500">Vista general de FisioXpress</p>
+                <h2 class="text-3xl font-extrabold text-fisioPrimary">Dashboard</h2>
+                <p class="text-sm text-gray-500">Resumen Financiero</p>
             </div>
-            <button onclick="cargarFinanzas()" class="bg-blue-100 text-blue-700 px-4 py-2 rounded hover:bg-blue-200 transition">
-                <i class="fa-solid fa-sync"></i> Actualizar
+            <button onclick="cargarFinanzas()" class="bg-fisioLight text-fisioAccent border border-fisioAccent px-6 py-3 rounded-xl hover:bg-fisioAccent hover:text-white transition font-bold flex items-center gap-2 shadow-sm">
+                <i class="fa-solid fa-sync"></i>
             </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-xl shadow border-b-4 border-green-500">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-500 text-sm font-bold uppercase">Ingresos Totales</p>
-                        <h3 id="kpi-ingresos" class="text-4xl font-bold text-gray-800 mt-2">S/ ...</h3>
-                    </div>
-                    <div class="text-green-500 text-3xl"><i class="fa-solid fa-arrow-trend-up"></i></div>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+            <div class="bg-white p-8 rounded-3xl shadow-xl border-t-4 border-green-500">
+                <p class="text-green-600 font-bold uppercase mb-2">Ingresos</p>
+                <h3 id="kpi-ingresos" class="text-4xl font-extrabold text-fisioPrimary">S/ ...</h3>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow border-b-4 border-red-500">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-500 text-sm font-bold uppercase">Gastos Operativos</p>
-                        <h3 id="kpi-gastos" class="text-4xl font-bold text-gray-800 mt-2">S/ ...</h3>
-                    </div>
-                    <div class="text-red-500 text-3xl"><i class="fa-solid fa-money-bill-wave"></i></div>
-                </div>
+            <div class="bg-white p-8 rounded-3xl shadow-xl border-t-4 border-red-500">
+                <p class="text-red-600 font-bold uppercase mb-2">Gastos</p>
+                <h3 id="kpi-gastos" class="text-4xl font-extrabold text-fisioPrimary">S/ ...</h3>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow border-b-4 border-blue-800 bg-gray-800 text-white">
-                 <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-400 text-sm font-bold uppercase">Utilidad Neta</p>
-                        <h3 id="kpi-utilidad" class="text-4xl font-bold mt-2">S/ ...</h3>
-                    </div>
-                    <div class="text-white text-3xl"><i class="fa-solid fa-wallet"></i></div>
-                </div>
+            <div class="bg-fisioPrimary p-8 rounded-3xl shadow-xl text-white">
+                 <p class="text-fisioAccent font-bold uppercase mb-2">Utilidad Neta</p>
+                <h3 id="kpi-utilidad" class="text-4xl font-extrabold">S/ ...</h3>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="bg-gray-100 p-4 border-b flex justify-between items-center">
-                <h3 class="font-bold text-gray-700">Últimas Transacciones</h3>
-                <span class="text-xs text-gray-500">Mostrando las 5 más recientes</span>
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-fisioLight p-5 border-b border-fisioAccent">
+                <h3 class="font-bold text-fisioPrimary">Últimas Transacciones</h3>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left">
-                    <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                <table class="w-full text-left">
+                    <thead class="bg-white text-fisioPrimary uppercase text-xs font-bold border-b">
                         <tr>
-                            <th class="p-3">Fecha</th>
-                            <th class="p-3">Paciente</th>
-                            <th class="p-3">Servicio</th>
-                            <th class="p-3">Monto</th>
-                            <th class="p-3">Registrado Por</th>
+                            <th class="p-5">Fecha</th>
+                            <th class="p-5">Paciente</th>
+                            <th class="p-5">Servicio</th>
+                            <th class="p-5">Monto</th>
+                            <th class="p-5">Staff</th>
                         </tr>
                     </thead>
-                    <tbody id="tabla-resumen-body">
-                        <tr><td colspan="5" class="p-4 text-center text-gray-500">Cargando datos...</td></tr>
+                    <tbody id="tabla-resumen-body" class="divide-y divide-gray-100 text-gray-600">
+                        <tr><td colspan="5" class="p-8 text-center italic">Cargando...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <div id="modal-auth" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 backdrop-blur-sm">
-        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm transform transition-all scale-100">
-            <div class="text-center mb-6">
-                <div class="bg-gray-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-lock text-2xl text-gray-600"></i>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800">Acceso Restringido</h3>
-                <p class="text-sm text-gray-500">Esta zona es solo para personal autorizado</p>
+    <div id="modal-auth" class="fixed inset-0 bg-fisioPrimary bg-opacity-90 hidden flex items-center justify-center z-50 backdrop-blur-sm fade-in">
+        <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md relative">
+             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-fisioAccent"><i class="fa-solid fa-times text-xl"></i></button>
+            <div class="text-center mb-8">
+                <i class="fa-solid fa-lock text-4xl text-fisioAccent mb-4"></i>
+                <h3 class="text-2xl font-extrabold text-fisioPrimary">Acceso Restringido</h3>
             </div>
-            
-            <input type="password" id="input-pass" class="w-full p-3 border rounded-lg mb-4 text-center tracking-widest text-lg" placeholder="••••••••">
-            
-            <div class="flex justify-end gap-2">
-                <button onclick="closeModal()" class="flex-1 px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg transition">Cancelar</button>
-                <button onclick="verifyPass()" class="flex-1 px-4 py-3 bg-fisioGreen text-white font-bold rounded-lg hover:bg-fisioDark transition">Entrar</button>
-            </div>
+            <input type="password" id="input-pass" class="w-full p-5 border-2 border-gray-200 rounded-xl text-center text-2xl font-bold text-fisioPrimary focus:border-fisioAccent outline-none mb-6" placeholder="••••••">
+            <button onclick="verifyPass()" class="w-full py-4 bg-fisioAccent text-white font-extrabold rounded-xl hover:bg-fisioHover transition shadow-lg text-lg">ENTRAR</button>
         </div>
     </div>
 
     <script>
-        // --- TU URL DE GOOGLE APPS SCRIPT (YA INTEGRADA) ---
         const API_URL = 'https://script.google.com/macros/s/AKfycbwvpmjT4JEZqGLcbL3IwI9CG2YaMOrg-zT0JSVeZWmuVLH7-LyoYyUrUiMLDo-wE29Rdg/exec'; 
 
         let currentTarget = '';
         let staffUser = 'Anónimo';
 
-        // Inicializar fecha
         document.addEventListener('DOMContentLoaded', () => {
              const hoy = new Date().toISOString().split('T')[0];
              if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
@@ -362,7 +343,6 @@
             window.scrollTo(0,0);
         }
 
-        // --- SISTEMA DE CLAVES ---
         function checkAuth(target) {
             currentTarget = target;
             document.getElementById('modal-auth').classList.remove('hidden');
@@ -376,41 +356,28 @@
 
         function verifyPass() {
             const pass = document.getElementById('input-pass').value;
-            
-            // CLAVE STAFF
             if (currentTarget === 'staff' || currentTarget === 'staff_historia') {
                 if (pass === 'Fisio.123') {
-                    staffUser = prompt("👋 ¡Hola! Para continuar, ingresa tu nombre:", "");
-                    if(!staffUser) staffUser = "Staff Genérico";
-                    
+                    staffUser = prompt("¿Quién eres?", "") || "Staff";
                     document.getElementById('staff-name-display').innerText = staffUser;
                     closeModal();
                     showSection(currentTarget === 'staff' ? 'app-staff' : 'app-historia');
-                } else {
-                    alert('⛔ Clave incorrecta');
-                }
-            } 
-            // CLAVE GERENCIA
-            else if (currentTarget === 'gerencia') {
+                } else alert('Clave incorrecta');
+            } else if (currentTarget === 'gerencia') {
                 if (pass === 'marioyavril.') {
                     closeModal();
                     showSection('app-gerencia');
                     cargarFinanzas();
-                } else {
-                    alert('⛔ Clave incorrecta');
-                }
+                } else alert('Clave incorrecta');
             }
         }
 
-        // --- MÓDULO 1: CITAS ---
         function enviarCita(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-cita');
-            const originalText = btn.innerText;
-            
-            btn.innerText = '⏳ Procesando reserva...';
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
             btn.disabled = true;
-            btn.classList.add('opacity-50');
 
             const data = {
                 action: 'nuevaCita',
@@ -424,30 +391,12 @@
                 servicio: document.getElementById('cita-servicio').value
             };
 
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors', // Importante para enviar a Google Apps Script sin error CORS
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            })
-            .then(() => {
-                // Como usamos no-cors, asumimos éxito si no hay error de red
-                alert('✅ ¡Cita Confirmada!\n\nSe ha enviado al calendario y registrado en el sistema.');
-                e.target.reset();
-                showSection('home');
-            })
-            .catch(err => {
-                alert('❌ Hubo un error de conexión. Inténtalo de nuevo.');
-                console.error(err);
-            })
-            .finally(() => {
-                btn.innerText = originalText;
-                btn.disabled = false;
-                btn.classList.remove('opacity-50');
-            });
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
+            .then(() => { alert('¡Cita Confirmada!'); e.target.reset(); showSection('home'); })
+            .catch(() => alert('Error de conexión'))
+            .finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
         }
 
-        // --- MÓDULO 2: VENTAS STAFF ---
         function setStaffMode(mode) {
             const estadoInput = document.getElementById('venta-estado');
             const btn = document.getElementById('btn-venta');
@@ -457,44 +406,43 @@
             
             if (mode === 'anulacion') {
                 estadoInput.value = 'Anulación';
-                btn.classList.replace('bg-fisioGreen', 'bg-red-600');
-                btn.innerText = 'CONFIRMAR ANULACIÓN';
+                btn.classList.replace('bg-fisioAccent', 'bg-red-600');
+                btn.innerHTML = 'CONFIRMAR ANULACIÓN';
                 motivoDiv.classList.remove('hidden');
                 document.getElementById('anulacion-motivo').required = true;
                 
-                // Estilos tabs
-                tabVenta.classList.remove('border-b-4', 'border-fisioGreen', 'font-bold', 'text-fisioDark');
-                tabVenta.classList.add('text-gray-500');
-                tabAnulacion.classList.add('border-b-4', 'border-red-500', 'font-bold', 'text-red-600');
+                tabVenta.classList.replace('text-fisioAccent', 'text-gray-500');
+                tabVenta.classList.remove('shadow-md', 'bg-white');
+                tabAnulacion.classList.replace('text-gray-500', 'text-red-600');
+                tabAnulacion.classList.add('shadow-md', 'bg-white');
             } else {
                 estadoInput.value = 'Venta';
-                btn.classList.replace('bg-red-600', 'bg-fisioGreen');
-                btn.innerText = 'REGISTRAR OPERACIÓN';
+                btn.classList.replace('bg-red-600', 'bg-fisioAccent');
+                btn.innerHTML = 'REGISTRAR';
                 motivoDiv.classList.add('hidden');
                 document.getElementById('anulacion-motivo').required = false;
 
-                // Estilos tabs
-                tabAnulacion.classList.remove('border-b-4', 'border-red-500', 'font-bold', 'text-red-600');
-                tabVenta.classList.add('border-b-4', 'border-fisioGreen', 'font-bold', 'text-fisioDark');
-                tabVenta.classList.remove('text-gray-500');
+                tabAnulacion.classList.replace('text-red-600', 'text-gray-500');
+                tabAnulacion.classList.remove('shadow-md', 'bg-white');
+                tabVenta.classList.replace('text-gray-500', 'text-fisioAccent');
+                tabVenta.classList.add('shadow-md', 'bg-white');
             }
         }
 
         function autoPrice(select) {
-            const option = select.options[select.selectedIndex];
-            const price = option.getAttribute('data-price');
+            const price = select.options[select.selectedIndex].getAttribute('data-price');
             if(price) document.getElementById('venta-monto').value = price;
         }
 
         function registrarVenta(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-venta');
-            btn.innerText = 'Guardando...';
+            btn.innerHTML = 'Guardando...';
             btn.disabled = true;
             
             const data = {
                 action: 'registrarVenta',
-                usuarioLogueado: staffUser, // Se captura al inicio
+                usuarioLogueado: staffUser,
                 terapeuta: document.getElementById('venta-terapeuta').value,
                 paciente: document.getElementById('venta-paciente').value,
                 fechaSesion: document.getElementById('venta-fecha').value,
@@ -502,75 +450,30 @@
                 monto: document.getElementById('venta-monto').value,
                 medioPago: document.getElementById('venta-pago').value,
                 estado: document.getElementById('venta-estado').value,
-                origen: document.getElementById('anulacion-motivo').value || 'Venta Mostrador' 
+                origen: document.getElementById('anulacion-motivo').value || 'Venta' 
             };
 
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            })
-            .then(() => {
-                alert('✅ Operación Registrada Exitosamente');
-                e.target.reset();
-                document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0];
-                setStaffMode('venta');
-            })
-            .finally(() => {
-                btn.innerText = 'REGISTRAR OPERACIÓN';
-                btn.disabled = false;
-            });
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
+            .then(() => { alert('Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); })
+            .finally(() => { btn.innerHTML = 'REGISTRAR'; btn.disabled = false; });
         }
 
-        // --- MÓDULO 4: GERENCIA ---
         function cargarFinanzas() {
-            // Aquí usamos redirect para obtener datos (GET no sirve con no-cors, pero Apps Script retorna JSON puro si se usa bien)
-            // Truco: Usamos la API normalmente. Si hay CORS, Apps Script necesita una función especial. 
-            // Para simplificar en este entorno sin servidor, usaremos una petición opaca.
+            const tbody = document.getElementById('tabla-resumen-body');
+            tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center">Cargando...</td></tr>';
             
-            // NOTA: Para LEER datos (GET) desde una web externa sin servidor intermedio, Google Apps Script es estricto con CORS.
-            // Para que funcione al 100% en Netlify, usaremos el método POST que sí permite intercambio si el script retorna JSONP o JSON correcto.
-            
-            fetch(API_URL, {
-                method: 'POST',
-                body: JSON.stringify({action: 'obtenerFinanzas'})
-            })
+            fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
             .then(r => r.json())
             .then(d => {
                 document.getElementById('kpi-ingresos').innerText = `S/ ${d.ingresos}`;
                 document.getElementById('kpi-gastos').innerText = `S/ ${d.egresos}`;
                 document.getElementById('kpi-utilidad').innerText = `S/ ${d.utilidad}`;
                 
-                const tbody = document.getElementById('tabla-resumen-body');
                 tbody.innerHTML = '';
-                
-                if(d.listaVentas.length === 0) {
-                     tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">No hay ventas recientes</td></tr>';
-                }
-
+                if(d.listaVentas.length === 0) tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center">Sin datos</td></tr>';
                 d.listaVentas.forEach(v => {
-                    // v es un array: [fecha, fechaSesion, hora, terapeuta, paciente, servicio, monto, pago, origen, estado, user]
-                    // Ajustamos índices según lo que devuelve el script (Verifica tu script backend)
-                    let fecha = new Date(v[1]).toLocaleDateString();
-                    let paciente = v[4];
-                    let servicio = v[5];
-                    let monto = v[6];
-                    let user = v[10];
-
-                    tbody.innerHTML += `
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="p-3">${fecha}</td>
-                            <td class="p-3 font-bold">${paciente}</td>
-                            <td class="p-3 text-xs text-gray-500">${servicio}</td>
-                            <td class="p-3 font-bold text-green-600">S/ ${monto}</td>
-                            <td class="p-3 text-xs">${user}</td>
-                        </tr>`;
+                    tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-5">${new Date(v[1]).toLocaleDateString()}</td><td class="p-5 font-bold">${v[4]}</td><td class="p-5 text-sm">${v[5]}</td><td class="p-5 font-bold ${v[6] < 0 ? 'text-red-600' : 'text-green-600'}">S/ ${v[6]}</td><td class="p-5 text-sm">${v[10]}</td></tr>`;
                 });
-            })
-            .catch(e => {
-                console.log(e);
-                document.getElementById('tabla-resumen-body').innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-500">Error cargando datos. Revisa la consola.</td></tr>';
             });
         }
     </script>
