@@ -4,15 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FisioXpress | Plataforma Integral</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
+                fontFamily: {
+                    'sans': ['Montserrat', 'sans-serif'], // Tipografía Geométrica y Limpia
+                },
                 extend: {
                     colors: {
-                        fisioPrimary: '#002855', // Azul Marino
-                        fisioAccent: '#00AEEF',  // Celeste
-                        fisioLight: '#F0F9FF'    // Fondo Claro
+                        // --- PALETA TÉCNICA OFICIAL ---
+                        fisioPrimary: '#2A7C78',      // Deep Teal (Petróleo) - Identidad
+                        fisioPrimaryHover: '#4CA6A1', // Opacidad 80% aprox para Hovers
+                        
+                        fisioAccent: '#F2911B',       // Vibrant Orange - Acción/Conversión
+                        
+                        fisioText: '#333333',         // Dark Gray - Cuerpo
+                        fisioSub: '#666666',          // Slate Gray - Subtítulos
+                        
+                        fisioBg: '#F4F8F8',           // Off-White / Mint - Fondo General
                     }
                 }
             }
@@ -23,142 +36,168 @@
         .hidden-section { display: none; }
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        body { background-color: #F0F9FF; }
+        
+        /* Aplicación del Fondo General */
+        body { background-color: #F4F8F8; color: #333333; }
+        
+        /* Botones de Alta Conversión (Naranja Vibrante) */
+        .btn-action {
+            background-color: #F2911B;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2);
+        }
+        .btn-action:hover {
+            background-color: #D98218; /* Un poco más oscuro para feedback */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3);
+        }
+
+        /* Enlaces de Navegación */
+        .nav-link:hover {
+            color: #4CA6A1; /* Color Hover sugerido */
+        }
     </style>
 </head>
-<body class="text-gray-800 font-sans">
+<body class="antialiased">
 
-    <nav class="bg-fisioPrimary text-white p-3 shadow-lg sticky top-0 z-50">
+    <nav class="bg-fisioPrimary text-white p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center cursor-pointer" onclick="showSection('home')">
-                <div class="flex items-center gap-2">
-                    <img src="assets/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo" class="h-10 bg-white rounded p-1">
-                    <span class="text-xl font-bold tracking-wider hidden">FISIOXPRESS</span>
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
+                <div class="relative group">
+                    <img src="https://lh3.googleusercontent.com/d/1-Oryehjw29qzgFZo9mIpWB-HpldPkNQx" 
+                         onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063176.png'" 
+                         alt="Logo FisioXpress" 
+                         class="h-12 w-12 rounded-full border-2 border-white bg-white object-cover shadow-sm group-hover:scale-105 transition">
                 </div>
+                <span class="text-xl font-extrabold tracking-wide hidden md:block">FISIO<span class="text-fisioAccent">XPRESS</span></span>
             </div>
-            <button onclick="showSection('home')" class="text-sm hover:bg-fisioAccent hover:text-white bg-white bg-opacity-10 px-4 py-2 rounded transition flex items-center gap-2">
-                <i class="fa-solid fa-home"></i> <span class="hidden md:inline">Menú Principal</span>
+            
+            <button onclick="showSection('home')" class="text-sm bg-white bg-opacity-10 hover:bg-white hover:text-fisioPrimary border border-white/30 text-white px-5 py-2 rounded-full transition font-bold flex items-center gap-2">
+                <i class="fa-solid fa-home"></i> <span class="hidden md:inline">Inicio</span>
             </button>
         </div>
     </nav>
 
     <div id="home" class="container mx-auto p-6 section fade-in min-h-screen">
-        <div class="text-center mb-10 mt-5">
+        <div class="text-center mb-12 mt-8">
             <h2 class="text-4xl font-extrabold text-fisioPrimary mb-3">Bienvenido a FisioXpress</h2>
-            <p class="text-lg text-gray-600">Tu bienestar en manos de profesionales.</p>
+            <div class="h-1 w-20 bg-fisioAccent mx-auto rounded-full mb-4"></div>
+            <p class="text-lg text-fisioSub max-w-2xl mx-auto">Especialistas en recuperación rápida y bienestar integral. Tu salud en manos expertas.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            <div onclick="showSection('app-citas')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-4 border-fisioAccent group hover:-translate-y-1">
-                <div class="text-fisioAccent text-5xl mb-6 text-center group-hover:scale-110 transition"><i class="fa-solid fa-calendar-check"></i></div>
-                <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Reserva de Citas</h3>
-                <p class="text-sm text-center text-gray-500">Agenda tu sesión ahora.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div onclick="showSection('app-citas')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
+                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioAccent transition duration-300">
+                    <i class="fa-solid fa-calendar-check text-3xl text-fisioAccent group-hover:text-white transition"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Reserva de Citas</h3>
+                <p class="text-sm text-center text-fisioSub">Agenda tu sesión en segundos.</p>
             </div>
-            <div onclick="checkAuth('staff')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-4 border-fisioPrimary group hover:-translate-y-1">
-                <div class="text-fisioPrimary text-5xl mb-6 text-center group-hover:scale-110 transition"><i class="fa-solid fa-cash-register"></i></div>
-                <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Control Interno</h3>
-                <p class="text-sm text-center text-gray-500">Acceso Staff.</p>
+            
+            <div onclick="checkAuth('staff')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioPrimary group hover:-translate-y-1">
+                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioPrimary transition duration-300">
+                    <i class="fa-solid fa-cash-register text-3xl text-fisioPrimary group-hover:text-white transition"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Control Interno</h3>
+                <p class="text-sm text-center text-fisioSub">Acceso Staff.</p>
             </div>
-            <div onclick="checkAuth('staff_historia')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-4 border-fisioAccent group hover:-translate-y-1">
-                <div class="text-fisioAccent text-5xl mb-6 text-center group-hover:scale-110 transition"><i class="fa-solid fa-file-medical-alt"></i></div>
-                <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Historias Clínicas</h3>
-                <p class="text-sm text-center text-gray-500">Evolución de pacientes.</p>
+            
+            <div onclick="checkAuth('staff_historia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
+                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioAccent transition duration-300">
+                    <i class="fa-solid fa-file-medical-alt text-3xl text-fisioAccent group-hover:text-white transition"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Historias Clínicas</h3>
+                <p class="text-sm text-center text-fisioSub">Evolución de pacientes.</p>
             </div>
-            <div onclick="checkAuth('gerencia')" class="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition cursor-pointer border-b-4 border-gray-800 group hover:-translate-y-1">
-                <div class="text-gray-800 text-5xl mb-6 text-center group-hover:scale-110 transition"><i class="fa-solid fa-chart-pie"></i></div>
-                <h3 class="text-2xl font-bold text-center mb-3 text-fisioPrimary">Gerencia</h3>
-                <p class="text-sm text-center text-gray-500">Reportes financieros.</p>
+            
+            <div onclick="checkAuth('gerencia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioText group hover:-translate-y-1">
+                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioText transition duration-300">
+                    <i class="fa-solid fa-chart-pie text-3xl text-fisioText group-hover:text-white transition"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Gerencia</h3>
+                <p class="text-sm text-center text-fisioSub">Reportes financieros.</p>
             </div>
         </div>
     </div>
 
     <div id="app-citas" class="hidden-section container mx-auto p-4 max-w-2xl fade-in pb-20 pt-10">
-        <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-fisioAccent">
-            <h2 class="text-3xl font-bold text-fisioPrimary mb-8 text-center">📅 Agendar tu Cita</h2>
+        <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-3 bg-fisioPrimary"></div>
+            
+            <h2 class="text-3xl font-extrabold text-fisioPrimary mb-2 text-center">Agendar Cita</h2>
+            <p class="text-center text-fisioSub mb-8 text-sm">Reserva tu momento de bienestar.</p>
+
             <form id="form-cita" onsubmit="enviarCita(event)">
                 
-                <div class="bg-fisioLight p-3 rounded mb-4 font-bold text-fisioPrimary"><i class="fa-solid fa-user"></i> Datos Personales</div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <input type="text" id="cita-nombre" placeholder="Nombres" required class="p-3 border rounded focus:border-fisioAccent outline-none">
-                    <input type="text" id="cita-apellido" placeholder="Apellidos" required class="p-3 border rounded focus:border-fisioAccent outline-none">
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <select id="cita-doc-tipo" class="p-3 border rounded"><option>DNI</option><option>C.E.</option><option>Pasaporte</option></select>
-                    <input type="text" id="cita-doc-num" placeholder="N° Documento" required class="p-3 border rounded col-span-2 focus:border-fisioAccent outline-none">
-                </div>
-                <div class="mb-4">
-                    <input type="email" id="cita-email" placeholder="Correo Electrónico" required class="p-3 border rounded w-full focus:border-fisioAccent outline-none">
-                </div>
-                <div class="mb-8">
-                    <input type="tel" id="cita-whatsapp" placeholder="WhatsApp (Ej: 999888777)" required class="p-3 border rounded w-full focus:border-fisioAccent outline-none">
-                </div>
-
-                <div class="bg-fisioLight p-3 rounded mb-4 font-bold text-fisioPrimary"><i class="fa-solid fa-clock"></i> Datos de la Reserva</div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <input type="date" id="cita-fecha" required class="p-3 border rounded w-full focus:border-fisioAccent outline-none">
-                    <input type="time" id="cita-hora" required class="p-3 border rounded w-full focus:border-fisioAccent outline-none" min="09:00" max="20:00">
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2">Datos Personales</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="text" id="cita-nombre" placeholder="Nombres" required class="p-4 bg-fisioBg rounded-lg border border-transparent focus:border-fisioPrimary focus:bg-white outline-none transition text-fisioText">
+                        <input type="text" id="cita-apellido" placeholder="Apellidos" required class="p-4 bg-fisioBg rounded-lg border border-transparent focus:border-fisioPrimary focus:bg-white outline-none transition text-fisioText">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <select id="cita-doc-tipo" class="p-4 bg-fisioBg rounded-lg outline-none text-fisioText font-medium"><option>DNI</option><option>C.E.</option></select>
+                        <input type="text" id="cita-doc-num" placeholder="Documento" required class="p-4 col-span-2 bg-fisioBg rounded-lg border border-transparent focus:border-fisioPrimary focus:bg-white outline-none transition text-fisioText">
+                    </div>
+                    <input type="tel" id="cita-whatsapp" placeholder="WhatsApp (Contacto)" required class="w-full p-4 bg-fisioBg rounded-lg border border-transparent focus:border-fisioPrimary focus:bg-white outline-none transition mb-4 text-fisioText">
+                    <input type="email" id="cita-email" placeholder="Correo Electrónico" required class="w-full p-4 bg-fisioBg rounded-lg border border-transparent focus:border-fisioPrimary focus:bg-white outline-none transition text-fisioText">
                 </div>
 
                 <div class="mb-8">
-                    <label class="text-sm font-bold text-gray-500 mb-2 block">Selecciona Servicio y Duración</label>
+                    <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2">Detalles de la Reserva</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="date" id="cita-fecha" required class="p-4 bg-fisioBg rounded-lg border border-transparent focus:border-fisioPrimary outline-none text-fisioText">
+                        <input type="time" id="cita-hora" required class="p-4 bg-fisioBg rounded-lg border border-transparent focus:border-fisioPrimary outline-none text-fisioText" min="09:00" max="20:00">
+                    </div>
+                    
                     <div class="relative">
-                        <select id="cita-servicio" required class="p-4 border-2 border-gray-200 rounded-lg w-full bg-white font-medium appearance-none focus:border-fisioAccent outline-none transition">
-                            <option value="" disabled selected>-- Elige una opción --</option>
-                            
-                            <optgroup label="⏱️ Sesiones de 30 Minutos">
-                                <option value="Evaluación Fisioterapéutica" data-time="30">Evaluación Fisioterapéutica (30 min)</option>
-                                <option value="Masaje Relajante 30" data-time="30">Masaje Relajante (30 min)</option>
-                                <option value="Masaje Descontracturante 30" data-time="30">Masaje Descontracturante (30 min)</option>
+                        <select id="cita-servicio" class="w-full p-4 bg-fisioBg rounded-lg border border-transparent focus:border-fisioPrimary outline-none appearance-none cursor-pointer font-bold text-fisioPrimary">
+                            <option value="" disabled selected>Seleccionar Servicio...</option>
+                            <optgroup label="Terapias">
+                                <option>Evaluación Fisioterapéutica</option>
+                                <option>Paquete de Tratamiento</option>
                             </optgroup>
-
-                            <optgroup label="⏱️ Sesiones de 45 Minutos">
-                                <option value="Masaje Relajante 45" data-time="45">Masaje Relajante (45 min)</option>
-                                <option value="Masaje Descontracturante 45" data-time="45">Masaje Descontracturante (45 min)</option>
-                            </optgroup>
-
-                            <optgroup label="⏱️ Sesiones de 60 Minutos">
-                                <option value="Masaje Relajante 60" data-time="60">Masaje Relajante (60 min)</option>
-                                <option value="Masaje Descontracturante 60" data-time="60">Masaje Descontracturante (60 min)</option>
-                                <option value="Masaje Deportivo" data-time="60">Masaje Deportivo (60 min)</option>
-                                <option value="Drenaje Linfático" data-time="60">Drenaje Linfático (60 min)</option>
+                            <optgroup label="Masajes">
+                                <option>Masaje Relajante (30 min)</option>
+                                <option>Masaje Descontracturante (45 min)</option>
+                                <option>Masaje Deportivo</option>
                             </optgroup>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-fisioPrimary">
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 mt-2 italic">* Las sesiones de 45 min reservarán 1 hora en agenda para mejor atención.</p>
                 </div>
 
-                <button type="submit" id="btn-cita" class="w-full bg-fisioAccent hover:bg-fisioPrimary text-white font-extrabold py-4 rounded-xl transition shadow-lg text-lg">
-                    CONFIRMAR RESERVA <i class="fa-solid fa-check-circle ml-2"></i>
+                <button type="submit" id="btn-cita" class="btn-action w-full text-white font-extrabold py-4 rounded-lg text-lg flex items-center justify-center gap-2">
+                    CONFIRMAR RESERVA <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </form>
         </div>
     </div>
 
     <div id="app-staff" class="hidden-section container mx-auto p-4 max-w-4xl fade-in pb-20 pt-10">
-        <div class="bg-white rounded-2xl shadow-xl p-8">
-            <h2 class="text-2xl font-bold text-fisioPrimary mb-6"><i class="fa-solid fa-cash-register"></i> Control Interno</h2>
-            <div class="mb-4 text-sm text-gray-500">Usuario: <span id="staff-name-display" class="font-bold text-fisioAccent"></span></div>
+        <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-fisioPrimary">
+            <h2 class="text-2xl font-bold text-fisioPrimary mb-6 flex items-center gap-2"><i class="fa-solid fa-cash-register"></i> Control Interno</h2>
+            <div class="mb-4 text-sm text-fisioSub bg-fisioBg inline-block px-3 py-1 rounded-full border border-gray-200">Usuario: <span id="staff-name-display" class="font-bold text-fisioPrimary">Staff</span></div>
             
-            <div class="flex p-1 bg-gray-100 rounded-xl mb-6">
-                <button onclick="setStaffMode('venta')" id="tab-venta" class="flex-1 py-3 rounded-xl font-bold bg-white text-fisioAccent shadow-sm transition">Venta</button>
-                <button onclick="setStaffMode('anulacion')" id="tab-anulacion" class="flex-1 py-3 rounded-xl font-bold text-gray-500 hover:text-red-500 transition">Anulación</button>
+            <div class="flex p-1 bg-gray-100 rounded-lg mb-6">
+                <button onclick="setStaffMode('venta')" id="tab-venta" class="flex-1 py-3 rounded-md font-bold bg-white text-fisioPrimary shadow-sm transition">Venta</button>
+                <button onclick="setStaffMode('anulacion')" id="tab-anulacion" class="flex-1 py-3 rounded-md font-bold text-fisioSub hover:text-red-500 transition">Anulación</button>
             </div>
             
             <form id="form-venta" onsubmit="registrarVenta(event)">
                 <input type="hidden" id="venta-estado" value="Venta">
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <select id="venta-terapeuta" class="p-3 border rounded w-full" required>
+                    <select id="venta-terapeuta" class="p-3 bg-fisioBg rounded-lg border border-transparent focus:border-fisioPrimary outline-none text-fisioText" required>
                         <option value="">Terapeuta...</option><option>Ana Pisfil</option><option>Isabel Barriga</option><option>Carmen Rodriguez</option>
                     </select>
-                    <input type="text" id="venta-paciente" placeholder="Paciente" class="p-3 border rounded w-full col-span-2" required>
+                    <input type="text" id="venta-paciente" placeholder="Paciente" class="p-3 bg-fisioBg rounded-lg col-span-2 border border-transparent focus:border-fisioPrimary outline-none text-fisioText" required>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <input type="date" id="venta-fecha" class="p-3 border rounded w-full" required>
-                    <select id="venta-servicio" class="p-3 border rounded w-full" required onchange="autoPrice(this)">
+                    <input type="date" id="venta-fecha" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText" required>
+                    <select id="venta-servicio" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText" required onchange="autoPrice(this)">
                         <option value="">Servicio...</option>
                         <option data-price="30">Masaje 30min (S/30)</option>
                         <option data-price="45">Masaje 45min (S/45)</option>
@@ -166,113 +205,120 @@
                         <option data-price="700">Paquete 10 Fisio (S/700)</option>
                         <option value="custom">Otro</option>
                     </select>
-                    <select id="venta-pago" class="p-3 border rounded w-full" required><option>YAPE/PLIN</option><option>EFECTIVO</option><option>TARJETA</option></select>
+                    <select id="venta-pago" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText" required><option>YAPE/PLIN</option><option>EFECTIVO</option><option>TARJETA</option></select>
                 </div>
-                <div class="mb-6 flex justify-between items-center bg-fisioLight p-4 rounded border border-fisioAccent">
-                    <span class="font-bold text-fisioPrimary">MONTO (S/)</span>
-                    <input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-32 p-2 text-right font-bold text-xl bg-white rounded border" required>
+                
+                <div class="mb-6 flex justify-between items-center bg-fisioBg p-4 rounded-lg border border-gray-200">
+                    <span class="font-bold text-fisioPrimary">MONTO TOTAL (S/)</span>
+                    <input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-32 p-2 text-right font-bold text-2xl text-fisioPrimary bg-white rounded border border-gray-200 outline-none" required>
                 </div>
-                <div id="div-anulacion-motivo" class="hidden mb-6 bg-red-50 p-4 rounded border border-red-200">
-                    <input type="text" id="anulacion-motivo" placeholder="Motivo de Anulación (Obligatorio)" class="w-full p-2 border border-red-300 rounded">
+                
+                <div id="div-anulacion-motivo" class="hidden mb-6 bg-red-50 p-4 rounded-lg border border-red-200">
+                    <label class="text-red-700 font-bold block mb-2">Motivo de Anulación:</label>
+                    <input type="text" id="anulacion-motivo" placeholder="Ej: Error digitación" class="w-full p-3 border border-red-300 rounded-lg bg-white">
                 </div>
-                <button type="submit" id="btn-venta" class="w-full bg-fisioAccent hover:bg-fisioPrimary text-white font-bold py-3 rounded-lg shadow">REGISTRAR</button>
+                
+                <button type="submit" id="btn-venta" class="btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-save"></i> REGISTRAR
+                </button>
             </form>
         </div>
     </div>
 
     <div id="app-historia" class="hidden-section container mx-auto p-4 max-w-5xl fade-in pb-20 pt-10">
-        <div class="bg-white rounded-2xl shadow-xl p-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-fisioAccent">
             <h2 class="text-2xl font-bold text-fisioPrimary mb-6">Historias Clínicas</h2>
-            <div class="bg-fisioLight p-6 rounded-xl mb-6 flex gap-4">
-                <input type="text" id="historia-search" placeholder="DNI o Apellido" class="flex-grow p-3 border rounded">
-                <button onclick="buscarHistoria()" class="bg-fisioPrimary text-white px-6 rounded font-bold">Buscar</button>
+            <div class="bg-fisioBg p-6 rounded-xl mb-6 flex gap-4 items-center border border-gray-100">
+                <input type="text" id="historia-search" placeholder="Buscar por DNI o Apellido" class="flex-grow p-4 bg-white rounded-lg border border-transparent focus:border-fisioAccent outline-none shadow-sm text-fisioText">
+                <button onclick="buscarHistoria()" class="bg-fisioPrimary hover:bg-fisioPrimaryHover text-white px-6 py-4 rounded-lg font-bold transition shadow-md">Buscar</button>
             </div>
-            <div id="resultados-historia" class="hidden mb-6 p-4 border rounded"></div>
+            <div id="resultados-historia" class="hidden mb-6 p-4 border rounded bg-gray-50 text-fisioText"></div>
             
-            <div class="border-t pt-6">
-                <h3 class="font-bold mb-4 text-fisioAccent">Nueva Evolución</h3>
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="font-bold mb-4 text-fisioPrimary text-lg"><i class="fa-solid fa-file-pen"></i> Nueva Evolución</h3>
                 <form onsubmit="guardarHistoria(event)">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                        <input id="hc-dni" placeholder="DNI" class="p-3 border rounded" required>
-                        <input id="hc-nombre" placeholder="Nombre" class="p-3 border rounded col-span-2" required>
-                        <input id="hc-edad" placeholder="Edad" class="p-3 border rounded">
+                        <input id="hc-dni" placeholder="DNI" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText" required>
+                        <input id="hc-nombre" placeholder="Nombre Completo" class="p-3 bg-fisioBg rounded-lg col-span-2 outline-none text-fisioText" required>
+                        <input id="hc-edad" placeholder="Edad" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText">
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <textarea id="hc-motivo" placeholder="Motivo/Diagnóstico" class="p-3 border rounded h-24"></textarea>
-                        <textarea id="hc-antecedentes" placeholder="Antecedentes" class="p-3 border rounded h-24"></textarea>
+                        <textarea id="hc-motivo" placeholder="Motivo/Diagnóstico" class="p-3 bg-fisioBg rounded-lg h-24 outline-none resize-none text-fisioText"></textarea>
+                        <textarea id="hc-antecedentes" placeholder="Antecedentes" class="p-3 bg-fisioBg rounded-lg h-24 outline-none resize-none text-fisioText"></textarea>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div class="p-3 border rounded">
-                            <label>Dolor (EVA): <span id="eva-display" class="font-bold text-fisioAccent">1</span></label>
-                            <input type="range" min="1" max="10" value="1" class="w-full accent-fisioAccent" oninput="document.getElementById('eva-display').innerText=this.value;document.getElementById('hc-eva').value=this.value">
-                            <input type="hidden" id="hc-eva" value="1">
+                        <div class="p-4 border rounded-lg bg-white shadow-sm flex items-center gap-4">
+                            <div class="bg-fisioAccent text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl" id="eva-display">1</div>
+                            <div class="flex-grow">
+                                <label class="block font-bold text-fisioPrimary text-sm mb-1">Escala de Dolor (EVA)</label>
+                                <input type="range" min="1" max="10" value="1" class="w-full accent-fisioAccent cursor-pointer" oninput="document.getElementById('eva-display').innerText=this.value;document.getElementById('hc-eva').value=this.value">
+                                <input type="hidden" id="hc-eva" value="1">
+                            </div>
                         </div>
-                        <textarea id="hc-tratamiento" placeholder="Tratamiento Hoy" class="p-3 border rounded h-24"></textarea>
+                        <textarea id="hc-tratamiento" placeholder="Tratamiento realizado hoy" class="p-3 bg-fisioBg rounded-lg h-24 outline-none resize-none text-fisioText"></textarea>
                     </div>
-                    <button class="w-full bg-fisioPrimary text-white font-bold py-3 rounded">GUARDAR HISTORIA</button>
+                    <button class="w-full bg-fisioPrimary hover:bg-fisioPrimaryHover text-white font-bold py-4 rounded-lg shadow-md transition">GUARDAR EVOLUCIÓN</button>
                 </form>
             </div>
         </div>
     </div>
 
     <div id="app-gerencia" class="hidden-section container mx-auto p-4 fade-in pb-20 pt-10">
-        <div class="flex justify-between items-center mb-6 bg-white p-6 rounded-2xl shadow">
+        <div class="flex justify-between items-center mb-6 bg-white p-6 rounded-2xl shadow-sm">
             <h2 class="text-2xl font-bold text-fisioPrimary">Dashboard</h2>
-            <button onclick="cargarFinanzas()" class="text-fisioAccent font-bold border border-fisioAccent px-4 py-2 rounded hover:bg-fisioAccent hover:text-white transition">Actualizar</button>
+            <button onclick="cargarFinanzas()" class="text-fisioAccent font-bold border border-fisioAccent px-6 py-2 rounded-full hover:bg-fisioAccent hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-sync"></i> Actualizar</button>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-2xl shadow border-b-4 border-green-500">
-                <p class="text-sm font-bold text-gray-400 uppercase">Ingresos</p>
-                <h3 id="kpi-ingresos" class="text-4xl font-extrabold text-fisioPrimary">S/ ...</h3>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-green-500">
+                <p class="text-xs font-bold text-fisioSub uppercase tracking-widest">Ingresos</p>
+                <h3 id="kpi-ingresos" class="text-4xl font-extrabold text-fisioPrimary mt-2">S/ ...</h3>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow border-b-4 border-red-500">
-                <p class="text-sm font-bold text-gray-400 uppercase">Gastos</p>
-                <h3 id="kpi-gastos" class="text-4xl font-extrabold text-fisioPrimary">S/ ...</h3>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-red-500">
+                <p class="text-xs font-bold text-fisioSub uppercase tracking-widest">Gastos</p>
+                <h3 id="kpi-gastos" class="text-4xl font-extrabold text-fisioPrimary mt-2">S/ ...</h3>
             </div>
-            <div class="bg-fisioPrimary p-6 rounded-2xl shadow text-white">
-                <p class="text-sm font-bold text-fisioAccent uppercase">Utilidad</p>
-                <h3 id="kpi-utilidad" class="text-4xl font-extrabold">S/ ...</h3>
+            <div class="bg-fisioPrimary p-6 rounded-2xl shadow-lg text-white border-b-4 border-fisioAccent">
+                <p class="text-xs font-bold text-white opacity-80 uppercase tracking-widest">Utilidad</p>
+                <h3 id="kpi-utilidad" class="text-4xl font-extrabold mt-2 text-white">S/ ...</h3>
             </div>
         </div>
-        <div class="bg-white rounded-xl shadow overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+            <div class="bg-fisioBg p-4 font-bold text-fisioPrimary border-b border-gray-200">Últimas Transacciones</div>
             <table class="w-full text-left">
-                <thead class="bg-fisioLight text-fisioPrimary"><tr><th class="p-4">Fecha</th><th class="p-4">Paciente</th><th class="p-4">Monto</th></tr></thead>
-                <tbody id="tabla-resumen-body"><tr><td colspan="3" class="p-4 text-center">Cargando...</td></tr></tbody>
+                <thead class="bg-white text-fisioSub text-xs uppercase border-b border-gray-100"><tr><th class="p-4">Fecha</th><th class="p-4">Paciente</th><th class="p-4 text-right">Monto</th></tr></thead>
+                <tbody id="tabla-resumen-body" class="text-sm text-fisioText"><tr><td colspan="3" class="p-8 text-center text-fisioSub">Cargando datos...</td></tr></tbody>
             </table>
         </div>
     </div>
 
-    <div id="modal-auth" class="fixed inset-0 bg-fisioPrimary bg-opacity-80 hidden flex items-center justify-center z-50 backdrop-blur-sm">
-        <div class="bg-white p-8 rounded-2xl shadow-2xl w-80 text-center">
+    <div id="modal-auth" class="fixed inset-0 bg-fisioPrimary bg-opacity-95 hidden flex items-center justify-center z-50 backdrop-blur-sm fade-in">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-80 text-center transform scale-100 transition-all">
+            <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl text-fisioPrimary"><i class="fa-solid fa-lock"></i></div>
             <h3 class="font-bold text-xl mb-4 text-fisioPrimary">Acceso Restringido</h3>
-            <input type="password" id="input-pass" class="w-full p-3 border rounded mb-4 text-center text-lg" placeholder="••••">
-            <button onclick="verifyPass()" class="w-full bg-fisioAccent text-white font-bold py-2 rounded">ENTRAR</button>
-            <button onclick="closeModal()" class="mt-2 text-sm text-gray-500 underline">Cancelar</button>
+            <input type="password" id="input-pass" class="w-full p-4 bg-fisioBg rounded-lg mb-4 text-center text-lg outline-none focus:ring-2 focus:ring-fisioAccent text-fisioText" placeholder="••••">
+            <button onclick="verifyPass()" class="btn-action w-full text-white font-bold py-3 rounded-lg shadow-md transition mb-3">ENTRAR</button>
+            <button onclick="closeModal()" class="text-sm text-gray-400 hover:text-gray-600 underline">Cancelar</button>
         </div>
     </div>
 
     <script>
-        // URL NUEVA PROPORCIONADA
         const API_URL = 'https://script.google.com/macros/s/AKfycbx0wlCKiHCD4yNFyCZjlIIfHtH3ymadPONJZhc_Afnd4zqNeciQ0Cc64qfpfenqxiey3g/exec';
 
         let currentTarget = '';
         let staffUser = 'Staff';
 
-        // Init
         document.addEventListener('DOMContentLoaded', () => {
              const hoy = new Date().toISOString().split('T')[0];
              if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
              if(document.getElementById('cita-fecha')) document.getElementById('cita-fecha').value = hoy;
         });
 
-        // Nav
         function showSection(id) {
             document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none');
             document.getElementById(id).style.display = 'block';
             window.scrollTo(0,0);
         }
 
-        // Auth
         function checkAuth(target) {
             currentTarget = target;
             document.getElementById('modal-auth').classList.remove('hidden');
@@ -288,27 +334,14 @@
                 closeModal(); showSection(currentTarget === 'staff' ? 'app-staff' : 'app-historia');
             } else if (currentTarget === 'gerencia' && pass === 'marioyavril.') {
                 closeModal(); showSection('app-gerencia'); cargarFinanzas();
-            } else { alert('Clave incorrecta'); }
+            } else { alert('⛔ Clave incorrecta'); }
         }
 
-        // CITAS - LOGICA MODIFICADA (Duración Obligatoria)
         function enviarCita(e) {
             e.preventDefault();
-            
-            // 1. Obtener Select y Duración
-            const selectServicio = document.getElementById('cita-servicio');
-            const opcionElegida = selectServicio.options[selectServicio.selectedIndex];
-            const tiempoElegido = opcionElegida.getAttribute('data-time');
-
-            // Validación: ¿Eligió tiempo?
-            if (!tiempoElegido) {
-                alert("⚠️ Por favor selecciona un servicio válido con duración.");
-                return;
-            }
-
             const btn = document.getElementById('btn-cita');
             const originalHtml = btn.innerHTML;
-            btn.innerHTML = 'Procesando...'; btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...'; btn.disabled = true;
 
             const data = {
                 action: 'nuevaCita',
@@ -319,32 +352,29 @@
                 whatsapp: document.getElementById('cita-whatsapp').value,
                 fecha: document.getElementById('cita-fecha').value,
                 hora: document.getElementById('cita-hora').value,
-                servicio: selectServicio.value,
-                duracion: tiempoElegido // Se envía al backend
+                servicio: document.getElementById('cita-servicio').value
             };
 
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
             .then(() => {
-                alert(`✅ Cita Confirmada (${data.duracion} min)\nAgenda bloqueada correctamente.`);
+                alert('✅ Cita Enviada. Revisa tu correo/WhatsApp.');
                 e.target.reset(); showSection('home');
             })
             .finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
         }
 
-        // STAFF
         function setStaffMode(mode) {
             const isAnulacion = mode === 'anulacion';
             document.getElementById('venta-estado').value = isAnulacion ? 'Anulación' : 'Venta';
             document.getElementById('div-anulacion-motivo').classList.toggle('hidden', !isAnulacion);
             document.getElementById('anulacion-motivo').required = isAnulacion;
             
-            // Estilos
-            document.getElementById('tab-venta').className = isAnulacion ? 'flex-1 py-3 rounded-xl font-bold text-gray-500 hover:text-fisioAccent transition' : 'flex-1 py-3 rounded-xl font-bold bg-white text-fisioAccent shadow-sm transition';
-            document.getElementById('tab-anulacion').className = isAnulacion ? 'flex-1 py-3 rounded-xl font-bold bg-white text-red-600 shadow-sm transition' : 'flex-1 py-3 rounded-xl font-bold text-gray-500 hover:text-red-500 transition';
+            document.getElementById('tab-venta').className = isAnulacion ? 'flex-1 py-3 rounded-md font-bold text-fisioSub hover:text-fisioPrimary transition' : 'flex-1 py-3 rounded-md font-bold bg-white text-fisioPrimary shadow-sm transition';
+            document.getElementById('tab-anulacion').className = isAnulacion ? 'flex-1 py-3 rounded-md font-bold bg-white text-red-600 shadow-sm transition' : 'flex-1 py-3 rounded-md font-bold text-fisioSub hover:text-red-500 transition';
             
             const btn = document.getElementById('btn-venta');
-            btn.className = isAnulacion ? 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg shadow' : 'w-full bg-fisioAccent hover:bg-fisioPrimary text-white font-bold py-3 rounded-lg shadow';
-            btn.innerText = isAnulacion ? 'CONFIRMAR ANULACIÓN' : 'REGISTRAR';
+            btn.className = isAnulacion ? 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow text-lg transition' : 'btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg transition';
+            btn.innerHTML = isAnulacion ? 'CONFIRMAR ANULACIÓN' : '<i class="fa-solid fa-save"></i> REGISTRAR';
         }
 
         function autoPrice(select) {
@@ -371,14 +401,13 @@
             };
 
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
-            .then(() => { alert('Operación Exitosa'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); })
-            .finally(() => { btn.innerText = 'REGISTRAR'; btn.disabled = false; });
+            .then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); })
+            .finally(() => { btn.innerHTML = '<i class="fa-solid fa-save"></i> REGISTRAR'; btn.disabled = false; });
         }
 
-        // GERENCIA
         function cargarFinanzas() {
             const tbody = document.getElementById('tabla-resumen-body');
-            tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Cargando...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center italic text-gray-400">Cargando datos...</td></tr>';
             
             fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
             .then(r => r.json())
@@ -388,7 +417,7 @@
                 document.getElementById('kpi-utilidad').innerText = `S/ ${d.utilidad}`;
                 tbody.innerHTML = '';
                 d.listaVentas.forEach(v => {
-                    tbody.innerHTML += `<tr class="border-b"><td class="p-4">${new Date(v[1]).toLocaleDateString()}</td><td class="p-4 font-bold">${v[4]}</td><td class="p-4 font-bold ${v[6]<0?'text-red-500':'text-green-600'}">S/ ${v[6]}</td></tr>`;
+                    tbody.innerHTML += `<tr class="border-b border-gray-100"><td class="p-4 text-fisioSub">${new Date(v[1]).toLocaleDateString()}</td><td class="p-4 font-bold text-fisioPrimary">${v[4]}</td><td class="p-4 font-bold text-right ${v[6]<0?'text-red-500':'text-green-500'}">S/ ${v[6]}</td></tr>`;
                 });
             });
         }
