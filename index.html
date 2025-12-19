@@ -257,7 +257,7 @@
 
     <script>
         // --- URL REAL DE TU GOOGLE SHEET (¡ACTUALIZADA!) ---
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyiE-X9915JRIijVTttoHy6yCq9LTf7FpI2aMEKmZ3I_9SB5nmYjT2kCERjJXrr4a6LqA/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwsjt1hg1bdzeLg5bCVuCtuw5HbvyKXDzNpnkkaD4VPoZmJSOuXG5j6kzejSQan3ehMAw/exec';
 
         let currentTarget = '';
         let staffUser = 'Staff';
@@ -321,15 +321,19 @@
             loading.classList.remove('hidden');
             container.innerHTML = '';
 
-            // --- AQUÍ ESTÁ LA MAGIA ANTI-CACHE: antiCache: new Date().getTime() ---
-            fetch(API_URL, {
+            // --- ¡AQUÍ ESTÁ LA CLAVE DEL IPHONE! ---
+            // Añadimos 'nocache=' + la hora actual a la URL.
+            // Esto obliga al navegador a pensar que es una petición nueva cada vez.
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+
+            fetch(urlConTimestamp, {
                 method: 'POST',
-                body: JSON.stringify({ 
-                    action: 'obtenerHorarios', 
-                    fecha: fecha, 
-                    duracionLogica: duracionCheck,
-                    antiCache: new Date().getTime() // ESTO FUERZA AL IPHONE A ACTUALIZAR
-                })
+                // Añadimos headers específicos para evitar caché
+                cache: 'no-store',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8',
+                },
+                body: JSON.stringify({ action: 'obtenerHorarios', fecha: fecha, duracionLogica: duracionCheck })
             })
             .then(r => r.json())
             .then(data => {
@@ -393,10 +397,17 @@
                 servicio: servicioSelect.value
             };
 
-            fetch(API_URL, { method: 'POST', body: JSON.stringify(data) })
+            // Tambien forzamos el no-cache al enviar la cita para evitar reenvíos fantasmas
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+
+            fetch(urlConTimestamp, { 
+                method: 'POST', 
+                cache: 'no-store',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(data) 
+            })
             .then(r => r.json())
             .then(result => {
-                // AQUÍ CAPTURAMOS SI EL SERVIDOR DEVUELVE ERROR DE HORARIO OCUPADO
                 if (result.status === 'success') {
                     alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\nSe ha agendado para el ${result.fecha} a las ${data.hora}.\nRevisa tu correo.`);
                     e.target.reset(); 
@@ -405,9 +416,7 @@
                     document.getElementById('div-fecha-hora').classList.add('hidden');
                     showSection('home');
                 } else if (result.status === 'error') {
-                    // MUESTRA EL MENSAJE DE "HORARIO RESERVADO" DEL SERVIDOR
                     alert(`⚠️ ${result.message}`);
-                    // RECARGA LOS HORARIOS PARA QUE SE VEA EL HUECO OCUPADO
                     cargarHorarios();
                 } else {
                      alert(`❌ Error al confirmar cita. Inténtalo de nuevo. [Detalle: ${result.message || 'Error desconocido'}]`);
@@ -486,7 +495,14 @@
                 origen: document.getElementById('anulacion-motivo').value || 'Venta' 
             };
 
-            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+
+            fetch(urlConTimestamp, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify(data) 
+            })
             .then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); })
             .finally(() => { btn.innerHTML = 'REGISTRAR'; btn.disabled = false; });
         }
@@ -495,7 +511,12 @@
             const tbody = document.getElementById('tabla-resumen-body');
             tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center italic text-gray-400">Cargando datos...</td></tr>';
             
-            fetch(API_URL, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+
+            fetch(urlConTimestamp, { 
+                method: 'POST', 
+                body: JSON.stringify({action: 'obtenerFinanzas'}) 
+            })
             .then(r => r.json())
             .then(d => {
                 document.getElementById('kpi-ingresos').innerText = `S/ ${d.ingresos}`;
