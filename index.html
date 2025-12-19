@@ -16,12 +16,12 @@
                 },
                 extend: {
                     colors: {
-                        fisioPrimary: '#2A7C78',      // Deep Teal
+                        fisioPrimary: '#2A7C78',      
                         fisioPrimaryHover: '#4CA6A1', 
-                        fisioAccent: '#F2911B',       // Vibrant Orange
+                        fisioAccent: '#F2911B',       
                         fisioText: '#333333',         
                         fisioSub: '#666666',          
-                        fisioBg: '#F4F8F8',           // Mint/Off-White
+                        fisioBg: '#F4F8F8',           
                     }
                 }
             }
@@ -32,31 +32,13 @@
         .hidden-section { display: none; }
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
         body { background-color: #F4F8F8; color: #333333; }
-        
-        .btn-action {
-            background-color: #F2911B;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2);
-        }
-        .btn-action:hover {
-            background-color: #D98218;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3);
-        }
-
-        .time-slot {
-            border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: white;
-        }
+        .btn-action { background-color: #F2911B; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2); }
+        .btn-action:hover { background-color: #D98218; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3); }
+        .time-slot { border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: white; }
         .time-slot:hover { border-color: #2A7C78; color: #2A7C78; }
         .time-slot.selected { background-color: #2A7C78; color: white; border-color: #2A7C78; font-weight: bold; }
-        
-        select:disabled {
-            background-color: #e2e8f0;
-            cursor: not-allowed;
-            color: #555;
-        }
+        select:disabled { background-color: #e2e8f0; cursor: not-allowed; color: #555; }
     </style>
 </head>
 <body class="antialiased">
@@ -64,13 +46,8 @@
     <nav class="bg-fisioPrimary text-white p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
-                <div class="relative group">
-                    <img src="https://lh3.googleusercontent.com/d/1-Oryehjw29qzgFZo9mIpWB-HpldPkNQx" 
-                         onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063176.png'" 
-                         alt="Logo FisioXpress" 
-                         class="h-12 w-12 rounded-full border-2 border-white bg-white object-cover shadow-sm group-hover:scale-105 transition">
-                </div>
                 <span class="text-xl font-extrabold tracking-wide hidden md:block">FISIO<span class="text-fisioAccent">XPRESS</span></span>
+                <span class="text-xl font-extrabold tracking-wide md:hidden">FX</span>
             </div>
             
             <button onclick="showSection('home')" class="text-sm bg-white bg-opacity-10 hover:bg-white hover:text-fisioPrimary border border-white/30 text-white px-5 py-2 rounded-full transition font-bold flex items-center gap-2">
@@ -88,33 +65,25 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             <div onclick="showSection('app-citas')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
-                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioAccent transition duration-300">
-                    <i class="fa-solid fa-calendar-check text-3xl text-fisioAccent group-hover:text-white transition"></i>
-                </div>
+                <div class="text-center mb-4"><i class="fa-solid fa-calendar-check text-4xl text-fisioAccent"></i></div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Reserva de Citas</h3>
                 <p class="text-sm text-center text-fisioSub">Agenda tu sesión.</p>
             </div>
             
             <div onclick="checkAuth('staff')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioPrimary group hover:-translate-y-1">
-                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioPrimary transition duration-300">
-                    <i class="fa-solid fa-cash-register text-3xl text-fisioPrimary group-hover:text-white transition"></i>
-                </div>
+                <div class="text-center mb-4"><i class="fa-solid fa-cash-register text-4xl text-fisioPrimary"></i></div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Control Interno</h3>
                 <p class="text-sm text-center text-fisioSub">Acceso Staff.</p>
             </div>
             
             <div onclick="checkAuth('staff_historia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
-                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioAccent transition duration-300">
-                    <i class="fa-solid fa-file-medical-alt text-3xl text-fisioAccent group-hover:text-white transition"></i>
-                </div>
+                <div class="text-center mb-4"><i class="fa-solid fa-file-medical-alt text-4xl text-fisioAccent"></i></div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Historias Clínicas</h3>
                 <p class="text-sm text-center text-fisioSub">Evolución.</p>
             </div>
             
             <div onclick="checkAuth('gerencia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioText group hover:-translate-y-1">
-                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioText transition duration-300">
-                    <i class="fa-solid fa-chart-pie text-3xl text-fisioText group-hover:text-white transition"></i>
-                </div>
+                <div class="text-center mb-4"><i class="fa-solid fa-chart-pie text-4xl text-fisioText"></i></div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Gerencia</h3>
                 <p class="text-sm text-center text-fisioSub">Reportes.</p>
             </div>
@@ -154,16 +123,13 @@
 
                 <div class="mb-8">
                     <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2">Detalles del Servicio</label>
-                    
                     <select id="cita-servicio" onchange="configurarDuracion()" required class="w-full p-4 bg-fisioBg rounded-lg border-2 border-transparent focus:border-fisioPrimary outline-none font-bold text-fisioPrimary mb-4">
                         <option value="" disabled selected>-- Selecciona un Servicio --</option>
-                        
                         <optgroup label="Masajes Terapéuticos">
                             <option value="Masaje Relajante" data-tipo="variable">Masaje Relajante</option>
                             <option value="Masaje Descontracturante" data-tipo="variable">Masaje Descontracturante</option>
                             <option value="Masaje Xpress" data-tipo="variable">Masaje Xpress (Zonas Dolorosas)</option>
                         </optgroup>
-                        
                         <optgroup label="Especializados">
                             <option value="Masaje Deportivo" data-tipo="fijo">Masaje Deportivo</option>
                             <option value="Drenaje Linfático" data-tipo="fijo">Drenaje Linfático</option>
@@ -173,17 +139,13 @@
 
                     <div id="div-duracion" class="mb-4 hidden fade-in">
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Duración de la Sesión</label>
-                        <select id="cita-duracion" onchange="cargarHorarios()" required class="w-full p-4 bg-white border-2 border-fisioPrimary rounded-lg outline-none font-bold text-fisioText">
-                            </select>
-                        <p id="msg-duracion-fija" class="text-xs text-fisioAccent mt-1 hidden"><i class="fa-solid fa-info-circle"></i> Este servicio requiere una sesión de 60 minutos.</p>
+                        <select id="cita-duracion" onchange="cargarHorarios()" required class="w-full p-4 bg-white border-2 border-fisioPrimary rounded-lg outline-none font-bold text-fisioText"></select>
                     </div>
 
                     <div id="div-fecha-hora" class="hidden fade-in">
                         <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2"><i class="fa-solid fa-clock"></i> Fecha y Hora</label>
                         <input type="date" id="cita-fecha" onchange="cargarHorarios()" required class="p-4 bg-fisioBg rounded-lg w-full mb-4 outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
-                        
                         <div id="loading-slots" class="hidden text-center text-fisioAccent font-bold py-4"><i class="fa-solid fa-spinner fa-spin"></i> Buscando horarios disponibles...</div>
-                        
                         <div id="slots-container" class="grid grid-cols-3 md:grid-cols-4 gap-3"></div>
                         <input type="hidden" id="cita-hora-seleccionada" required>
                     </div>
@@ -245,6 +207,72 @@
         </div>
     </div>
 
+    <div id="app-historia" class="hidden-section container mx-auto p-4 max-w-5xl fade-in pb-20 pt-10">
+        <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-fisioAccent">
+            <h2 class="text-2xl font-bold text-fisioPrimary mb-6">Historias Clínicas</h2>
+            <div class="bg-fisioBg p-6 rounded-xl mb-6 flex gap-4 items-center border border-gray-100">
+                <input type="text" id="historia-search" placeholder="Buscar por DNI o Apellido" class="flex-grow p-4 bg-white rounded-lg border border-transparent focus:border-fisioAccent outline-none shadow-sm text-fisioText">
+                <button onclick="buscarHistoria()" class="bg-fisioPrimary hover:bg-fisioPrimaryHover text-white px-6 py-4 rounded-lg font-bold transition shadow-md">Buscar</button>
+            </div>
+            <div id="resultados-historia" class="hidden mb-6 p-4 border rounded bg-gray-50 text-fisioText"></div>
+            
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="font-bold mb-4 text-fisioPrimary text-lg"><i class="fa-solid fa-file-pen"></i> Nueva Evolución</h3>
+                <form onsubmit="guardarHistoria(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                        <input id="hc-dni" placeholder="DNI" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText" required>
+                        <input id="hc-nombre" placeholder="Nombre Completo" class="p-3 bg-fisioBg rounded-lg col-span-2 outline-none text-fisioText" required>
+                        <input id="hc-edad" placeholder="Edad" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <textarea id="hc-motivo" placeholder="Motivo/Diagnóstico" class="p-3 bg-fisioBg rounded-lg h-24 outline-none resize-none text-fisioText"></textarea>
+                        <textarea id="hc-antecedentes" placeholder="Antecedentes" class="p-3 bg-fisioBg rounded-lg h-24 outline-none resize-none text-fisioText"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="p-4 border rounded-lg bg-white shadow-sm flex items-center gap-4">
+                            <div class="bg-fisioAccent text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl" id="eva-display">1</div>
+                            <div class="flex-grow">
+                                <label class="block font-bold text-fisioPrimary text-sm mb-1">Escala de Dolor (EVA)</label>
+                                <input type="range" min="1" max="10" value="1" class="w-full accent-fisioAccent cursor-pointer" oninput="document.getElementById('eva-display').innerText=this.value;document.getElementById('hc-eva').value=this.value">
+                                <input type="hidden" id="hc-eva" value="1">
+                            </div>
+                        </div>
+                        <textarea id="hc-tratamiento" placeholder="Tratamiento realizado hoy" class="p-3 bg-fisioBg rounded-lg h-24 outline-none resize-none text-fisioText"></textarea>
+                    </div>
+                    <button class="w-full bg-fisioPrimary hover:bg-fisioPrimaryHover text-white font-bold py-4 rounded-lg shadow-md transition">GUARDAR EVOLUCIÓN</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-gerencia" class="hidden-section container mx-auto p-4 fade-in pb-20 pt-10">
+        <div class="flex justify-between items-center mb-6 bg-white p-6 rounded-2xl shadow-sm">
+            <h2 class="text-2xl font-bold text-fisioPrimary">Dashboard</h2>
+            <button onclick="cargarFinanzas()" class="text-fisioAccent font-bold border border-fisioAccent px-6 py-2 rounded-full hover:bg-fisioAccent hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-sync"></i> Actualizar</button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-green-500">
+                <p class="text-xs font-bold text-fisioSub uppercase tracking-widest">Ingresos</p>
+                <h3 id="kpi-ingresos" class="text-4xl font-extrabold text-fisioPrimary mt-2">S/ ...</h3>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-red-500">
+                <p class="text-xs font-bold text-fisioSub uppercase tracking-widest">Gastos</p>
+                <h3 id="kpi-gastos" class="text-4xl font-extrabold text-fisioPrimary mt-2">S/ ...</h3>
+            </div>
+            <div class="bg-fisioPrimary p-6 rounded-2xl shadow-lg text-white border-b-4 border-fisioAccent">
+                <p class="text-xs font-bold text-white opacity-80 uppercase tracking-widest">Utilidad</p>
+                <h3 id="kpi-utilidad" class="text-4xl font-extrabold mt-2 text-white">S/ ...</h3>
+            </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+            <div class="bg-fisioBg p-4 font-bold text-fisioPrimary border-b border-gray-200">Últimas Transacciones</div>
+            <table class="w-full text-left">
+                <thead class="bg-white text-fisioSub text-xs uppercase border-b border-gray-100"><tr><th class="p-4">Fecha</th><th class="p-4">Paciente</th><th class="p-4 text-right">Monto</th></tr></thead>
+                <tbody id="tabla-resumen-body" class="text-sm text-fisioText"><tr><td colspan="3" class="p-8 text-center text-fisioSub">Cargando datos...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+
     <div id="modal-auth" class="fixed inset-0 bg-fisioPrimary bg-opacity-95 hidden flex items-center justify-center z-50 backdrop-blur-sm fade-in">
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-80 text-center transform scale-100 transition-all">
             <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl text-fisioPrimary"><i class="fa-solid fa-lock"></i></div>
@@ -256,182 +284,13 @@
     </div>
 
     <script>
-        // --- URL REAL DE TU GOOGLE SHEET (¡ACTUALIZADA!) ---
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwsjt1hg1bdzeLg5bCVuCtuw5HbvyKXDzNpnkkaD4VPoZmJSOuXG5j6kzejSQan3ehMAw/exec';
+        // --- URL ACTUALIZADA Y FINAL ---
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzHkW2545s9BT8Tw_ZIfqO3kKHMHtFpWbSA3W-rnOzRere9-AgXzdvS1F1uWQ7n9moEzg/exec';
 
         let currentTarget = '';
         let staffUser = 'Staff';
 
-        // --- GESTIÓN DINÁMICA DE DURACIÓN ---
-        function configurarDuracion() {
-            const servicioSelect = document.getElementById('cita-servicio');
-            const duracionSelect = document.getElementById('cita-duracion');
-            const divDuracion = document.getElementById('div-duracion');
-            const divFechaHora = document.getElementById('div-fecha-hora');
-            const msgFijo = document.getElementById('msg-duracion-fija');
-
-            duracionSelect.innerHTML = '';
-            document.getElementById('slots-container').innerHTML = '';
-            
-            if(!servicioSelect.value) {
-                divDuracion.classList.add('hidden');
-                divFechaHora.classList.add('hidden');
-                return;
-            }
-
-            divDuracion.classList.remove('hidden');
-            divFechaHora.classList.remove('hidden');
-
-            const opcion = servicioSelect.options[servicioSelect.selectedIndex];
-            const tipo = opcion.getAttribute('data-tipo');
-
-            if (tipo === 'variable') {
-                const opts = [30, 45, 60];
-                duracionSelect.innerHTML = '<option value="" disabled selected>-- Elige tiempo --</option>';
-                opts.forEach(t => {
-                    duracionSelect.innerHTML += `<option value="${t}">${t} Minutos</option>`;
-                });
-                duracionSelect.disabled = false;
-                msgFijo.classList.add('hidden');
-            } else {
-                duracionSelect.innerHTML = '<option value="60" selected>60 Minutos</option>';
-                duracionSelect.disabled = true; 
-                msgFijo.classList.remove('hidden');
-                if(document.getElementById('cita-fecha').value) cargarHorarios();
-            }
-        }
-
-        function cargarHorarios() {
-            const fecha = document.getElementById('cita-fecha').value;
-            const duracionSelect = document.getElementById('cita-duracion');
-            const tiempo = duracionSelect.value;
-            const container = document.getElementById('slots-container');
-            const loading = document.getElementById('loading-slots');
-
-            document.getElementById('cita-hora-seleccionada').value = "";
-            
-            if (!fecha || !tiempo) {
-                container.innerHTML = '';
-                return;
-            }
-
-            let duracionCheck = parseInt(tiempo);
-            if (duracionCheck === 45) duracionCheck = 60; 
-
-            loading.classList.remove('hidden');
-            container.innerHTML = '';
-
-            // --- ¡AQUÍ ESTÁ LA CLAVE DEL IPHONE! ---
-            // Añadimos 'nocache=' + la hora actual a la URL.
-            // Esto obliga al navegador a pensar que es una petición nueva cada vez.
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
-
-            fetch(urlConTimestamp, {
-                method: 'POST',
-                // Añadimos headers específicos para evitar caché
-                cache: 'no-store',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                },
-                body: JSON.stringify({ action: 'obtenerHorarios', fecha: fecha, duracionLogica: duracionCheck })
-            })
-            .then(r => r.json())
-            .then(data => {
-                loading.classList.add('hidden');
-                
-                // --- MANEJO DE ERRORES (Domingos/Feriados) ---
-                if (data.error) {
-                    container.innerHTML = `<div class="text-red-500 font-bold col-span-full text-center p-4 bg-red-100 rounded-lg border border-red-300">${data.error}</div>`;
-                    return;
-                }
-                // --- FIN MANEJO DE ERRORES ---
-
-                if (data.horarios.length === 0) {
-                    container.innerHTML = '<div class="text-red-500 font-bold col-span-full text-center">No hay horarios disponibles para la duración seleccionada.</div>';
-                    return;
-                }
-                data.horarios.forEach(slot => {
-                    const div = document.createElement('div');
-                    div.className = 'time-slot';
-                    div.innerText = slot.val; 
-                    div.onclick = () => selectSlot(div, slot.val);
-                    container.appendChild(div);
-                });
-            })
-            .catch(error => {
-                loading.classList.add('hidden');
-                container.innerHTML = `<div class="text-red-500 font-bold col-span-full text-center p-4 bg-red-100 rounded-lg border border-red-300">Error de conexión al servidor.</div>`;
-            });
-        }
-
-        function selectSlot(el, hora) {
-            document.querySelectorAll('.time-slot').forEach(d => d.classList.remove('selected'));
-            el.classList.add('selected');
-            document.getElementById('cita-hora-seleccionada').value = hora;
-        }
-
-        function enviarCita(e) {
-            e.preventDefault();
-            const hora = document.getElementById('cita-hora-seleccionada').value;
-            const duracionSelect = document.getElementById('cita-duracion');
-            
-            if (!hora) { alert("⚠️ Por favor selecciona un horario."); return; }
-            if (!duracionSelect.value) { alert("⚠️ Por favor selecciona la duración."); return; }
-
-            const btn = document.getElementById('btn-cita');
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Agendando...'; btn.disabled = true;
-
-            const servicioSelect = document.getElementById('cita-servicio');
-            
-            const data = {
-                action: 'nuevaCita',
-                nombres: document.getElementById('cita-nombre').value,
-                apellidos: document.getElementById('cita-apellido').value,
-                dni: document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value,
-                email: document.getElementById('cita-email').value,
-                whatsapp: document.getElementById('cita-whatsapp').value,
-                fecha: document.getElementById('cita-fecha').value,
-                hora: hora,
-                duracionReal: duracionSelect.value, 
-                servicio: servicioSelect.value
-            };
-
-            // Tambien forzamos el no-cache al enviar la cita para evitar reenvíos fantasmas
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
-
-            fetch(urlConTimestamp, { 
-                method: 'POST', 
-                cache: 'no-store',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(data) 
-            })
-            .then(r => r.json())
-            .then(result => {
-                if (result.status === 'success') {
-                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\nSe ha agendado para el ${result.fecha} a las ${data.hora}.\nRevisa tu correo.`);
-                    e.target.reset(); 
-                    document.getElementById('slots-container').innerHTML = '';
-                    document.getElementById('div-duracion').classList.add('hidden');
-                    document.getElementById('div-fecha-hora').classList.add('hidden');
-                    showSection('home');
-                } else if (result.status === 'error') {
-                    alert(`⚠️ ${result.message}`);
-                    cargarHorarios();
-                } else {
-                     alert(`❌ Error al confirmar cita. Inténtalo de nuevo. [Detalle: ${result.message || 'Error desconocido'}]`);
-                }
-            })
-            .catch(() => alert('Error de conexión. Asegúrate de que el Google Apps Script esté correctamente implementado.'))
-            .finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
-        }
-
-        // --- SISTEMA GENERAL ---
-        document.addEventListener('DOMContentLoaded', () => {
-             const hoy = new Date().toISOString().split('T')[0];
-             if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
-        });
-
+        // --- MANEJO DE VISTAS ---
         function showSection(id) {
             document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none');
             document.getElementById(id).style.display = 'block';
@@ -456,12 +315,157 @@
             } else { alert('⛔ Clave incorrecta'); }
         }
 
+        // --- LÓGICA DE CITAS (CON ANTI-CACHÉ) ---
+        function configuringDuracion() {
+            const servicioSelect = document.getElementById('cita-servicio');
+            const duracionSelect = document.getElementById('cita-duracion');
+            const divDuracion = document.getElementById('div-duracion');
+            const divFechaHora = document.getElementById('div-fecha-hora');
+
+            // Limpieza
+            duracionSelect.innerHTML = '';
+            document.getElementById('slots-container').innerHTML = '';
+            
+            if(!servicioSelect.value) {
+                divDuracion.classList.add('hidden');
+                divFechaHora.classList.add('hidden');
+                return;
+            }
+
+            divDuracion.classList.remove('hidden');
+            divFechaHora.classList.remove('hidden');
+
+            const opcion = servicioSelect.options[servicioSelect.selectedIndex];
+            const tipo = opcion.getAttribute('data-tipo');
+
+            if (tipo === 'variable') {
+                const opts = [30, 45, 60];
+                duracionSelect.innerHTML = '<option value="" disabled selected>-- Elige tiempo --</option>';
+                opts.forEach(t => { duracionSelect.innerHTML += `<option value="${t}">${t} Minutos</option>`; });
+                duracionSelect.disabled = false;
+            } else {
+                duracionSelect.innerHTML = '<option value="60" selected>60 Minutos</option>';
+                duracionSelect.disabled = true; 
+                if(document.getElementById('cita-fecha').value) cargarHorarios();
+            }
+        }
+        // Alias para onclick HTML
+        window.configurarDuracion = configuringDuracion;
+
+        function cargarHorarios() {
+            const fecha = document.getElementById('cita-fecha').value;
+            const duracionSelect = document.getElementById('cita-duracion');
+            const tiempo = duracionSelect.value;
+            const container = document.getElementById('slots-container');
+            const loading = document.getElementById('loading-slots');
+
+            document.getElementById('cita-hora-seleccionada').value = "";
+            container.innerHTML = '';
+
+            if (!fecha || !tiempo) return;
+
+            let duracionCheck = parseInt(tiempo);
+            if (duracionCheck === 45) duracionCheck = 60; 
+
+            loading.classList.remove('hidden');
+
+            // *** AQUÍ ESTÁ LA SOLUCIÓN IPHONE ***
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+
+            fetch(urlConTimestamp, {
+                method: 'POST',
+                cache: 'no-store', // Obligatorio para Safari
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'obtenerHorarios', fecha: fecha, duracionLogica: duracionCheck })
+            })
+            .then(r => r.json())
+            .then(data => {
+                loading.classList.add('hidden');
+                if (data.error) {
+                    container.innerHTML = `<div class="text-red-500 font-bold col-span-full text-center p-4 bg-red-100 rounded-lg border border-red-300">${data.error}</div>`;
+                    return;
+                }
+                if (data.horarios.length === 0) {
+                    container.innerHTML = '<div class="text-red-500 font-bold col-span-full text-center">No hay horarios disponibles.</div>';
+                    return;
+                }
+                data.horarios.forEach(slot => {
+                    const div = document.createElement('div');
+                    div.className = 'time-slot';
+                    div.innerText = slot.val; 
+                    div.onclick = () => {
+                        document.querySelectorAll('.time-slot').forEach(d => d.classList.remove('selected'));
+                        div.classList.add('selected');
+                        document.getElementById('cita-hora-seleccionada').value = slot.val;
+                    };
+                    container.appendChild(div);
+                });
+            })
+            .catch(() => {
+                loading.classList.add('hidden');
+                container.innerHTML = `<div class="text-red-500 font-bold col-span-full text-center">Error de conexión.</div>`;
+            });
+        }
+
+        function enviarCita(e) {
+            e.preventDefault();
+            const hora = document.getElementById('cita-hora-seleccionada').value;
+            const duracionSelect = document.getElementById('cita-duracion');
+            
+            if (!hora) { alert("⚠️ Selecciona un horario."); return; }
+
+            const btn = document.getElementById('btn-cita');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Agendando...'; btn.disabled = true;
+
+            const data = {
+                action: 'nuevaCita',
+                nombres: document.getElementById('cita-nombre').value,
+                apellidos: document.getElementById('cita-apellido').value,
+                dni: document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value,
+                email: document.getElementById('cita-email').value,
+                whatsapp: document.getElementById('cita-whatsapp').value,
+                fecha: document.getElementById('cita-fecha').value,
+                hora: hora,
+                duracionReal: duracionSelect.value, 
+                servicio: document.getElementById('cita-servicio').value
+            };
+
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+
+            fetch(urlConTimestamp, { 
+                method: 'POST', 
+                cache: 'no-store',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(data) 
+            })
+            .then(r => r.json())
+            .then(result => {
+                if (result.status === 'success') {
+                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\nFecha: ${result.fecha} a las ${data.hora}.\nRevisa tu correo.`);
+                    e.target.reset(); 
+                    document.getElementById('slots-container').innerHTML = '';
+                    document.getElementById('div-duracion').classList.add('hidden');
+                    document.getElementById('div-fecha-hora').classList.add('hidden');
+                    showSection('home');
+                } else if (result.status === 'error') {
+                    // ERROR DE CONFLICTO DETECTADO
+                    alert(result.message);
+                    cargarHorarios();
+                } else {
+                     alert(`❌ Error: ${result.message}`);
+                }
+            })
+            .catch(() => alert('Error de conexión.'))
+            .finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
+        }
+
+        // --- LÓGICA STAFF ---
         function setStaffMode(mode) {
             const isAnulacion = mode === 'anulacion';
             document.getElementById('venta-estado').value = isAnulacion ? 'Anulación' : 'Venta';
             document.getElementById('div-anulacion-motivo').classList.toggle('hidden', !isAnulacion);
             document.getElementById('anulacion-motivo').required = isAnulacion;
-            
             const btn = document.getElementById('btn-venta');
             if(isAnulacion) {
                 btn.className = 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow text-lg transition';
@@ -497,26 +501,19 @@
 
             const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
 
-            fetch(urlConTimestamp, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify(data) 
-            })
+            fetch(urlConTimestamp, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
             .then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); })
             .finally(() => { btn.innerHTML = 'REGISTRAR'; btn.disabled = false; });
         }
 
+        // --- LÓGICA FINANZAS ---
         function cargarFinanzas() {
             const tbody = document.getElementById('tabla-resumen-body');
             tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center italic text-gray-400">Cargando datos...</td></tr>';
             
             const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
 
-            fetch(urlConTimestamp, { 
-                method: 'POST', 
-                body: JSON.stringify({action: 'obtenerFinanzas'}) 
-            })
+            fetch(urlConTimestamp, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
             .then(r => r.json())
             .then(d => {
                 document.getElementById('kpi-ingresos').innerText = `S/ ${d.ingresos}`;
@@ -528,6 +525,25 @@
                 });
             });
         }
+
+        // --- LÓGICA HISTORIAS (FRONTEND) ---
+        function guardarHistoria(e) {
+            e.preventDefault();
+            // Nota: La lógica completa de backend para historias no estaba en la versión original, 
+            // pero el formulario es funcional visualmente.
+            alert('✅ Evolución guardada (Simulación).');
+            e.target.reset();
+        }
+        function buscarHistoria() {
+            const term = document.getElementById('historia-search').value;
+            alert('🔍 Buscando: ' + term);
+        }
+
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', () => {
+             const hoy = new Date().toISOString().split('T')[0];
+             if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
+        });
     </script>
 </body>
 </html>
