@@ -245,6 +245,72 @@
         </div>
     </div>
 
+    <div id="app-historia" class="hidden-section container mx-auto p-4 max-w-5xl fade-in pb-20 pt-10">
+        <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-fisioAccent">
+            <h2 class="text-2xl font-bold text-fisioPrimary mb-6">Historias Clínicas</h2>
+            <div class="bg-fisioBg p-6 rounded-xl mb-6 flex gap-4 items-center border border-gray-100">
+                <input type="text" id="historia-search" placeholder="Buscar por DNI o Apellido" class="flex-grow p-4 bg-white rounded-lg border border-transparent focus:border-fisioAccent outline-none shadow-sm text-fisioText">
+                <button onclick="buscarHistoria()" class="bg-fisioPrimary hover:bg-fisioPrimaryHover text-white px-6 py-4 rounded-lg font-bold transition shadow-md">Buscar</button>
+            </div>
+            <div id="resultados-historia" class="hidden mb-6 p-4 border rounded bg-gray-50 text-fisioText"></div>
+            
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="font-bold mb-4 text-fisioPrimary text-lg"><i class="fa-solid fa-file-pen"></i> Nueva Evolución</h3>
+                <form onsubmit="guardarHistoria(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                        <input id="hc-dni" placeholder="DNI" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText" required>
+                        <input id="hc-nombre" placeholder="Nombre Completo" class="p-3 bg-fisioBg rounded-lg col-span-2 outline-none text-fisioText" required>
+                        <input id="hc-edad" placeholder="Edad" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <textarea id="hc-motivo" placeholder="Motivo/Diagnóstico" class="p-3 bg-fisioBg rounded-lg h-24 outline-none resize-none text-fisioText"></textarea>
+                        <textarea id="hc-antecedentes" placeholder="Antecedentes" class="p-3 bg-fisioBg rounded-lg h-24 outline-none resize-none text-fisioText"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="p-4 border rounded-lg bg-white shadow-sm flex items-center gap-4">
+                            <div class="bg-fisioAccent text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl" id="eva-display">1</div>
+                            <div class="flex-grow">
+                                <label class="block font-bold text-fisioPrimary text-sm mb-1">Escala de Dolor (EVA)</label>
+                                <input type="range" min="1" max="10" value="1" class="w-full accent-fisioAccent cursor-pointer" oninput="document.getElementById('eva-display').innerText=this.value;document.getElementById('hc-eva').value=this.value">
+                                <input type="hidden" id="hc-eva" value="1">
+                            </div>
+                        </div>
+                        <textarea id="hc-tratamiento" placeholder="Tratamiento realizado hoy" class="p-3 bg-fisioBg rounded-lg h-24 outline-none resize-none text-fisioText"></textarea>
+                    </div>
+                    <button class="w-full bg-fisioPrimary hover:bg-fisioPrimaryHover text-white font-bold py-4 rounded-lg shadow-md transition">GUARDAR EVOLUCIÓN</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-gerencia" class="hidden-section container mx-auto p-4 fade-in pb-20 pt-10">
+        <div class="flex justify-between items-center mb-6 bg-white p-6 rounded-2xl shadow-sm">
+            <h2 class="text-2xl font-bold text-fisioPrimary">Dashboard</h2>
+            <button onclick="cargarFinanzas()" class="text-fisioAccent font-bold border border-fisioAccent px-6 py-2 rounded-full hover:bg-fisioAccent hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-sync"></i> Actualizar</button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-green-500">
+                <p class="text-xs font-bold text-fisioSub uppercase tracking-widest">Ingresos</p>
+                <h3 id="kpi-ingresos" class="text-4xl font-extrabold text-fisioPrimary mt-2">S/ ...</h3>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-red-500">
+                <p class="text-xs font-bold text-fisioSub uppercase tracking-widest">Gastos</p>
+                <h3 id="kpi-gastos" class="text-4xl font-extrabold text-fisioPrimary mt-2">S/ ...</h3>
+            </div>
+            <div class="bg-fisioPrimary p-6 rounded-2xl shadow-lg text-white border-b-4 border-fisioAccent">
+                <p class="text-xs font-bold text-white opacity-80 uppercase tracking-widest">Utilidad</p>
+                <h3 id="kpi-utilidad" class="text-4xl font-extrabold mt-2 text-white">S/ ...</h3>
+            </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+            <div class="bg-fisioBg p-4 font-bold text-fisioPrimary border-b border-gray-200">Últimas Transacciones</div>
+            <table class="w-full text-left">
+                <thead class="bg-white text-fisioSub text-xs uppercase border-b border-gray-100"><tr><th class="p-4">Fecha</th><th class="p-4">Paciente</th><th class="p-4 text-right">Monto</th></tr></thead>
+                <tbody id="tabla-resumen-body" class="text-sm text-fisioText"><tr><td colspan="3" class="p-8 text-center text-fisioSub">Cargando datos...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+
     <div id="modal-auth" class="fixed inset-0 bg-fisioPrimary bg-opacity-95 hidden flex items-center justify-center z-50 backdrop-blur-sm fade-in">
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-80 text-center transform scale-100 transition-all">
             <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl text-fisioPrimary"><i class="fa-solid fa-lock"></i></div>
@@ -257,7 +323,7 @@
 
     <script>
         // --- URL REAL DE TU GOOGLE SHEET (¡ACTUALIZADA!) ---
-        const API_URL = 'https://script.google.com/macros/s/AKfycbx9BMHKnFNMM9heRXtZio15VxtGMjXjp_kJBj_aE2ckpHCkQ8iHb8ulrZMLtySsh3areA/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyiE-X9915JRIijVTttoHy6yCq9LTf7FpI2aMEKmZ3I_9SB5nmYjT2kCERjJXrr4a6LqA/exec';
 
         let currentTarget = '';
         let staffUser = 'Staff';
