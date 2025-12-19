@@ -16,12 +16,12 @@
                 },
                 extend: {
                     colors: {
-                        fisioPrimary: '#2A7C78',      
+                        fisioPrimary: '#2A7C78',      // Deep Teal
                         fisioPrimaryHover: '#4CA6A1', 
-                        fisioAccent: '#F2911B',       
+                        fisioAccent: '#F2911B',       // Vibrant Orange
                         fisioText: '#333333',         
                         fisioSub: '#666666',          
-                        fisioBg: '#F4F8F8',           
+                        fisioBg: '#F4F8F8',           // Mint/Off-White
                     }
                 }
             }
@@ -32,13 +32,31 @@
         .hidden-section { display: none; }
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
         body { background-color: #F4F8F8; color: #333333; }
-        .btn-action { background-color: #F2911B; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2); }
-        .btn-action:hover { background-color: #D98218; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3); }
-        .time-slot { border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: white; }
+        
+        .btn-action {
+            background-color: #F2911B;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2);
+        }
+        .btn-action:hover {
+            background-color: #D98218;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3);
+        }
+
+        .time-slot {
+            border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: white;
+        }
         .time-slot:hover { border-color: #2A7C78; color: #2A7C78; }
         .time-slot.selected { background-color: #2A7C78; color: white; border-color: #2A7C78; font-weight: bold; }
-        select:disabled { background-color: #e2e8f0; cursor: not-allowed; color: #555; }
+        
+        select:disabled {
+            background-color: #e2e8f0;
+            cursor: not-allowed;
+            color: #555;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -65,25 +83,33 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             <div onclick="showSection('app-citas')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
-                <div class="text-center mb-4"><i class="fa-solid fa-calendar-check text-4xl text-fisioAccent"></i></div>
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-calendar-check text-4xl text-fisioAccent group-hover:scale-110 transition"></i>
+                </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Reserva de Citas</h3>
                 <p class="text-sm text-center text-fisioSub">Agenda tu sesión.</p>
             </div>
             
             <div onclick="checkAuth('staff')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioPrimary group hover:-translate-y-1">
-                <div class="text-center mb-4"><i class="fa-solid fa-cash-register text-4xl text-fisioPrimary"></i></div>
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-cash-register text-4xl text-fisioPrimary group-hover:scale-110 transition"></i>
+                </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Control Interno</h3>
                 <p class="text-sm text-center text-fisioSub">Acceso Staff.</p>
             </div>
             
             <div onclick="checkAuth('staff_historia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
-                <div class="text-center mb-4"><i class="fa-solid fa-file-medical-alt text-4xl text-fisioAccent"></i></div>
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-file-medical-alt text-4xl text-fisioAccent group-hover:scale-110 transition"></i>
+                </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Historias Clínicas</h3>
                 <p class="text-sm text-center text-fisioSub">Evolución.</p>
             </div>
             
             <div onclick="checkAuth('gerencia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioText group hover:-translate-y-1">
-                <div class="text-center mb-4"><i class="fa-solid fa-chart-pie text-4xl text-fisioText"></i></div>
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-chart-pie text-4xl text-fisioText group-hover:scale-110 transition"></i>
+                </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Gerencia</h3>
                 <p class="text-sm text-center text-fisioSub">Reportes.</p>
             </div>
@@ -123,13 +149,16 @@
 
                 <div class="mb-8">
                     <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2">Detalles del Servicio</label>
+                    
                     <select id="cita-servicio" onchange="configurarDuracion()" required class="w-full p-4 bg-fisioBg rounded-lg border-2 border-transparent focus:border-fisioPrimary outline-none font-bold text-fisioPrimary mb-4">
                         <option value="" disabled selected>-- Selecciona un Servicio --</option>
+                        
                         <optgroup label="Masajes Terapéuticos">
                             <option value="Masaje Relajante" data-tipo="variable">Masaje Relajante</option>
                             <option value="Masaje Descontracturante" data-tipo="variable">Masaje Descontracturante</option>
                             <option value="Masaje Xpress" data-tipo="variable">Masaje Xpress (Zonas Dolorosas)</option>
                         </optgroup>
+                        
                         <optgroup label="Especializados">
                             <option value="Masaje Deportivo" data-tipo="fijo">Masaje Deportivo</option>
                             <option value="Drenaje Linfático" data-tipo="fijo">Drenaje Linfático</option>
@@ -145,7 +174,9 @@
                     <div id="div-fecha-hora" class="hidden fade-in">
                         <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2"><i class="fa-solid fa-clock"></i> Fecha y Hora</label>
                         <input type="date" id="cita-fecha" onchange="cargarHorarios()" required class="p-4 bg-fisioBg rounded-lg w-full mb-4 outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
+                        
                         <div id="loading-slots" class="hidden text-center text-fisioAccent font-bold py-4"><i class="fa-solid fa-spinner fa-spin"></i> Buscando horarios disponibles...</div>
+                        
                         <div id="slots-container" class="grid grid-cols-3 md:grid-cols-4 gap-3"></div>
                         <input type="hidden" id="cita-hora-seleccionada" required>
                     </div>
@@ -284,19 +315,25 @@
     </div>
 
     <script>
-        // --- URL ACTUALIZADA Y FINAL ---
-        const API_URL = 'https://script.google.com/macros/s/AKfycbzHkW2545s9BT8Tw_ZIfqO3kKHMHtFpWbSA3W-rnOzRere9-AgXzdvS1F1uWQ7n9moEzg/exec';
+        // --- URL NUEVA INTEGRADA CON EL FIX DE IPHONE ---
+        const API_URL = 'https://script.google.com/macros/s/AKfycby3pA-vYA8s5RIKFOUtRLSRPFFhZi2N2gxNjukdJlvpIeFj1iQDLjyPQl_ZsRNRm37mnA/exec';
 
         let currentTarget = '';
         let staffUser = 'Staff';
 
-        // --- MANEJO DE VISTAS ---
+        // --- SISTEMA GENERAL ---
+        document.addEventListener('DOMContentLoaded', () => {
+             const hoy = new Date().toISOString().split('T')[0];
+             if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
+        });
+
         function showSection(id) {
             document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none');
             document.getElementById(id).style.display = 'block';
             window.scrollTo(0,0);
         }
 
+        // --- AUTH ---
         function checkAuth(target) {
             currentTarget = target;
             document.getElementById('modal-auth').classList.remove('hidden');
@@ -315,14 +352,14 @@
             } else { alert('⛔ Clave incorrecta'); }
         }
 
-        // --- LÓGICA DE CITAS (CON ANTI-CACHÉ) ---
+        // --- CITAS (CON FIX IPHONE) ---
         function configuringDuracion() {
             const servicioSelect = document.getElementById('cita-servicio');
             const duracionSelect = document.getElementById('cita-duracion');
             const divDuracion = document.getElementById('div-duracion');
             const divFechaHora = document.getElementById('div-fecha-hora');
 
-            // Limpieza
+            // Reset visual
             duracionSelect.innerHTML = '';
             document.getElementById('slots-container').innerHTML = '';
             
@@ -349,7 +386,6 @@
                 if(document.getElementById('cita-fecha').value) cargarHorarios();
             }
         }
-        // Alias para onclick HTML
         window.configurarDuracion = configuringDuracion;
 
         function cargarHorarios() {
@@ -369,18 +405,19 @@
 
             loading.classList.remove('hidden');
 
-            // *** AQUÍ ESTÁ LA SOLUCIÓN IPHONE ***
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+            // --- FIX IPHONE: Timestamp + no-store header ---
+            const uniqueUrl = `${API_URL}?nocache=${new Date().getTime()}`;
 
-            fetch(urlConTimestamp, {
+            fetch(uniqueUrl, {
                 method: 'POST',
-                cache: 'no-store', // Obligatorio para Safari
+                cache: 'no-store', // CLAVE PARA IPHONE
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({ action: 'obtenerHorarios', fecha: fecha, duracionLogica: duracionCheck })
             })
             .then(r => r.json())
             .then(data => {
                 loading.classList.add('hidden');
+                
                 if (data.error) {
                     container.innerHTML = `<div class="text-red-500 font-bold col-span-full text-center p-4 bg-red-100 rounded-lg border border-red-300">${data.error}</div>`;
                     return;
@@ -401,7 +438,7 @@
                     container.appendChild(div);
                 });
             })
-            .catch(() => {
+            .catch(error => {
                 loading.classList.add('hidden');
                 container.innerHTML = `<div class="text-red-500 font-bold col-span-full text-center">Error de conexión.</div>`;
             });
@@ -412,7 +449,8 @@
             const hora = document.getElementById('cita-hora-seleccionada').value;
             const duracionSelect = document.getElementById('cita-duracion');
             
-            if (!hora) { alert("⚠️ Selecciona un horario."); return; }
+            if (!hora) { alert("⚠️ Por favor selecciona un horario."); return; }
+            if (!duracionSelect.value) { alert("⚠️ Por favor selecciona la duración."); return; }
 
             const btn = document.getElementById('btn-cita');
             const originalHtml = btn.innerHTML;
@@ -431,9 +469,10 @@
                 servicio: document.getElementById('cita-servicio').value
             };
 
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+            // FIX IPHONE en el envío también
+            const uniqueUrl = `${API_URL}?nocache=${new Date().getTime()}`;
 
-            fetch(urlConTimestamp, { 
+            fetch(uniqueUrl, { 
                 method: 'POST', 
                 cache: 'no-store',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -442,30 +481,31 @@
             .then(r => r.json())
             .then(result => {
                 if (result.status === 'success') {
-                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\nFecha: ${result.fecha} a las ${data.hora}.\nRevisa tu correo.`);
+                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\nSe ha agendado para el ${result.fecha} a las ${data.hora}.\nRevisa tu correo.`);
                     e.target.reset(); 
                     document.getElementById('slots-container').innerHTML = '';
                     document.getElementById('div-duracion').classList.add('hidden');
                     document.getElementById('div-fecha-hora').classList.add('hidden');
                     showSection('home');
                 } else if (result.status === 'error') {
-                    // ERROR DE CONFLICTO DETECTADO
-                    alert(result.message);
+                    // AQUÍ MOSTRAMOS EL ERROR DE BLOQUEO DE HORARIO
+                    alert(`⚠️ ${result.message}`);
                     cargarHorarios();
                 } else {
-                     alert(`❌ Error: ${result.message}`);
+                     alert(`❌ Error al confirmar cita. Inténtalo de nuevo.`);
                 }
             })
             .catch(() => alert('Error de conexión.'))
             .finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
         }
 
-        // --- LÓGICA STAFF ---
+        // --- STAFF / VENTAS ---
         function setStaffMode(mode) {
             const isAnulacion = mode === 'anulacion';
             document.getElementById('venta-estado').value = isAnulacion ? 'Anulación' : 'Venta';
             document.getElementById('div-anulacion-motivo').classList.toggle('hidden', !isAnulacion);
             document.getElementById('anulacion-motivo').required = isAnulacion;
+            
             const btn = document.getElementById('btn-venta');
             if(isAnulacion) {
                 btn.className = 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow text-lg transition';
@@ -499,21 +539,19 @@
                 origen: document.getElementById('anulacion-motivo').value || 'Venta' 
             };
 
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
-
-            fetch(urlConTimestamp, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
+            const uniqueUrl = `${API_URL}?nocache=${new Date().getTime()}`;
+            fetch(uniqueUrl, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
             .then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); })
             .finally(() => { btn.innerHTML = 'REGISTRAR'; btn.disabled = false; });
         }
 
-        // --- LÓGICA FINANZAS ---
+        // --- GERENCIA ---
         function cargarFinanzas() {
             const tbody = document.getElementById('tabla-resumen-body');
             tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center italic text-gray-400">Cargando datos...</td></tr>';
             
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
-
-            fetch(urlConTimestamp, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
+            const uniqueUrl = `${API_URL}?nocache=${new Date().getTime()}`;
+            fetch(uniqueUrl, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
             .then(r => r.json())
             .then(d => {
                 document.getElementById('kpi-ingresos').innerText = `S/ ${d.ingresos}`;
@@ -526,24 +564,16 @@
             });
         }
 
-        // --- LÓGICA HISTORIAS (FRONTEND) ---
+        // --- HISTORIAS ---
         function guardarHistoria(e) {
             e.preventDefault();
-            // Nota: La lógica completa de backend para historias no estaba en la versión original, 
-            // pero el formulario es funcional visualmente.
-            alert('✅ Evolución guardada (Simulación).');
+            alert('✅ Evolución guardada (Simulación Frontend).');
             e.target.reset();
         }
         function buscarHistoria() {
             const term = document.getElementById('historia-search').value;
-            alert('🔍 Buscando: ' + term);
+            alert('🔍 Buscando historial para: ' + term);
         }
-
-        // INICIALIZACIÓN
-        document.addEventListener('DOMContentLoaded', () => {
-             const hoy = new Date().toISOString().split('T')[0];
-             if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
-        });
     </script>
 </body>
 </html>
