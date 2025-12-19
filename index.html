@@ -6,22 +6,19 @@
     <title>FisioXpress | Plataforma Integral</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
-                fontFamily: {
-                    'sans': ['Montserrat', 'sans-serif'],
-                },
+                fontFamily: { 'sans': ['Montserrat', 'sans-serif'] },
                 extend: {
                     colors: {
-                        fisioPrimary: '#2A7C78',      // Deep Teal
+                        fisioPrimary: '#2A7C78',
                         fisioPrimaryHover: '#4CA6A1', 
-                        fisioAccent: '#F2911B',       // Vibrant Orange
-                        fisioText: '#333333',         
-                        fisioSub: '#666666',          
-                        fisioBg: '#F4F8F8',           // Mint/Off-White
+                        fisioAccent: '#F2911B',
+                        fisioText: '#333333',
+                        fisioSub: '#666666',
+                        fisioBg: '#F4F8F8'
                     }
                 }
             }
@@ -32,31 +29,13 @@
         .hidden-section { display: none; }
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
         body { background-color: #F4F8F8; color: #333333; }
-        
-        .btn-action {
-            background-color: #F2911B;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2);
-        }
-        .btn-action:hover {
-            background-color: #D98218;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3);
-        }
-
-        .time-slot {
-            border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: white;
-        }
+        .btn-action { background-color: #F2911B; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2); }
+        .btn-action:hover { background-color: #D98218; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3); }
+        .time-slot { border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: white; }
         .time-slot:hover { border-color: #2A7C78; color: #2A7C78; }
         .time-slot.selected { background-color: #2A7C78; color: white; border-color: #2A7C78; font-weight: bold; }
-        
-        select:disabled {
-            background-color: #e2e8f0;
-            cursor: not-allowed;
-            color: #555;
-        }
+        select:disabled { background-color: #e2e8f0; cursor: not-allowed; color: #555; }
     </style>
 </head>
 <body class="antialiased">
@@ -64,8 +43,13 @@
     <nav class="bg-fisioPrimary text-white p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
+                <div class="relative group">
+                    <img src="https://lh3.googleusercontent.com/d/1-Oryehjw29qzgFZo9mIpWB-HpldPkNQx" 
+                         onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063176.png'" 
+                         alt="Logo FisioXpress" 
+                         class="h-12 w-12 rounded-full border-2 border-white bg-white object-cover shadow-sm group-hover:scale-105 transition">
+                </div>
                 <span class="text-xl font-extrabold tracking-wide hidden md:block">FISIO<span class="text-fisioAccent">XPRESS</span></span>
-                <span class="text-xl font-extrabold tracking-wide md:hidden">FX</span>
             </div>
             
             <button onclick="showSection('home')" class="text-sm bg-white bg-opacity-10 hover:bg-white hover:text-fisioPrimary border border-white/30 text-white px-5 py-2 rounded-full transition font-bold flex items-center gap-2">
@@ -83,32 +67,32 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             <div onclick="showSection('app-citas')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
-                <div class="text-center mb-4">
-                    <i class="fa-solid fa-calendar-check text-4xl text-fisioAccent group-hover:scale-110 transition"></i>
+                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioAccent transition duration-300">
+                    <i class="fa-solid fa-calendar-check text-3xl text-fisioAccent group-hover:text-white transition"></i>
                 </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Reserva de Citas</h3>
                 <p class="text-sm text-center text-fisioSub">Agenda tu sesión.</p>
             </div>
             
             <div onclick="checkAuth('staff')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioPrimary group hover:-translate-y-1">
-                <div class="text-center mb-4">
-                    <i class="fa-solid fa-cash-register text-4xl text-fisioPrimary group-hover:scale-110 transition"></i>
+                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioPrimary transition duration-300">
+                    <i class="fa-solid fa-cash-register text-3xl text-fisioPrimary group-hover:text-white transition"></i>
                 </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Control Interno</h3>
                 <p class="text-sm text-center text-fisioSub">Acceso Staff.</p>
             </div>
             
             <div onclick="checkAuth('staff_historia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
-                <div class="text-center mb-4">
-                    <i class="fa-solid fa-file-medical-alt text-4xl text-fisioAccent group-hover:scale-110 transition"></i>
+                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioAccent transition duration-300">
+                    <i class="fa-solid fa-file-medical-alt text-3xl text-fisioAccent group-hover:text-white transition"></i>
                 </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Historias Clínicas</h3>
                 <p class="text-sm text-center text-fisioSub">Evolución.</p>
             </div>
             
             <div onclick="checkAuth('gerencia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioText group hover:-translate-y-1">
-                <div class="text-center mb-4">
-                    <i class="fa-solid fa-chart-pie text-4xl text-fisioText group-hover:scale-110 transition"></i>
+                <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioText transition duration-300">
+                    <i class="fa-solid fa-chart-pie text-3xl text-fisioText group-hover:text-white transition"></i>
                 </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Gerencia</h3>
                 <p class="text-sm text-center text-fisioSub">Reportes.</p>
@@ -119,12 +103,10 @@
     <div id="app-citas" class="hidden-section container mx-auto p-4 max-w-2xl fade-in pb-20 pt-10">
         <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-3 bg-fisioPrimary"></div>
-            
             <h2 class="text-3xl font-extrabold text-fisioPrimary mb-2 text-center">Agendar Cita</h2>
             <p class="text-center text-fisioSub mb-8 text-sm">Reserva tu momento de bienestar.</p>
 
             <form id="form-cita" onsubmit="enviarCita(event)">
-                
                 <div class="mb-6">
                     <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2">Datos Personales</label>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -133,32 +115,27 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <select id="cita-doc-tipo" class="p-4 bg-fisioBg rounded-lg outline-none text-fisioText font-medium">
-                            <option>DNI</option>
-                            <option>C.E.</option>
-                            <option>PASAPORTE</option>
+                            <option>DNI</option><option>C.E.</option><option>PASAPORTE</option>
                         </select>
                         <input type="text" id="cita-doc-num" placeholder="Documento" required class="p-4 col-span-2 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
                     </div>
                     <div class="mb-4">
-                         <input type="tel" id="cita-whatsapp" placeholder="WhatsApp (Ej: 999888777)" required class="w-full p-4 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary mb-4 text-fisioText">
+                         <input type="tel" id="cita-whatsapp" placeholder="WhatsApp" required class="w-full p-4 bg-fisioBg rounded-lg outline-none focus:ring-2 focus:ring-fisioPrimary mb-4 text-fisioText">
                     </div>
                     <div class="mb-4">
-                        <input type="email" id="cita-email" placeholder="Correo Electrónico" required class="w-full p-4 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
+                        <input type="email" id="cita-email" placeholder="Correo Electrónico" required class="w-full p-4 bg-fisioBg rounded-lg outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
                     </div>
                 </div>
 
                 <div class="mb-8">
                     <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2">Detalles del Servicio</label>
-                    
                     <select id="cita-servicio" onchange="configurarDuracion()" required class="w-full p-4 bg-fisioBg rounded-lg border-2 border-transparent focus:border-fisioPrimary outline-none font-bold text-fisioPrimary mb-4">
                         <option value="" disabled selected>-- Selecciona un Servicio --</option>
-                        
                         <optgroup label="Masajes Terapéuticos">
                             <option value="Masaje Relajante" data-tipo="variable">Masaje Relajante</option>
                             <option value="Masaje Descontracturante" data-tipo="variable">Masaje Descontracturante</option>
                             <option value="Masaje Xpress" data-tipo="variable">Masaje Xpress (Zonas Dolorosas)</option>
                         </optgroup>
-                        
                         <optgroup label="Especializados">
                             <option value="Masaje Deportivo" data-tipo="fijo">Masaje Deportivo</option>
                             <option value="Drenaje Linfático" data-tipo="fijo">Drenaje Linfático</option>
@@ -167,24 +144,21 @@
                     </select>
 
                     <div id="div-duracion" class="mb-4 hidden fade-in">
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Duración de la Sesión</label>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Duración</label>
                         <select id="cita-duracion" onchange="cargarHorarios()" required class="w-full p-4 bg-white border-2 border-fisioPrimary rounded-lg outline-none font-bold text-fisioText"></select>
+                        <p id="msg-duracion-fija" class="text-xs text-fisioAccent mt-1 hidden"><i class="fa-solid fa-info-circle"></i> Este servicio requiere una sesión de 60 minutos.</p>
                     </div>
 
                     <div id="div-fecha-hora" class="hidden fade-in">
-                        <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2"><i class="fa-solid fa-clock"></i> Fecha y Hora</label>
+                        <label class="block text-xs font-bold text-fisioPrimary uppercase tracking-wider mb-2">Fecha y Hora</label>
                         <input type="date" id="cita-fecha" onchange="cargarHorarios()" required class="p-4 bg-fisioBg rounded-lg w-full mb-4 outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
-                        
                         <div id="loading-slots" class="hidden text-center text-fisioAccent font-bold py-4"><i class="fa-solid fa-spinner fa-spin"></i> Buscando horarios disponibles...</div>
-                        
                         <div id="slots-container" class="grid grid-cols-3 md:grid-cols-4 gap-3"></div>
                         <input type="hidden" id="cita-hora-seleccionada" required>
                     </div>
                 </div>
 
-                <button type="submit" id="btn-cita" class="btn-action w-full text-white font-extrabold py-4 rounded-lg text-lg flex items-center justify-center gap-2">
-                    CONFIRMAR RESERVA <i class="fa-solid fa-arrow-right"></i>
-                </button>
+                <button type="submit" id="btn-cita" class="btn-action w-full text-white font-extrabold py-4 rounded-lg text-lg flex items-center justify-center gap-2">CONFIRMAR RESERVA <i class="fa-solid fa-arrow-right"></i></button>
             </form>
         </div>
     </div>
@@ -201,7 +175,6 @@
             
             <form id="form-venta" onsubmit="registrarVenta(event)">
                 <input type="hidden" id="venta-estado" value="Venta">
-                
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <select id="venta-terapeuta" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required>
                         <option value="">Terapeuta...</option><option>Ana Pisfil</option><option>Isabel Barriga</option><option>Carmen Rodriguez</option>
@@ -211,29 +184,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <input type="date" id="venta-fecha" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required>
                     <select id="venta-servicio" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required onchange="autoPrice(this)">
-                        <option value="">Servicio...</option>
-                        <option data-price="30">Masaje 30min (S/30)</option>
-                        <option data-price="45">Masaje 45min (S/45)</option>
-                        <option data-price="80">Paquete 3 Ses (S/80)</option>
-                        <option data-price="700">Paquete 10 Fisio (S/700)</option>
-                        <option value="custom">Otro</option>
+                        <option value="">Servicio...</option><option data-price="30">Masaje 30min (S/30)</option><option data-price="45">Masaje 45min (S/45)</option><option data-price="80">Paquete 3 Ses (S/80)</option><option data-price="700">Paquete 10 Fisio (S/700)</option><option value="custom">Otro</option>
                     </select>
                     <select id="venta-pago" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required><option>YAPE/PLIN</option><option>EFECTIVO</option><option>TARJETA</option></select>
                 </div>
-                
                 <div class="mb-6 flex justify-between items-center bg-fisioBg p-4 rounded-lg border border-gray-200">
                     <span class="font-bold text-fisioPrimary">MONTO TOTAL (S/)</span>
                     <input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-32 p-2 text-right font-bold text-2xl text-fisioPrimary bg-white rounded border border-gray-200 outline-none" required>
                 </div>
-                
                 <div id="div-anulacion-motivo" class="hidden mb-6 bg-red-50 p-4 rounded-lg border border-red-200">
                     <label class="text-red-700 font-bold block mb-2">Motivo de Anulación:</label>
                     <input type="text" id="anulacion-motivo" placeholder="Ej: Error digitación" class="w-full p-3 border border-red-300 rounded-lg bg-white">
                 </div>
-                
-                <button type="submit" id="btn-venta" class="btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-save"></i> REGISTRAR
-                </button>
+                <button type="submit" id="btn-venta" class="btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg flex items-center justify-center gap-2"><i class="fa-solid fa-save"></i> REGISTRAR</button>
             </form>
         </div>
     </div>
@@ -246,7 +209,6 @@
                 <button onclick="buscarHistoria()" class="bg-fisioPrimary hover:bg-fisioPrimaryHover text-white px-6 py-4 rounded-lg font-bold transition shadow-md">Buscar</button>
             </div>
             <div id="resultados-historia" class="hidden mb-6 p-4 border rounded bg-gray-50 text-fisioText"></div>
-            
             <div class="border-t border-gray-200 pt-6">
                 <h3 class="font-bold mb-4 text-fisioPrimary text-lg"><i class="fa-solid fa-file-pen"></i> Nueva Evolución</h3>
                 <form onsubmit="guardarHistoria(event)">
@@ -315,23 +277,11 @@
     </div>
 
     <script>
-        // --- URL NUEVA INTEGRADA CON EL FIX DE IPHONE ---
+        // --- URL FINAL CON EL FIX DE IPHONE Y TU ID ---
         const API_URL = 'https://script.google.com/macros/s/AKfycby3pA-vYA8s5RIKFOUtRLSRPFFhZi2N2gxNjukdJlvpIeFj1iQDLjyPQl_ZsRNRm37mnA/exec';
 
         let currentTarget = '';
         let staffUser = 'Staff';
-
-        // --- SISTEMA GENERAL ---
-        document.addEventListener('DOMContentLoaded', () => {
-             const hoy = new Date().toISOString().split('T')[0];
-             if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
-        });
-
-        function showSection(id) {
-            document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-            window.scrollTo(0,0);
-        }
 
         // --- AUTH ---
         function checkAuth(target) {
@@ -352,25 +302,22 @@
             } else { alert('⛔ Clave incorrecta'); }
         }
 
-        // --- CITAS (CON FIX IPHONE) ---
+        // --- LOGICA DE CITAS ---
         function configuringDuracion() {
             const servicioSelect = document.getElementById('cita-servicio');
             const duracionSelect = document.getElementById('cita-duracion');
             const divDuracion = document.getElementById('div-duracion');
             const divFechaHora = document.getElementById('div-fecha-hora');
+            const msgFijo = document.getElementById('msg-duracion-fija');
 
-            // Reset visual
             duracionSelect.innerHTML = '';
             document.getElementById('slots-container').innerHTML = '';
             
             if(!servicioSelect.value) {
-                divDuracion.classList.add('hidden');
-                divFechaHora.classList.add('hidden');
-                return;
+                divDuracion.classList.add('hidden'); divFechaHora.classList.add('hidden'); return;
             }
 
-            divDuracion.classList.remove('hidden');
-            divFechaHora.classList.remove('hidden');
+            divDuracion.classList.remove('hidden'); divFechaHora.classList.remove('hidden');
 
             const opcion = servicioSelect.options[servicioSelect.selectedIndex];
             const tipo = opcion.getAttribute('data-tipo');
@@ -380,9 +327,11 @@
                 duracionSelect.innerHTML = '<option value="" disabled selected>-- Elige tiempo --</option>';
                 opts.forEach(t => { duracionSelect.innerHTML += `<option value="${t}">${t} Minutos</option>`; });
                 duracionSelect.disabled = false;
+                msgFijo.classList.add('hidden');
             } else {
                 duracionSelect.innerHTML = '<option value="60" selected>60 Minutos</option>';
                 duracionSelect.disabled = true; 
+                msgFijo.classList.remove('hidden');
                 if(document.getElementById('cita-fecha').value) cargarHorarios();
             }
         }
@@ -396,21 +345,21 @@
             const loading = document.getElementById('loading-slots');
 
             document.getElementById('cita-hora-seleccionada').value = "";
-            container.innerHTML = '';
-
-            if (!fecha || !tiempo) return;
+            
+            if (!fecha || !tiempo) { container.innerHTML = ''; return; }
 
             let duracionCheck = parseInt(tiempo);
             if (duracionCheck === 45) duracionCheck = 60; 
 
             loading.classList.remove('hidden');
+            container.innerHTML = '';
 
-            // --- FIX IPHONE: Timestamp + no-store header ---
-            const uniqueUrl = `${API_URL}?nocache=${new Date().getTime()}`;
+            // *** FIX IPHONE: nocache ***
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
 
-            fetch(uniqueUrl, {
+            fetch(urlConTimestamp, {
                 method: 'POST',
-                cache: 'no-store', // CLAVE PARA IPHONE
+                cache: 'no-store',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({ action: 'obtenerHorarios', fecha: fecha, duracionLogica: duracionCheck })
             })
@@ -449,8 +398,7 @@
             const hora = document.getElementById('cita-hora-seleccionada').value;
             const duracionSelect = document.getElementById('cita-duracion');
             
-            if (!hora) { alert("⚠️ Por favor selecciona un horario."); return; }
-            if (!duracionSelect.value) { alert("⚠️ Por favor selecciona la duración."); return; }
+            if (!hora) { alert("⚠️ Selecciona un horario."); return; }
 
             const btn = document.getElementById('btn-cita');
             const originalHtml = btn.innerHTML;
@@ -469,10 +417,9 @@
                 servicio: document.getElementById('cita-servicio').value
             };
 
-            // FIX IPHONE en el envío también
-            const uniqueUrl = `${API_URL}?nocache=${new Date().getTime()}`;
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
 
-            fetch(uniqueUrl, { 
+            fetch(urlConTimestamp, { 
                 method: 'POST', 
                 cache: 'no-store',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -481,31 +428,38 @@
             .then(r => r.json())
             .then(result => {
                 if (result.status === 'success') {
-                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\nSe ha agendado para el ${result.fecha} a las ${data.hora}.\nRevisa tu correo.`);
+                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\nFecha: ${result.fecha} a las ${data.hora}.\nRevisa tu correo.`);
                     e.target.reset(); 
                     document.getElementById('slots-container').innerHTML = '';
                     document.getElementById('div-duracion').classList.add('hidden');
                     document.getElementById('div-fecha-hora').classList.add('hidden');
                     showSection('home');
                 } else if (result.status === 'error') {
-                    // AQUÍ MOSTRAMOS EL ERROR DE BLOQUEO DE HORARIO
                     alert(`⚠️ ${result.message}`);
                     cargarHorarios();
                 } else {
-                     alert(`❌ Error al confirmar cita. Inténtalo de nuevo.`);
+                     alert(`❌ Error al confirmar cita.`);
                 }
             })
             .catch(() => alert('Error de conexión.'))
             .finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
         }
 
-        // --- STAFF / VENTAS ---
+        // --- SISTEMA GENERAL ---
+        document.addEventListener('DOMContentLoaded', () => {
+             const hoy = new Date().toISOString().split('T')[0];
+             if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
+        });
+        function showSection(id) {
+            document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            window.scrollTo(0,0);
+        }
         function setStaffMode(mode) {
             const isAnulacion = mode === 'anulacion';
             document.getElementById('venta-estado').value = isAnulacion ? 'Anulación' : 'Venta';
             document.getElementById('div-anulacion-motivo').classList.toggle('hidden', !isAnulacion);
             document.getElementById('anulacion-motivo').required = isAnulacion;
-            
             const btn = document.getElementById('btn-venta');
             if(isAnulacion) {
                 btn.className = 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow text-lg transition';
@@ -515,17 +469,14 @@
                 btn.innerHTML = 'REGISTRAR';
             }
         }
-
         function autoPrice(select) {
             const price = select.options[select.selectedIndex].getAttribute('data-price');
             if(price) document.getElementById('venta-monto').value = price;
         }
-
         function registrarVenta(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-venta');
             btn.innerText = 'Guardando...'; btn.disabled = true;
-            
             const data = {
                 action: 'registrarVenta',
                 usuarioLogueado: staffUser,
@@ -538,20 +489,16 @@
                 estado: document.getElementById('venta-estado').value,
                 origen: document.getElementById('anulacion-motivo').value || 'Venta' 
             };
-
-            const uniqueUrl = `${API_URL}?nocache=${new Date().getTime()}`;
-            fetch(uniqueUrl, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+            fetch(urlConTimestamp, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
             .then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); })
             .finally(() => { btn.innerHTML = 'REGISTRAR'; btn.disabled = false; });
         }
-
-        // --- GERENCIA ---
         function cargarFinanzas() {
             const tbody = document.getElementById('tabla-resumen-body');
             tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center italic text-gray-400">Cargando datos...</td></tr>';
-            
-            const uniqueUrl = `${API_URL}?nocache=${new Date().getTime()}`;
-            fetch(uniqueUrl, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
+            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
+            fetch(urlConTimestamp, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
             .then(r => r.json())
             .then(d => {
                 document.getElementById('kpi-ingresos').innerText = `S/ ${d.ingresos}`;
@@ -563,17 +510,8 @@
                 });
             });
         }
-
-        // --- HISTORIAS ---
-        function guardarHistoria(e) {
-            e.preventDefault();
-            alert('✅ Evolución guardada (Simulación Frontend).');
-            e.target.reset();
-        }
-        function buscarHistoria() {
-            const term = document.getElementById('historia-search').value;
-            alert('🔍 Buscando historial para: ' + term);
-        }
+        function guardarHistoria(e) { e.preventDefault(); alert('✅ Evolución guardada (Simulación Frontend).'); e.target.reset(); }
+        function buscarHistoria() { const term = document.getElementById('historia-search').value; alert('🔍 Buscando historial para: ' + term); }
     </script>
 </body>
 </html>
