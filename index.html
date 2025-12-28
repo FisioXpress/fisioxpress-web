@@ -13,33 +13,64 @@
                 fontFamily: { 'sans': ['Montserrat', 'sans-serif'] },
                 extend: {
                     colors: {
-                        fisioPrimary: '#2A7C78',
-                        fisioPrimaryHover: '#4CA6A1', 
-                        fisioAccent: '#F2911B',
-                        fisioText: '#333333',
-                        fisioSub: '#666666',
-                        fisioBg: '#F4F8F8'
+                        fisioPrimary: '#2A7C78',       // Verde Corporativo
+                        fisioPrimaryHover: '#4CA6A1',  // Verde Claro (Hover)
+                        fisioAccent: '#F2911B',        // Naranja Acento
+                        fisioText: '#333333',          // Texto Principal
+                        fisioSub: '#666666',           // Texto Secundario
+                        fisioBg: '#F4F8F8'             // Fondo Suave
                     }
                 }
             }
         }
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
         .hidden-section { display: none; }
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
         body { background-color: #F4F8F8; color: #333333; }
         
-        .btn-action { background-color: #F2911B; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2); }
-        .btn-action:hover { background-color: #D98218; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3); }
+        /* Botones de acción principal */
+        .btn-action { 
+            background-color: #F2911B; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2); 
+        }
+        .btn-action:hover { 
+            background-color: #D98218; 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3); 
+        }
         
-        .time-slot { border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: white; }
-        .time-slot:hover { border-color: #2A7C78; color: #2A7C78; }
-        .time-slot.selected { background-color: #2A7C78; color: white; border-color: #2A7C78; font-weight: bold; }
+        /* Casillas de Horarios */
+        .time-slot { 
+            border: 2px solid #ddd; 
+            border-radius: 8px; 
+            padding: 10px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            background: white; 
+        }
+        .time-slot:hover { 
+            border-color: #2A7C78; 
+            color: #2A7C78; 
+        }
+        .time-slot.selected { 
+            background-color: #2A7C78; 
+            color: white; 
+            border-color: #2A7C78; 
+            font-weight: bold; 
+        }
         
-        select:disabled { background-color: #e2e8f0; cursor: not-allowed; color: #555; }
-        .tab-active { background-color: white; color: #2A7C78; border-bottom: 3px solid #2A7C78; }
+        select:disabled { 
+            background-color: #e2e8f0; 
+            cursor: not-allowed; 
+            color: #555; 
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -67,6 +98,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            
             <div onclick="showSection('app-citas')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
                 <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioAccent transition duration-300">
                     <i class="fa-solid fa-calendar-check text-3xl text-fisioAccent group-hover:text-white transition"></i>
@@ -114,12 +146,14 @@
                         <input type="text" id="cita-nombre" placeholder="Nombres" required class="p-4 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
                         <input type="text" id="cita-apellido" placeholder="Apellidos" required class="p-4 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
                     </div>
+                    
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <select id="cita-doc-tipo" class="p-4 bg-fisioBg rounded-lg outline-none text-fisioText font-medium">
                            <option>DNI</option><option>C.E.</option><option>PASAPORTE</option>
                         </select>
                         <input type="text" id="cita-doc-num" placeholder="Documento" required class="p-4 col-span-2 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
                     </div>
+                    
                     <div class="mb-4">
                          <input type="tel" id="cita-whatsapp" placeholder="WhatsApp" required class="w-full p-4 bg-fisioBg rounded-lg outline-none focus:ring-2 focus:ring-fisioPrimary mb-4 text-fisioText">
                     </div>
@@ -147,7 +181,6 @@
                     <div id="div-duracion" class="mb-4 hidden fade-in">
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Duración</label>
                         <select id="cita-duracion" onchange="cargarHorarios()" required class="w-full p-4 bg-white border-2 border-fisioPrimary rounded-lg outline-none font-bold text-fisioText"></select>
-                        <p id="msg-duracion-fija" class="text-xs text-fisioAccent mt-1 hidden"><i class="fa-solid fa-info-circle"></i> Este servicio requiere una sesión de 60 minutos.</p>
                     </div>
 
                     <div id="div-fecha-hora" class="hidden fade-in">
@@ -177,6 +210,7 @@
             
             <form id="form-venta" onsubmit="registrarVenta(event)">
                 <input type="hidden" id="venta-estado" value="Venta">
+                
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <select id="venta-terapeuta" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required>
                         <option value="">Terapeuta...</option><option>Ana Pisfil</option><option>Isabel Barriga</option><option>Carmen Rodriguez</option>
@@ -186,6 +220,7 @@
                         <button type="button" onclick="buscarPacienteVenta()" class="bg-fisioPrimary text-white px-4 rounded-lg font-bold"><i class="fa-solid fa-search"></i></button>
                     </div>
                 </div>
+                
                 <div class="mb-4">
                      <input type="text" id="venta-paciente" placeholder="Nombre del Paciente" class="p-3 bg-white border-2 border-fisioBg rounded-lg w-full outline-none text-fisioText font-bold" required>
                      <input type="hidden" id="venta-email"><input type="hidden" id="venta-celular">
@@ -198,14 +233,17 @@
                     </select>
                     <select id="venta-pago" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required><option>YAPE/PLIN</option><option>EFECTIVO</option><option>TARJETA</option></select>
                 </div>
+                
                 <div class="mb-6 flex justify-between items-center bg-fisioBg p-4 rounded-lg border border-gray-200">
                     <span class="font-bold text-fisioPrimary">MONTO TOTAL (S/)</span>
                     <input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-32 p-2 text-right font-bold text-2xl text-fisioPrimary bg-white rounded border border-gray-200 outline-none" required>
                 </div>
+                
                 <div id="div-anulacion-motivo" class="hidden mb-6 bg-red-50 p-4 rounded-lg border border-red-200">
                     <label class="text-red-700 font-bold block mb-2">Motivo de Anulación:</label>
                     <input type="text" id="anulacion-motivo" placeholder="Ej: Error digitación" class="w-full p-3 border border-red-300 rounded-lg bg-white">
                 </div>
+                
                 <button type="submit" id="btn-venta" class="btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg flex items-center justify-center gap-2"><i class="fa-solid fa-save"></i> REGISTRAR</button>
             </form>
 
@@ -301,13 +339,20 @@
     </div>
 
     <script>
-        // --- TU NUEVA URL DEL GOOGLE SHEET ---
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyB8ux3NH7ICOc2zSNchnla6QOFEFOLYNdM7g4pD16-719_beVsWESfHlMvmj7qE-gN8g/exec';
+        // --- TU NUEVA URL DEL GOOGLE SCRIPT ---
+        const API_URL = 'https://script.google.com/macros/s/AKfycbw33oK-7zZ594xhiiGwRVG3-4yf7eKytXlF1jWs0l0dxdSv-s89KBznGupkyABONtpTRA/exec';
 
         let currentTarget = '';
         let staffUser = 'Staff';
 
-        // --- AUTH ---
+        // --- SISTEMA DE NAVEGACIÓN ---
+        function showSection(id) { 
+            document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none'); 
+            document.getElementById(id).style.display = 'block'; 
+            window.scrollTo(0,0); 
+        }
+
+        // --- SISTEMA DE AUTENTICACIÓN ---
         function checkAuth(target) {
             currentTarget = target;
             document.getElementById('modal-auth').classList.remove('hidden');
@@ -326,19 +371,15 @@
             } else { alert('⛔ Clave incorrecta'); }
         }
 
-        // --- LOGICA CITAS ---
+        // --- LÓGICA DE CITAS ---
         function configuringDuracion() {
             const s = document.getElementById('cita-servicio'); const d = document.getElementById('cita-duracion'); d.innerHTML = '';
             document.getElementById('div-duracion').classList.remove('hidden'); document.getElementById('div-fecha-hora').classList.remove('hidden');
             const t = s.options[s.selectedIndex].getAttribute('data-tipo');
-            const msgFijo = document.getElementById('msg-duracion-fija');
-            document.getElementById('slots-container').innerHTML = '';
-
             if (t === 'variable') {
                 [30, 45, 60].forEach(v => d.innerHTML += `<option value="${v}">${v} Minutos</option>`);
-                d.disabled = false; msgFijo.classList.add('hidden');
             } else {
-                d.innerHTML = '<option value="60" selected>60 Minutos</option>'; d.disabled = true; msgFijo.classList.remove('hidden');
+                d.innerHTML = '<option value="60" selected>60 Minutos</option>'; 
                 if(document.getElementById('cita-fecha').value) cargarHorarios();
             }
         } window.configurarDuracion = configuringDuracion;
@@ -352,7 +393,6 @@
             
             loading.classList.remove('hidden'); container.innerHTML = '';
             
-            // Fix iPhone nocache
             fetch(`${API_URL}?nocache=${new Date().getTime()}`, { 
                 method: 'POST', body: JSON.stringify({ action: 'obtenerHorarios', fecha: f, duracionLogica: dCheck }) 
             })
@@ -373,30 +413,27 @@
             e.preventDefault(); const h = document.getElementById('cita-hora-seleccionada').value; if (!h) return alert("⚠️ Selecciona un horario.");
             const btn = document.getElementById('btn-cita'); const html = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Agendando...'; btn.disabled = true;
             
-            const data = { action: 'nuevaCita', nombres: document.getElementById('cita-nombre').value, apellidos: document.getElementById('cita-apellido').value, dni: document.getElementById('cita-doc-num').value, email: document.getElementById('cita-email').value, whatsapp: document.getElementById('cita-whatsapp').value, fecha: document.getElementById('cita-fecha').value, hora: h, duracionReal: document.getElementById('cita-duracion').value, servicio: document.getElementById('cita-servicio').value };
+            // CONCATENACIÓN CRÍTICA DE DNI
+            const dniFull = document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value;
+
+            const data = { action: 'nuevaCita', nombres: document.getElementById('cita-nombre').value, apellidos: document.getElementById('cita-apellido').value, dni: dniFull, email: document.getElementById('cita-email').value, whatsapp: document.getElementById('cita-whatsapp').value, fecha: document.getElementById('cita-fecha').value, hora: h, duracionReal: document.getElementById('cita-duracion').value, servicio: document.getElementById('cita-servicio').value };
             
             fetch(`${API_URL}?nocache=${new Date().getTime()}`, { method: 'POST', body: JSON.stringify(data) })
             .then(r => r.json())
             .then(result => {
                 if (result.status === 'success') { 
-                    // MENSAJE EMERGENTE CONFIRMACIÓN
-                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\n📅 Fecha: ${result.fecha}\n⏰ Hora: ${data.hora}\n\n📧 IMPORTANTE: Hemos enviado los detalles a tu correo. Por favor revísalo.`); 
+                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\n📅 Fecha: ${result.fecha}\n⏰ Hora: ${data.hora}\n\n📧 IMPORTANTE: Hemos enviado los detalles a tu correo.`); 
                     e.target.reset(); document.getElementById('slots-container').innerHTML = ''; showSection('home'); 
                 } 
                 else { alert(`⚠️ ${result.message}`); cargarHorarios(); }
             }).finally(() => { btn.innerHTML = html; btn.disabled = false; });
         }
 
-        // --- SISTEMA GENERAL ---
-        document.addEventListener('DOMContentLoaded', () => { if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; });
-        function showSection(id) { document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none'); document.getElementById(id).style.display = 'block'; window.scrollTo(0,0); }
-        
-        // --- STAFF LOGIC ---
+        // --- STAFF LOGIC (VENTAS Y ANULACIONES) ---
         function setStaffMode(mode) {
             const isAnulacion = mode === 'anulacion'; const isHistorial = mode === 'historial';
             const formVenta = document.getElementById('form-venta'); const viewHist = document.getElementById('staff-historial-view');
             
-            // Tabs styles
             ['venta','historial','anulacion'].forEach(t => document.getElementById(`tab-${t}`).className = 'flex-1 py-3 rounded-md font-bold text-fisioSub transition');
             document.getElementById(`tab-${mode}`).className = 'flex-1 py-3 rounded-md font-bold bg-white text-fisioPrimary shadow-sm transition';
 
@@ -408,8 +445,13 @@
                 document.getElementById('div-anulacion-motivo').classList.toggle('hidden', !isAnulacion);
                 document.getElementById('anulacion-motivo').required = isAnulacion;
                 const btn = document.getElementById('btn-venta');
-                if(isAnulacion) { btn.className = 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow text-lg transition'; btn.innerText = 'CONFIRMAR ANULACIÓN'; } 
-                else { btn.className = 'btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg transition'; btn.innerHTML = 'REGISTRAR'; }
+                if(isAnulacion) { 
+                    btn.className = 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow text-lg transition'; 
+                    btn.innerText = 'CONFIRMAR ANULACIÓN'; 
+                } else { 
+                    btn.className = 'btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg transition'; 
+                    btn.innerText = 'REGISTRAR'; 
+                }
             }
         }
 
@@ -424,7 +466,7 @@
         function registrarVenta(e) {
             e.preventDefault(); const btn = document.getElementById('btn-venta'); btn.innerText = 'Guardando...'; btn.disabled = true;
             const data = { action: 'registrarVenta', usuarioLogueado: staffUser, terapeuta: document.getElementById('venta-terapeuta').value, paciente: document.getElementById('venta-paciente').value, fechaSesion: document.getElementById('venta-fecha').value, servicio: document.getElementById('venta-servicio').value, monto: document.getElementById('venta-monto').value, medioPago: document.getElementById('venta-pago').value, estado: document.getElementById('venta-estado').value, origen: document.getElementById('anulacion-motivo').value || 'Venta', dni: document.getElementById('venta-dni').value, email: document.getElementById('venta-email').value, celular: document.getElementById('venta-celular').value };
-            fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify(data) }).then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); }).finally(() => { btn.innerHTML = 'REGISTRAR'; btn.disabled = false; });
+            fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify(data) }).then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); }).finally(() => { btn.innerText = 'REGISTRAR'; btn.disabled = false; });
         }
         function autoPrice(select) { const price = select.options[select.selectedIndex].getAttribute('data-price'); if(price) document.getElementById('venta-monto').value = price; }
 
@@ -446,6 +488,10 @@
         }
         function buscarHistoria() { buscarHistorial('historia-search', 'resultados-historia'); }
         function guardarHistoria(e) { e.preventDefault(); alert('✅ Evolución guardada (Simulación Frontend).'); e.target.reset(); }
+        
+        // --- INICIALIZACIÓN ---
+        document.addEventListener('DOMContentLoaded', () => { if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; });
+
     </script>
 </body>
 </html>
