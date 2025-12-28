@@ -30,12 +30,16 @@
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         body { background-color: #F4F8F8; color: #333333; }
+        
         .btn-action { background-color: #F2911B; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(242, 145, 27, 0.2); }
         .btn-action:hover { background-color: #D98218; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3); }
+        
         .time-slot { border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: white; }
         .time-slot:hover { border-color: #2A7C78; color: #2A7C78; }
         .time-slot.selected { background-color: #2A7C78; color: white; border-color: #2A7C78; font-weight: bold; }
+        
         select:disabled { background-color: #e2e8f0; cursor: not-allowed; color: #555; }
+        .tab-active { background-color: white; color: #2A7C78; border-bottom: 3px solid #2A7C78; }
     </style>
 </head>
 <body class="antialiased">
@@ -44,10 +48,7 @@
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
                 <div class="relative group">
-                    <img src="https://lh3.googleusercontent.com/d/1-Oryehjw29qzgFZo9mIpWB-HpldPkNQx" 
-                         onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063176.png'" 
-                         alt="Logo FisioXpress" 
-                         class="h-12 w-12 rounded-full border-2 border-white bg-white object-cover shadow-sm group-hover:scale-105 transition">
+                    <img src="https://lh3.googleusercontent.com/d/1-Oryehjw29qzgFZo9mIpWB-HpldPkNQx" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063176.png'" alt="Logo FisioXpress" class="h-12 w-12 rounded-full border-2 border-white bg-white object-cover shadow-sm group-hover:scale-105 transition">
                 </div>
                 <span class="text-xl font-extrabold tracking-wide hidden md:block">FISIO<span class="text-fisioAccent">XPRESS</span></span>
             </div>
@@ -115,7 +116,7 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <select id="cita-doc-tipo" class="p-4 bg-fisioBg rounded-lg outline-none text-fisioText font-medium">
-                            <option>DNI</option><option>C.E.</option><option>PASAPORTE</option>
+                           <option>DNI</option><option>C.E.</option><option>PASAPORTE</option>
                         </select>
                         <input type="text" id="cita-doc-num" placeholder="Documento" required class="p-4 col-span-2 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
                     </div>
@@ -170,6 +171,7 @@
             
             <div class="flex p-1 bg-gray-100 rounded-lg mb-6">
                 <button onclick="setStaffMode('venta')" id="tab-venta" class="flex-1 py-3 rounded-md font-bold bg-white text-fisioPrimary shadow-sm transition">Venta</button>
+                <button onclick="setStaffMode('historial')" id="tab-historial" class="flex-1 py-3 rounded-md font-bold text-fisioSub hover:text-fisioPrimary transition">Historial</button>
                 <button onclick="setStaffMode('anulacion')" id="tab-anulacion" class="flex-1 py-3 rounded-md font-bold text-fisioSub hover:text-red-500 transition">Anulación</button>
             </div>
             
@@ -179,8 +181,16 @@
                     <select id="venta-terapeuta" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required>
                         <option value="">Terapeuta...</option><option>Ana Pisfil</option><option>Isabel Barriga</option><option>Carmen Rodriguez</option>
                     </select>
-                    <input type="text" id="venta-paciente" placeholder="Paciente" class="p-3 bg-fisioBg rounded-lg w-full col-span-2 outline-none text-fisioText" required>
+                    <div class="col-span-2 flex gap-2">
+                        <input type="text" id="venta-dni" placeholder="DNI Paciente" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText">
+                        <button type="button" onclick="buscarPacienteVenta()" class="bg-fisioPrimary text-white px-4 rounded-lg font-bold"><i class="fa-solid fa-search"></i></button>
+                    </div>
                 </div>
+                <div class="mb-4">
+                     <input type="text" id="venta-paciente" placeholder="Nombre del Paciente" class="p-3 bg-white border-2 border-fisioBg rounded-lg w-full outline-none text-fisioText font-bold" required>
+                     <input type="hidden" id="venta-email"><input type="hidden" id="venta-celular">
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <input type="date" id="venta-fecha" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required>
                     <select id="venta-servicio" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required onchange="autoPrice(this)">
@@ -198,19 +208,31 @@
                 </div>
                 <button type="submit" id="btn-venta" class="btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg flex items-center justify-center gap-2"><i class="fa-solid fa-save"></i> REGISTRAR</button>
             </form>
+
+            <div id="staff-historial-view" class="hidden mt-4">
+                <div class="flex gap-2 mb-4">
+                   <input id="hist-dni-staff" placeholder="Buscar historial por DNI..." class="w-full p-3 border rounded">
+                   <button onclick="buscarHistorial('hist-dni-staff', 'tabla-historial-staff')" class="bg-fisioPrimary text-white px-4 rounded font-bold">VER</button>
+                </div>
+                <div id="tabla-historial-staff" class="text-sm text-gray-600"></div>
+            </div>
         </div>
     </div>
 
     <div id="app-historia" class="hidden-section container mx-auto p-4 max-w-5xl fade-in pb-20 pt-10">
         <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-fisioAccent">
             <h2 class="text-2xl font-bold text-fisioPrimary mb-6">Historias Clínicas</h2>
+            
             <div class="bg-fisioBg p-6 rounded-xl mb-6 flex gap-4 items-center border border-gray-100">
                 <input type="text" id="historia-search" placeholder="Buscar por DNI o Apellido" class="flex-grow p-4 bg-white rounded-lg border border-transparent focus:border-fisioAccent outline-none shadow-sm text-fisioText">
                 <button onclick="buscarHistoria()" class="bg-fisioPrimary hover:bg-fisioPrimaryHover text-white px-6 py-4 rounded-lg font-bold transition shadow-md">Buscar</button>
             </div>
+            
             <div id="resultados-historia" class="hidden mb-6 p-4 border rounded bg-gray-50 text-fisioText"></div>
+            
             <div class="border-t border-gray-200 pt-6">
                 <h3 class="font-bold mb-4 text-fisioPrimary text-lg"><i class="fa-solid fa-file-pen"></i> Nueva Evolución</h3>
+                
                 <form onsubmit="guardarHistoria(event)">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                         <input id="hc-dni" placeholder="DNI" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText" required>
@@ -243,6 +265,7 @@
             <h2 class="text-2xl font-bold text-fisioPrimary">Dashboard</h2>
             <button onclick="cargarFinanzas()" class="text-fisioAccent font-bold border border-fisioAccent px-6 py-2 rounded-full hover:bg-fisioAccent hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-sync"></i> Actualizar</button>
         </div>
+        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-green-500">
                 <p class="text-xs font-bold text-fisioSub uppercase tracking-widest">Ingresos</p>
@@ -257,6 +280,7 @@
                 <h3 id="kpi-utilidad" class="text-4xl font-extrabold mt-2 text-white">S/ ...</h3>
             </div>
         </div>
+        
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
             <div class="bg-fisioBg p-4 font-bold text-fisioPrimary border-b border-gray-200">Últimas Transacciones</div>
             <table class="w-full text-left">
@@ -277,8 +301,8 @@
     </div>
 
     <script>
-        // --- URL FINAL CON EL FIX DE IPHONE Y TU ID ---
-        const API_URL = 'https://script.google.com/macros/s/AKfycby3pA-vYA8s5RIKFOUtRLSRPFFhZi2N2gxNjukdJlvpIeFj1iQDLjyPQl_ZsRNRm37mnA/exec';
+        // --- TU NUEVA URL DEL GOOGLE SHEET ---
+        const API_URL = 'https://script.google.com/macros/s/AKfycbz98VpfaDkRy3UOU4s6Nmru3zCVvlhjyAJmyk0H8keo1IxX0buxt0fGanPaqiH-EWOP_g/exec';
 
         let currentTarget = '';
         let staffUser = 'Staff';
@@ -302,216 +326,126 @@
             } else { alert('⛔ Clave incorrecta'); }
         }
 
-        // --- LOGICA DE CITAS ---
+        // --- LOGICA CITAS ---
         function configuringDuracion() {
-            const servicioSelect = document.getElementById('cita-servicio');
-            const duracionSelect = document.getElementById('cita-duracion');
-            const divDuracion = document.getElementById('div-duracion');
-            const divFechaHora = document.getElementById('div-fecha-hora');
+            const s = document.getElementById('cita-servicio'); const d = document.getElementById('cita-duracion'); d.innerHTML = '';
+            document.getElementById('div-duracion').classList.remove('hidden'); document.getElementById('div-fecha-hora').classList.remove('hidden');
+            const t = s.options[s.selectedIndex].getAttribute('data-tipo');
             const msgFijo = document.getElementById('msg-duracion-fija');
-
-            duracionSelect.innerHTML = '';
             document.getElementById('slots-container').innerHTML = '';
-            
-            if(!servicioSelect.value) {
-                divDuracion.classList.add('hidden'); divFechaHora.classList.add('hidden'); return;
-            }
 
-            divDuracion.classList.remove('hidden'); divFechaHora.classList.remove('hidden');
-
-            const opcion = servicioSelect.options[servicioSelect.selectedIndex];
-            const tipo = opcion.getAttribute('data-tipo');
-
-            if (tipo === 'variable') {
-                const opts = [30, 45, 60];
-                duracionSelect.innerHTML = '<option value="" disabled selected>-- Elige tiempo --</option>';
-                opts.forEach(t => { duracionSelect.innerHTML += `<option value="${t}">${t} Minutos</option>`; });
-                duracionSelect.disabled = false;
-                msgFijo.classList.add('hidden');
+            if (t === 'variable') {
+                [30, 45, 60].forEach(v => d.innerHTML += `<option value="${v}">${v} Minutos</option>`);
+                d.disabled = false; msgFijo.classList.add('hidden');
             } else {
-                duracionSelect.innerHTML = '<option value="60" selected>60 Minutos</option>';
-                duracionSelect.disabled = true; 
-                msgFijo.classList.remove('hidden');
+                d.innerHTML = '<option value="60" selected>60 Minutos</option>'; d.disabled = true; msgFijo.classList.remove('hidden');
                 if(document.getElementById('cita-fecha').value) cargarHorarios();
             }
-        }
-        window.configurarDuracion = configuringDuracion;
+        } window.configurarDuracion = configuringDuracion;
 
         function cargarHorarios() {
-            const fecha = document.getElementById('cita-fecha').value;
-            const duracionSelect = document.getElementById('cita-duracion');
-            const tiempo = duracionSelect.value;
-            const container = document.getElementById('slots-container');
-            const loading = document.getElementById('loading-slots');
-
+            const f = document.getElementById('cita-fecha').value; const t = document.getElementById('cita-duracion').value;
+            const container = document.getElementById('slots-container'); const loading = document.getElementById('loading-slots');
             document.getElementById('cita-hora-seleccionada').value = "";
+            if (!f || !t) return;
+            let dCheck = parseInt(t); if(dCheck === 45) dCheck = 60;
             
-            if (!fecha || !tiempo) { container.innerHTML = ''; return; }
-
-            let duracionCheck = parseInt(tiempo);
-            if (duracionCheck === 45) duracionCheck = 60; 
-
-            loading.classList.remove('hidden');
-            container.innerHTML = '';
-
-            // *** FIX IPHONE: nocache ***
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
-
-            fetch(urlConTimestamp, {
-                method: 'POST',
-                cache: 'no-store',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: 'obtenerHorarios', fecha: fecha, duracionLogica: duracionCheck })
+            loading.classList.remove('hidden'); container.innerHTML = '';
+            
+            // Fix iPhone nocache
+            fetch(`${API_URL}?nocache=${new Date().getTime()}`, { 
+                method: 'POST', body: JSON.stringify({ action: 'obtenerHorarios', fecha: f, duracionLogica: dCheck }) 
             })
             .then(r => r.json())
             .then(data => {
                 loading.classList.add('hidden');
-                
-                if (data.error) {
-                    container.innerHTML = `<div class="text-red-500 font-bold col-span-full text-center p-4 bg-red-100 rounded-lg border border-red-300">${data.error}</div>`;
-                    return;
-                }
-                if (data.horarios.length === 0) {
-                    container.innerHTML = '<div class="text-red-500 font-bold col-span-full text-center">No hay horarios disponibles.</div>';
-                    return;
-                }
+                if (data.error) { container.innerHTML = `<div class="text-red-500 font-bold col-span-full p-2">${data.error}</div>`; return; }
+                if (data.horarios.length === 0) { container.innerHTML = '<div class="text-red-500 font-bold col-span-full">No hay horarios.</div>'; return; }
                 data.horarios.forEach(slot => {
-                    const div = document.createElement('div');
-                    div.className = 'time-slot';
-                    div.innerText = slot.val; 
-                    div.onclick = () => {
-                        document.querySelectorAll('.time-slot').forEach(d => d.classList.remove('selected'));
-                        div.classList.add('selected');
-                        document.getElementById('cita-hora-seleccionada').value = slot.val;
-                    };
+                    const div = document.createElement('div'); div.className = 'time-slot'; div.innerText = slot.val; 
+                    div.onclick = () => { document.querySelectorAll('.time-slot').forEach(d => d.classList.remove('selected')); div.classList.add('selected'); document.getElementById('cita-hora-seleccionada').value = slot.val; };
                     container.appendChild(div);
                 });
-            })
-            .catch(error => {
-                loading.classList.add('hidden');
-                container.innerHTML = `<div class="text-red-500 font-bold col-span-full text-center">Error de conexión.</div>`;
-            });
+            }).catch(() => { loading.classList.add('hidden'); alert('Error conexión'); });
         }
 
         function enviarCita(e) {
-            e.preventDefault();
-            const hora = document.getElementById('cita-hora-seleccionada').value;
-            const duracionSelect = document.getElementById('cita-duracion');
+            e.preventDefault(); const h = document.getElementById('cita-hora-seleccionada').value; if (!h) return alert("⚠️ Selecciona un horario.");
+            const btn = document.getElementById('btn-cita'); const html = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Agendando...'; btn.disabled = true;
             
-            if (!hora) { alert("⚠️ Selecciona un horario."); return; }
-
-            const btn = document.getElementById('btn-cita');
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Agendando...'; btn.disabled = true;
-
-            const data = {
-                action: 'nuevaCita',
-                nombres: document.getElementById('cita-nombre').value,
-                apellidos: document.getElementById('cita-apellido').value,
-                dni: document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value,
-                email: document.getElementById('cita-email').value,
-                whatsapp: document.getElementById('cita-whatsapp').value,
-                fecha: document.getElementById('cita-fecha').value,
-                hora: hora,
-                duracionReal: duracionSelect.value, 
-                servicio: document.getElementById('cita-servicio').value
-            };
-
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
-
-            fetch(urlConTimestamp, { 
-                method: 'POST', 
-                cache: 'no-store',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(data) 
-            })
+            const data = { action: 'nuevaCita', nombres: document.getElementById('cita-nombre').value, apellidos: document.getElementById('cita-apellido').value, dni: document.getElementById('cita-doc-num').value, email: document.getElementById('cita-email').value, whatsapp: document.getElementById('cita-whatsapp').value, fecha: document.getElementById('cita-fecha').value, hora: h, duracionReal: document.getElementById('cita-duracion').value, servicio: document.getElementById('cita-servicio').value };
+            
+            fetch(`${API_URL}?nocache=${new Date().getTime()}`, { method: 'POST', body: JSON.stringify(data) })
             .then(r => r.json())
             .then(result => {
-                if (result.status === 'success') {
-                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\nFecha: ${result.fecha} a las ${data.hora}.\nRevisa tu correo.`);
-                    e.target.reset(); 
-                    document.getElementById('slots-container').innerHTML = '';
-                    document.getElementById('div-duracion').classList.add('hidden');
-                    document.getElementById('div-fecha-hora').classList.add('hidden');
-                    showSection('home');
-                } else if (result.status === 'error') {
-                    alert(`⚠️ ${result.message}`);
-                    cargarHorarios();
-                } else {
-                     alert(`❌ Error al confirmar cita.`);
-                }
-            })
-            .catch(() => alert('Error de conexión.'))
-            .finally(() => { btn.innerHTML = originalHtml; btn.disabled = false; });
+                if (result.status === 'success') { 
+                    // MENSAJE EMERGENTE CONFIRMACIÓN
+                    alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\n📅 Fecha: ${result.fecha}\n⏰ Hora: ${data.hora}\n\n📧 IMPORTANTE: Hemos enviado los detalles a tu correo. Por favor revísalo.`); 
+                    e.target.reset(); document.getElementById('slots-container').innerHTML = ''; showSection('home'); 
+                } 
+                else { alert(`⚠️ ${result.message}`); cargarHorarios(); }
+            }).finally(() => { btn.innerHTML = html; btn.disabled = false; });
         }
 
         // --- SISTEMA GENERAL ---
-        document.addEventListener('DOMContentLoaded', () => {
-             const hoy = new Date().toISOString().split('T')[0];
-             if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = hoy;
-        });
-        function showSection(id) {
-            document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-            window.scrollTo(0,0);
-        }
+        document.addEventListener('DOMContentLoaded', () => { if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; });
+        function showSection(id) { document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none'); document.getElementById(id).style.display = 'block'; window.scrollTo(0,0); }
+        
+        // --- STAFF LOGIC ---
         function setStaffMode(mode) {
-            const isAnulacion = mode === 'anulacion';
-            document.getElementById('venta-estado').value = isAnulacion ? 'Anulación' : 'Venta';
-            document.getElementById('div-anulacion-motivo').classList.toggle('hidden', !isAnulacion);
-            document.getElementById('anulacion-motivo').required = isAnulacion;
-            const btn = document.getElementById('btn-venta');
-            if(isAnulacion) {
-                btn.className = 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow text-lg transition';
-                btn.innerText = 'CONFIRMAR ANULACIÓN';
+            const isAnulacion = mode === 'anulacion'; const isHistorial = mode === 'historial';
+            const formVenta = document.getElementById('form-venta'); const viewHist = document.getElementById('staff-historial-view');
+            
+            // Tabs styles
+            ['venta','historial','anulacion'].forEach(t => document.getElementById(`tab-${t}`).className = 'flex-1 py-3 rounded-md font-bold text-fisioSub transition');
+            document.getElementById(`tab-${mode}`).className = 'flex-1 py-3 rounded-md font-bold bg-white text-fisioPrimary shadow-sm transition';
+
+            if(isHistorial) {
+                formVenta.classList.add('hidden'); viewHist.classList.remove('hidden');
             } else {
-                btn.className = 'btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg transition';
-                btn.innerHTML = 'REGISTRAR';
+                formVenta.classList.remove('hidden'); viewHist.classList.add('hidden');
+                document.getElementById('venta-estado').value = isAnulacion ? 'Anulación' : 'Venta';
+                document.getElementById('div-anulacion-motivo').classList.toggle('hidden', !isAnulacion);
+                document.getElementById('anulacion-motivo').required = isAnulacion;
+                const btn = document.getElementById('btn-venta');
+                if(isAnulacion) { btn.className = 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow text-lg transition'; btn.innerText = 'CONFIRMAR ANULACIÓN'; } 
+                else { btn.className = 'btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg transition'; btn.innerHTML = 'REGISTRAR'; }
             }
         }
-        function autoPrice(select) {
-            const price = select.options[select.selectedIndex].getAttribute('data-price');
-            if(price) document.getElementById('venta-monto').value = price;
-        }
-        function registrarVenta(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btn-venta');
-            btn.innerText = 'Guardando...'; btn.disabled = true;
-            const data = {
-                action: 'registrarVenta',
-                usuarioLogueado: staffUser,
-                terapeuta: document.getElementById('venta-terapeuta').value,
-                paciente: document.getElementById('venta-paciente').value,
-                fechaSesion: document.getElementById('venta-fecha').value,
-                servicio: document.getElementById('venta-servicio').value,
-                monto: document.getElementById('venta-monto').value,
-                medioPago: document.getElementById('venta-pago').value,
-                estado: document.getElementById('venta-estado').value,
-                origen: document.getElementById('anulacion-motivo').value || 'Venta' 
-            };
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
-            fetch(urlConTimestamp, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
-            .then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); })
-            .finally(() => { btn.innerHTML = 'REGISTRAR'; btn.disabled = false; });
-        }
-        function cargarFinanzas() {
-            const tbody = document.getElementById('tabla-resumen-body');
-            tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center italic text-gray-400">Cargando datos...</td></tr>';
-            const urlConTimestamp = `${API_URL}?nocache=${new Date().getTime()}`;
-            fetch(urlConTimestamp, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) })
-            .then(r => r.json())
-            .then(d => {
-                document.getElementById('kpi-ingresos').innerText = `S/ ${d.ingresos}`;
-                document.getElementById('kpi-gastos').innerText = `S/ ${d.egresos}`;
-                document.getElementById('kpi-utilidad').innerText = `S/ ${d.utilidad}`;
-                tbody.innerHTML = '';
-                d.listaVentas.forEach(v => {
-                    tbody.innerHTML += `<tr class="border-b border-gray-100"><td class="p-4 text-fisioSub">${new Date(v[1]).toLocaleDateString()}</td><td class="p-4 font-bold text-fisioPrimary">${v[4]}</td><td class="p-4 font-bold text-right ${v[6]<0?'text-red-500':'text-green-500'}">S/ ${v[6]}</td></tr>`;
-                });
+
+        function buscarPacienteVenta() {
+            const dni = document.getElementById('venta-dni').value;
+            fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify({ action: 'buscarPaciente', dni: dni }) }).then(r => r.json()).then(d => {
+                if(d.found){ document.getElementById('venta-paciente').value = d.nombres + ' ' + d.apellidos; document.getElementById('venta-celular').value = d.celular; document.getElementById('venta-email').value = d.email; } 
+                else alert("Paciente no encontrado");
             });
         }
+
+        function registrarVenta(e) {
+            e.preventDefault(); const btn = document.getElementById('btn-venta'); btn.innerText = 'Guardando...'; btn.disabled = true;
+            const data = { action: 'registrarVenta', usuarioLogueado: staffUser, terapeuta: document.getElementById('venta-terapeuta').value, paciente: document.getElementById('venta-paciente').value, fechaSesion: document.getElementById('venta-fecha').value, servicio: document.getElementById('venta-servicio').value, monto: document.getElementById('venta-monto').value, medioPago: document.getElementById('venta-pago').value, estado: document.getElementById('venta-estado').value, origen: document.getElementById('anulacion-motivo').value || 'Venta', dni: document.getElementById('venta-dni').value, email: document.getElementById('venta-email').value, celular: document.getElementById('venta-celular').value };
+            fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify(data) }).then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); }).finally(() => { btn.innerHTML = 'REGISTRAR'; btn.disabled = false; });
+        }
+        function autoPrice(select) { const price = select.options[select.selectedIndex].getAttribute('data-price'); if(price) document.getElementById('venta-monto').value = price; }
+
+        // --- GERENCIA & HISTORIA ---
+        function cargarFinanzas() {
+            const tbody = document.getElementById('tabla-resumen-body'); tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Cargando...</td></tr>';
+            fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) }).then(r => r.json()).then(d => {
+                document.getElementById('kpi-ingresos').innerText = `S/ ${d.ingresos}`; document.getElementById('kpi-gastos').innerText = `S/ ${d.egresos}`; document.getElementById('kpi-utilidad').innerText = `S/ ${d.utilidad}`;
+                tbody.innerHTML = ''; d.listaVentas.forEach(v => { tbody.innerHTML += `<tr class="border-b"><td class="p-4">${new Date(v[1]).toLocaleDateString()}</td><td class="p-4 font-bold">${v[4]}</td><td class="p-4 font-bold text-right">S/ ${v[6]}</td></tr>`; });
+            });
+        }
+        function buscarHistorial(inputId, divId) {
+             const t = document.getElementById(inputId || 'historia-search').value; const div = document.getElementById(divId || 'resultados-historia');
+             fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify({ action: 'buscarHistorialVentas', termino: t }) }).then(r => r.json()).then(d => {
+                let h = '<table class="w-full text-sm"><thead><tr class="bg-gray-100"><th class="p-2">Fecha</th><th class="p-2">Servicio</th><th class="p-2">S/</th></tr></thead><tbody>';
+                d.forEach(v => h += `<tr><td class="p-2 border-b">${v.fecha}</td><td class="p-2 border-b">${v.servicio}</td><td class="p-2 border-b font-bold">${v.monto}</td></tr>`);
+                div.innerHTML = d.length ? h+'</tbody></table>' : 'Sin datos'; div.classList.remove('hidden');
+            });
+        }
+        function buscarHistoria() { buscarHistorial('historia-search', 'resultados-historia'); }
         function guardarHistoria(e) { e.preventDefault(); alert('✅ Evolución guardada (Simulación Frontend).'); e.target.reset(); }
-        function buscarHistoria() { const term = document.getElementById('historia-search').value; alert('🔍 Buscando historial para: ' + term); }
     </script>
 </body>
 </html>
