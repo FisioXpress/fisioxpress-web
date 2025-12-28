@@ -13,12 +13,12 @@
                 fontFamily: { 'sans': ['Montserrat', 'sans-serif'] },
                 extend: {
                     colors: {
-                        fisioPrimary: '#2A7C78',       // Verde Corporativo
-                        fisioPrimaryHover: '#4CA6A1',  // Verde Claro (Hover)
-                        fisioAccent: '#F2911B',        // Naranja Acento
-                        fisioText: '#333333',          // Texto Principal
-                        fisioSub: '#666666',           // Texto Secundario
-                        fisioBg: '#F4F8F8'             // Fondo Suave
+                        fisioPrimary: '#2A7C78',
+                        fisioPrimaryHover: '#4CA6A1', 
+                        fisioAccent: '#F2911B',
+                        fisioText: '#333333',
+                        fisioSub: '#666666',
+                        fisioBg: '#F4F8F8'
                     }
                 }
             }
@@ -33,7 +33,7 @@
         
         body { background-color: #F4F8F8; color: #333333; }
         
-        /* Botones de acción principal */
+        /* Botones Principales */
         .btn-action { 
             background-color: #F2911B; 
             transition: all 0.3s ease; 
@@ -45,32 +45,18 @@
             box-shadow: 0 6px 12px rgba(242, 145, 27, 0.3); 
         }
         
-        /* Casillas de Horarios */
+        /* Slots de Horario (Citas) */
         .time-slot { 
-            border: 2px solid #ddd; 
-            border-radius: 8px; 
-            padding: 10px; 
-            text-align: center; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            background: white; 
+            border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; 
+            cursor: pointer; transition: all 0.2s; background: white; 
         }
-        .time-slot:hover { 
-            border-color: #2A7C78; 
-            color: #2A7C78; 
-        }
-        .time-slot.selected { 
-            background-color: #2A7C78; 
-            color: white; 
-            border-color: #2A7C78; 
-            font-weight: bold; 
-        }
+        .time-slot:hover { border-color: #2A7C78; color: #2A7C78; }
+        .time-slot.selected { background-color: #2A7C78; color: white; border-color: #2A7C78; font-weight: bold; }
         
-        select:disabled { 
-            background-color: #e2e8f0; 
-            cursor: not-allowed; 
-            color: #555; 
-        }
+        select:disabled, input:disabled { background-color: #e2e8f0; cursor: not-allowed; color: #555; }
+        
+        /* Animación para inputs dinámicos en Venta */
+        .dynamic-input { animation: fadeIn 0.3s ease-in-out; }
     </style>
 </head>
 <body class="antialiased">
@@ -98,13 +84,11 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            
             <div onclick="showSection('app-citas')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
                 <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-fisioAccent transition duration-300">
                     <i class="fa-solid fa-calendar-check text-3xl text-fisioAccent group-hover:text-white transition"></i>
                 </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Reserva de Citas</h3>
-                <p class="text-sm text-center text-fisioSub">Agenda tu sesión.</p>
             </div>
             
             <div onclick="checkAuth('staff')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioPrimary group hover:-translate-y-1">
@@ -112,7 +96,6 @@
                     <i class="fa-solid fa-cash-register text-3xl text-fisioPrimary group-hover:text-white transition"></i>
                 </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Control Interno</h3>
-                <p class="text-sm text-center text-fisioSub">Acceso Staff.</p>
             </div>
             
             <div onclick="checkAuth('staff_historia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioAccent group hover:-translate-y-1">
@@ -120,7 +103,6 @@
                     <i class="fa-solid fa-file-medical-alt text-3xl text-fisioAccent group-hover:text-white transition"></i>
                 </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Historias Clínicas</h3>
-                <p class="text-sm text-center text-fisioSub">Evolución.</p>
             </div>
             
             <div onclick="checkAuth('gerencia')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition cursor-pointer border-t-4 border-fisioText group hover:-translate-y-1">
@@ -128,7 +110,6 @@
                     <i class="fa-solid fa-chart-pie text-3xl text-fisioText group-hover:text-white transition"></i>
                 </div>
                 <h3 class="text-xl font-bold text-center mb-2 text-fisioPrimary">Gerencia</h3>
-                <p class="text-sm text-center text-fisioSub">Reportes.</p>
             </div>
         </div>
     </div>
@@ -146,14 +127,12 @@
                         <input type="text" id="cita-nombre" placeholder="Nombres" required class="p-4 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
                         <input type="text" id="cita-apellido" placeholder="Apellidos" required class="p-4 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
                     </div>
-                    
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <select id="cita-doc-tipo" class="p-4 bg-fisioBg rounded-lg outline-none text-fisioText font-medium">
                            <option>DNI</option><option>C.E.</option><option>PASAPORTE</option>
                         </select>
                         <input type="text" id="cita-doc-num" placeholder="Documento" required class="p-4 col-span-2 bg-fisioBg rounded-lg w-full outline-none focus:ring-2 focus:ring-fisioPrimary text-fisioText">
                     </div>
-                    
                     <div class="mb-4">
                          <input type="tel" id="cita-whatsapp" placeholder="WhatsApp" required class="w-full p-4 bg-fisioBg rounded-lg outline-none focus:ring-2 focus:ring-fisioPrimary mb-4 text-fisioText">
                     </div>
@@ -211,32 +190,110 @@
             <form id="form-venta" onsubmit="registrarVenta(event)">
                 <input type="hidden" id="venta-estado" value="Venta">
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <select id="venta-terapeuta" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <select id="venta-terapeuta" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText font-bold" required>
                         <option value="">Terapeuta...</option><option>Ana Pisfil</option><option>Isabel Barriga</option><option>Carmen Rodriguez</option>
                     </select>
-                    <div class="col-span-2 flex gap-2">
-                        <input type="text" id="venta-dni" placeholder="DNI Paciente" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText">
-                        <button type="button" onclick="buscarPacienteVenta()" class="bg-fisioPrimary text-white px-4 rounded-lg font-bold"><i class="fa-solid fa-search"></i></button>
-                    </div>
+                    <input type="date" id="venta-fecha" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required>
                 </div>
-                
-                <div class="mb-4">
-                     <input type="text" id="venta-paciente" placeholder="Nombre del Paciente" class="p-3 bg-white border-2 border-fisioBg rounded-lg w-full outline-none text-fisioText font-bold" required>
-                     <input type="hidden" id="venta-email"><input type="hidden" id="venta-celular">
+
+                <div class="mb-2">
+                    <label class="text-xs font-bold text-fisioPrimary uppercase">Búsqueda de Paciente</label>
+                </div>
+                <div class="flex gap-2 mb-4 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <div class="flex-grow">
+                        <label class="block text-xs text-gray-400 mb-1">Buscar por Número de Documento</label>
+                        <input type="text" id="venta-search-dni" placeholder="Ingresa número para buscar..." class="w-full p-3 bg-white rounded-lg outline-none text-fisioText font-bold border border-gray-200 focus:border-fisioPrimary">
+                    </div>
+                    <div class="flex items-end">
+                        <button type="button" onclick="buscarPacienteVenta()" class="bg-fisioPrimary hover:bg-fisioPrimaryHover text-white px-6 py-3 rounded-lg font-bold transition shadow-md h-[50px]"><i class="fa-solid fa-search"></i></button>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <input type="date" id="venta-fecha" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required>
-                    <select id="venta-servicio" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required onchange="autoPrice(this)">
-                        <option value="">Servicio...</option><option data-price="30">Masaje 30min (S/30)</option><option data-price="45">Masaje 45min (S/45)</option><option data-price="80">Paquete 3 Ses (S/80)</option><option data-price="700">Paquete 10 Fisio (S/700)</option><option value="custom">Otro</option>
-                    </select>
-                    <select id="venta-pago" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required><option>YAPE/PLIN</option><option>EFECTIVO</option><option>TARJETA</option></select>
+                    
+                    <div class="md:col-span-1">
+                        <label class="block text-xs font-bold text-fisioPrimary uppercase mb-1">Tipo Documento</label>
+                        <select id="venta-tipo-doc" class="w-full p-3 bg-fisioBg rounded-lg outline-none text-sm border-2 border-transparent focus:border-fisioPrimary" onchange="checkDocOtro(this)">
+                            <option value="DNI">DNI</option>
+                            <option value="CE">C.E.</option>
+                            <option value="PASAPORTE">PASAPORTE</option>
+                            <option value="OTRO">OTRO...</option>
+                        </select>
+                        <input type="text" id="venta-tipo-doc-otro" class="w-full p-2 mt-2 border rounded text-sm hidden" placeholder="Especifique Tipo">
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-fisioPrimary uppercase mb-1">Número Documento</label>
+                        <input type="text" id="venta-num-doc" class="w-full p-3 bg-fisioBg rounded-lg outline-none text-fisioText font-bold" placeholder="Número">
+                    </div>
+                    
+                    <div class="md:col-span-1">
+                        <input type="text" id="venta-nombres" placeholder="Nombres" class="w-full p-3 bg-white rounded border border-gray-200 text-sm font-bold" required>
+                    </div>
+                    <div class="md:col-span-1">
+                        <input type="text" id="venta-apellidos" placeholder="Apellidos" class="w-full p-3 bg-white rounded border border-gray-200 text-sm font-bold" required>
+                    </div>
+                    <div class="md:col-span-1">
+                        <input type="tel" id="venta-celular" placeholder="Celular" class="w-full p-3 bg-white rounded border border-gray-200 text-sm">
+                    </div>
+                    <div class="md:col-span-3">
+                        <input type="email" id="venta-email" placeholder="Correo Electrónico" class="w-full p-3 bg-white rounded border border-gray-200 text-sm">
+                    </div>
                 </div>
-                
-                <div class="mb-6 flex justify-between items-center bg-fisioBg p-4 rounded-lg border border-gray-200">
-                    <span class="font-bold text-fisioPrimary">MONTO TOTAL (S/)</span>
-                    <input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-32 p-2 text-right font-bold text-2xl text-fisioPrimary bg-white rounded border border-gray-200 outline-none" required>
+
+                <div class="mb-4">
+                    <label class="text-xs font-bold text-fisioPrimary uppercase block mb-2">Seleccionar Servicio o Producto</label>
+                    <select id="venta-servicio" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText font-bold border-l-4 border-fisioAccent" required onchange="renderServiceOptions()">
+                        <option value="">-- Seleccionar --</option>
+                        <optgroup label="Servicios de Terapia">
+                            <option value="Masaje Relajante">Masaje Relajante</option>
+                            <option value="Masaje Descontracturante">Masaje Descontracturante</option>
+                            <option value="Masaje Xpress">Masaje Xpress</option>
+                            <option value="Masaje Deportivo">Masaje Deportivo</option>
+                            <option value="Drenaje Linfático">Drenaje Linfático</option>
+                            <option value="Fisioterapia Especializada">Fisioterapia Especializada</option>
+                        </optgroup>
+                        <optgroup label="Venta de Productos">
+                            <option value="Producto">Producto (Venta Física)</option>
+                        </optgroup>
+                        <optgroup label="Planes y Paquetes">
+                            <option value="Paquetes">Paquetes / Promociones</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div id="dynamic-options-container" class="mb-6 p-4 bg-white border border-gray-200 rounded-lg hidden"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase block mb-1">Medio de Pago</label>
+                        <select id="venta-pago" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" required>
+                            <option>YAPE/PLIN</option><option>EFECTIVO</option><option>TARJETA</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase block mb-1">Fuente de Captación</label>
+                        <select id="venta-fuente" class="p-3 bg-fisioBg rounded-lg w-full outline-none text-fisioText" onchange="toggleFuenteOtro()">
+                            <option value="Redes Sociales">Redes Sociales</option>
+                            <option value="Flyers">Flyers</option>
+                            <option value="Referidos">Referidos</option>
+                            <option value="Banners">Banners</option>
+                            <option value="Cliente Frecuente">Cliente Frecuente</option>
+                            <option value="Otro">Otro...</option>
+                        </select>
+                        <input type="text" id="venta-fuente-otro" placeholder="Especificar fuente..." class="mt-2 p-2 w-full border rounded hidden">
+                    </div>
+                </div>
+
+                <div class="mb-6 flex flex-col md:flex-row gap-4 items-center">
+                    <div class="flex-grow w-full">
+                        <input type="text" id="venta-obs" placeholder="Observaciones / Información Adicional" class="w-full p-4 bg-fisioBg rounded-lg outline-none text-sm">
+                    </div>
+                    <div class="bg-fisioBg p-4 rounded-lg border border-gray-200 flex items-center gap-3 min-w-[200px]">
+                        <span class="font-bold text-fisioPrimary">TOTAL S/</span>
+                        <input type="number" step="0.01" id="venta-monto" placeholder="0.00" class="w-24 p-2 text-right font-bold text-2xl text-fisioPrimary bg-white rounded border border-gray-200 outline-none" required>
+                    </div>
                 </div>
                 
                 <div id="div-anulacion-motivo" class="hidden mb-6 bg-red-50 p-4 rounded-lg border border-red-200">
@@ -244,7 +301,7 @@
                     <input type="text" id="anulacion-motivo" placeholder="Ej: Error digitación" class="w-full p-3 border border-red-300 rounded-lg bg-white">
                 </div>
                 
-                <button type="submit" id="btn-venta" class="btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg flex items-center justify-center gap-2"><i class="fa-solid fa-save"></i> REGISTRAR</button>
+                <button type="submit" id="btn-venta" class="btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg flex items-center justify-center gap-2"><i class="fa-solid fa-save"></i> REGISTRAR VENTA</button>
             </form>
 
             <div id="staff-historial-view" class="hidden mt-4">
@@ -260,17 +317,13 @@
     <div id="app-historia" class="hidden-section container mx-auto p-4 max-w-5xl fade-in pb-20 pt-10">
         <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-fisioAccent">
             <h2 class="text-2xl font-bold text-fisioPrimary mb-6">Historias Clínicas</h2>
-            
             <div class="bg-fisioBg p-6 rounded-xl mb-6 flex gap-4 items-center border border-gray-100">
                 <input type="text" id="historia-search" placeholder="Buscar por DNI o Apellido" class="flex-grow p-4 bg-white rounded-lg border border-transparent focus:border-fisioAccent outline-none shadow-sm text-fisioText">
                 <button onclick="buscarHistoria()" class="bg-fisioPrimary hover:bg-fisioPrimaryHover text-white px-6 py-4 rounded-lg font-bold transition shadow-md">Buscar</button>
             </div>
-            
             <div id="resultados-historia" class="hidden mb-6 p-4 border rounded bg-gray-50 text-fisioText"></div>
-            
             <div class="border-t border-gray-200 pt-6">
                 <h3 class="font-bold mb-4 text-fisioPrimary text-lg"><i class="fa-solid fa-file-pen"></i> Nueva Evolución</h3>
-                
                 <form onsubmit="guardarHistoria(event)">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                         <input id="hc-dni" placeholder="DNI" class="p-3 bg-fisioBg rounded-lg outline-none text-fisioText" required>
@@ -303,7 +356,6 @@
             <h2 class="text-2xl font-bold text-fisioPrimary">Dashboard</h2>
             <button onclick="cargarFinanzas()" class="text-fisioAccent font-bold border border-fisioAccent px-6 py-2 rounded-full hover:bg-fisioAccent hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-sync"></i> Actualizar</button>
         </div>
-        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-green-500">
                 <p class="text-xs font-bold text-fisioSub uppercase tracking-widest">Ingresos</p>
@@ -318,7 +370,6 @@
                 <h3 id="kpi-utilidad" class="text-4xl font-extrabold mt-2 text-white">S/ ...</h3>
             </div>
         </div>
-        
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
             <div class="bg-fisioBg p-4 font-bold text-fisioPrimary border-b border-gray-200">Últimas Transacciones</div>
             <table class="w-full text-left">
@@ -332,165 +383,502 @@
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-80 text-center transform scale-100 transition-all">
             <div class="bg-fisioBg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl text-fisioPrimary"><i class="fa-solid fa-lock"></i></div>
             <h3 class="font-bold text-xl mb-4 text-fisioPrimary">Acceso Restringido</h3>
-            <input type="password" id="input-pass" class="w-full p-4 bg-fisioBg rounded-lg mb-4 text-center text-lg outline-none focus:ring-2 focus:ring-fisioAccent text-fisioText" placeholder="••••">
+            <div class="relative w-full mb-4">
+                <input type="password" id="input-pass" class="w-full p-4 pr-12 bg-fisioBg rounded-lg text-center text-lg outline-none focus:ring-2 focus:ring-fisioAccent text-fisioText" placeholder="••••">
+                <button onclick="togglePass()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-fisioPrimary"><i class="fa-solid fa-eye" id="icon-eye"></i></button>
+            </div>
             <button onclick="verifyPass()" class="btn-action w-full text-white font-bold py-3 rounded-lg shadow-md transition mb-3">ENTRAR</button>
             <button onclick="closeModal()" class="text-sm text-gray-400 hover:text-gray-600 underline">Cancelar</button>
         </div>
     </div>
 
     <script>
-        // --- TU NUEVA URL DEL GOOGLE SCRIPT ---
-        const API_URL = 'https://script.google.com/macros/s/AKfycbw33oK-7zZ594xhiiGwRVG3-4yf7eKytXlF1jWs0l0dxdSv-s89KBznGupkyABONtpTRA/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbw2GbvVn40mbgNPMoL8GT0xWmc8EAyQLqeKLQvt7QpBum3ZS1SsgrXLZWeQ7mcWP0P2CA/exec';
 
         let currentTarget = '';
         let staffUser = 'Staff';
 
-        // --- SISTEMA DE NAVEGACIÓN ---
+        // --- AUTH LOGIC (EXTENDIDO) ---
+        function checkAuth(target) {
+            currentTarget = target;
+            document.getElementById('modal-auth').classList.remove('hidden');
+            const inp = document.getElementById('input-pass');
+            inp.value = ''; 
+            inp.type = 'password'; 
+            document.getElementById('icon-eye').className = 'fa-solid fa-eye'; 
+            inp.focus();
+            
+            // Listener para tecla Enter
+            inp.onkeypress = function(e) {
+                if(e.keyCode === 13) {
+                    verifyPass();
+                }
+            };
+        }
+
+        function closeModal() {
+            document.getElementById('modal-auth').classList.add('hidden');
+        }
+        
+        function togglePass() {
+            const x = document.getElementById("input-pass");
+            const icon = document.getElementById("icon-eye");
+            if (x.type === "password") {
+                x.type = "text";
+                icon.className = "fa-solid fa-eye-slash";
+            } else {
+                x.type = "password";
+                icon.className = "fa-solid fa-eye";
+            }
+        }
+
+        function verifyPass() {
+            const pass = document.getElementById('input-pass').value;
+            
+            if ((currentTarget === 'staff' || currentTarget === 'staff_historia') && pass === 'Fisio.123') {
+                staffUser = prompt("¿Quién eres?", "Staff") || "Staff";
+                document.getElementById('staff-name-display').innerText = staffUser;
+                closeModal(); 
+                showSection(currentTarget === 'staff' ? 'app-staff' : 'app-historia');
+                
+            } else if (currentTarget === 'gerencia' && pass === 'marioyavril.') {
+                closeModal(); 
+                showSection('app-gerencia'); 
+                cargarFinanzas();
+                
+            } else {
+                alert('⛔ Clave incorrecta'); 
+            }
+        }
+
+        // --- NAVIGATION LOGIC ---
         function showSection(id) { 
             document.querySelectorAll('.section, .hidden-section').forEach(el => el.style.display = 'none'); 
             document.getElementById(id).style.display = 'block'; 
             window.scrollTo(0,0); 
         }
 
-        // --- SISTEMA DE AUTENTICACIÓN ---
-        function checkAuth(target) {
-            currentTarget = target;
-            document.getElementById('modal-auth').classList.remove('hidden');
-            document.getElementById('input-pass').value = '';
-            document.getElementById('input-pass').focus();
-        }
-        function closeModal() { document.getElementById('modal-auth').classList.add('hidden'); }
-        function verifyPass() {
-            const pass = document.getElementById('input-pass').value;
-            if ((currentTarget === 'staff' || currentTarget === 'staff_historia') && pass === 'Fisio.123') {
-                staffUser = prompt("¿Quién eres?", "Staff") || "Staff";
-                document.getElementById('staff-name-display').innerText = staffUser;
-                closeModal(); showSection(currentTarget === 'staff' ? 'app-staff' : 'app-historia');
-            } else if (currentTarget === 'gerencia' && pass === 'marioyavril.') {
-                closeModal(); showSection('app-gerencia'); cargarFinanzas();
-            } else { alert('⛔ Clave incorrecta'); }
-        }
-
-        // --- LÓGICA DE CITAS ---
+        // --- CITAS (ZONA SAGRADA - INTACTO Y EXTENDIDO) ---
         function configuringDuracion() {
-            const s = document.getElementById('cita-servicio'); const d = document.getElementById('cita-duracion'); d.innerHTML = '';
-            document.getElementById('div-duracion').classList.remove('hidden'); document.getElementById('div-fecha-hora').classList.remove('hidden');
+            const s = document.getElementById('cita-servicio'); 
+            const d = document.getElementById('cita-duracion'); 
+            d.innerHTML = '';
+            
+            document.getElementById('div-duracion').classList.remove('hidden'); 
+            document.getElementById('div-fecha-hora').classList.remove('hidden');
+            
             const t = s.options[s.selectedIndex].getAttribute('data-tipo');
+            
             if (t === 'variable') {
-                [30, 45, 60].forEach(v => d.innerHTML += `<option value="${v}">${v} Minutos</option>`);
+                [30, 45, 60].forEach(v => {
+                    d.innerHTML += `<option value="${v}">${v} Minutos</option>`;
+                });
             } else {
                 d.innerHTML = '<option value="60" selected>60 Minutos</option>'; 
-                if(document.getElementById('cita-fecha').value) cargarHorarios();
+                if(document.getElementById('cita-fecha').value) {
+                    cargarHorarios();
+                }
             }
-        } window.configurarDuracion = configuringDuracion;
+        } 
+        
+        window.configurarDuracion = configuringDuracion;
 
         function cargarHorarios() {
-            const f = document.getElementById('cita-fecha').value; const t = document.getElementById('cita-duracion').value;
-            const container = document.getElementById('slots-container'); const loading = document.getElementById('loading-slots');
-            document.getElementById('cita-hora-seleccionada').value = "";
-            if (!f || !t) return;
-            let dCheck = parseInt(t); if(dCheck === 45) dCheck = 60;
+            const f = document.getElementById('cita-fecha').value; 
+            const t = document.getElementById('cita-duracion').value;
+            const container = document.getElementById('slots-container'); 
+            const loading = document.getElementById('loading-slots');
             
-            loading.classList.remove('hidden'); container.innerHTML = '';
+            document.getElementById('cita-hora-seleccionada').value = "";
+            
+            if (!f || !t) return;
+            
+            let dCheck = parseInt(t); 
+            if(dCheck === 45) dCheck = 60;
+            
+            loading.classList.remove('hidden'); 
+            container.innerHTML = '';
             
             fetch(`${API_URL}?nocache=${new Date().getTime()}`, { 
-                method: 'POST', body: JSON.stringify({ action: 'obtenerHorarios', fecha: f, duracionLogica: dCheck }) 
+                method: 'POST', 
+                body: JSON.stringify({ action: 'obtenerHorarios', fecha: f, duracionLogica: dCheck }) 
             })
             .then(r => r.json())
             .then(data => {
                 loading.classList.add('hidden');
-                if (data.error) { container.innerHTML = `<div class="text-red-500 font-bold col-span-full p-2">${data.error}</div>`; return; }
-                if (data.horarios.length === 0) { container.innerHTML = '<div class="text-red-500 font-bold col-span-full">No hay horarios.</div>'; return; }
+                
+                if (data.error) { 
+                    container.innerHTML = `<div class="text-red-500 font-bold col-span-full p-2">${data.error}</div>`; 
+                    return; 
+                }
+                
+                if (data.horarios.length === 0) { 
+                    container.innerHTML = '<div class="text-red-500 font-bold col-span-full">No hay horarios.</div>'; 
+                    return; 
+                }
+                
                 data.horarios.forEach(slot => {
-                    const div = document.createElement('div'); div.className = 'time-slot'; div.innerText = slot.val; 
-                    div.onclick = () => { document.querySelectorAll('.time-slot').forEach(d => d.classList.remove('selected')); div.classList.add('selected'); document.getElementById('cita-hora-seleccionada').value = slot.val; };
+                    const div = document.createElement('div'); 
+                    div.className = 'time-slot'; 
+                    div.innerText = slot.val; 
+                    
+                    div.onclick = () => { 
+                        document.querySelectorAll('.time-slot').forEach(d => d.classList.remove('selected')); 
+                        div.classList.add('selected'); 
+                        document.getElementById('cita-hora-seleccionada').value = slot.val; 
+                    };
+                    
                     container.appendChild(div);
                 });
-            }).catch(() => { loading.classList.add('hidden'); alert('Error conexión'); });
+            })
+            .catch(() => { 
+                loading.classList.add('hidden'); 
+                alert('Error conexión'); 
+            });
         }
 
         function enviarCita(e) {
-            e.preventDefault(); const h = document.getElementById('cita-hora-seleccionada').value; if (!h) return alert("⚠️ Selecciona un horario.");
-            const btn = document.getElementById('btn-cita'); const html = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Agendando...'; btn.disabled = true;
+            e.preventDefault(); 
+            const h = document.getElementById('cita-hora-seleccionada').value; 
+            if (!h) return alert("⚠️ Selecciona un horario.");
             
-            // CONCATENACIÓN CRÍTICA DE DNI
+            const btn = document.getElementById('btn-cita'); 
+            const html = btn.innerHTML; 
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Agendando...'; 
+            btn.disabled = true;
+            
             const dniFull = document.getElementById('cita-doc-tipo').value + ' ' + document.getElementById('cita-doc-num').value;
-
-            const data = { action: 'nuevaCita', nombres: document.getElementById('cita-nombre').value, apellidos: document.getElementById('cita-apellido').value, dni: dniFull, email: document.getElementById('cita-email').value, whatsapp: document.getElementById('cita-whatsapp').value, fecha: document.getElementById('cita-fecha').value, hora: h, duracionReal: document.getElementById('cita-duracion').value, servicio: document.getElementById('cita-servicio').value };
+            
+            const data = { 
+                action: 'nuevaCita', 
+                nombres: document.getElementById('cita-nombre').value, 
+                apellidos: document.getElementById('cita-apellido').value, 
+                dni: dniFull, 
+                email: document.getElementById('cita-email').value, 
+                whatsapp: document.getElementById('cita-whatsapp').value, 
+                fecha: document.getElementById('cita-fecha').value, 
+                hora: h, 
+                duracionReal: document.getElementById('cita-duracion').value, 
+                servicio: document.getElementById('cita-servicio').value 
+            };
             
             fetch(`${API_URL}?nocache=${new Date().getTime()}`, { method: 'POST', body: JSON.stringify(data) })
             .then(r => r.json())
             .then(result => {
                 if (result.status === 'success') { 
                     alert(`✅ ¡Cita Confirmada para ${result.nombre}!\n\n📅 Fecha: ${result.fecha}\n⏰ Hora: ${data.hora}\n\n📧 IMPORTANTE: Hemos enviado los detalles a tu correo.`); 
-                    e.target.reset(); document.getElementById('slots-container').innerHTML = ''; showSection('home'); 
-                } 
-                else { alert(`⚠️ ${result.message}`); cargarHorarios(); }
-            }).finally(() => { btn.innerHTML = html; btn.disabled = false; });
+                    e.target.reset(); 
+                    document.getElementById('slots-container').innerHTML = ''; 
+                    showSection('home'); 
+                } else { 
+                    alert(`⚠️ ${result.message}`); 
+                    cargarHorarios(); 
+                }
+            })
+            .finally(() => { 
+                btn.innerHTML = html; 
+                btn.disabled = false; 
+            });
         }
 
-        // --- STAFF LOGIC (VENTAS Y ANULACIONES) ---
+        // --- STAFF LOGIC (ACTUALIZADO Y EXTENDIDO) ---
         function setStaffMode(mode) {
-            const isAnulacion = mode === 'anulacion'; const isHistorial = mode === 'historial';
-            const formVenta = document.getElementById('form-venta'); const viewHist = document.getElementById('staff-historial-view');
+            const isAnulacion = mode === 'anulacion'; 
+            const isHistorial = mode === 'historial';
+            const formVenta = document.getElementById('form-venta'); 
+            const viewHist = document.getElementById('staff-historial-view');
             
-            ['venta','historial','anulacion'].forEach(t => document.getElementById(`tab-${t}`).className = 'flex-1 py-3 rounded-md font-bold text-fisioSub transition');
+            ['venta','historial','anulacion'].forEach(t => {
+                document.getElementById(`tab-${t}`).className = 'flex-1 py-3 rounded-md font-bold text-fisioSub transition';
+            });
             document.getElementById(`tab-${mode}`).className = 'flex-1 py-3 rounded-md font-bold bg-white text-fisioPrimary shadow-sm transition';
 
             if(isHistorial) {
-                formVenta.classList.add('hidden'); viewHist.classList.remove('hidden');
+                formVenta.classList.add('hidden'); 
+                viewHist.classList.remove('hidden');
             } else {
-                formVenta.classList.remove('hidden'); viewHist.classList.add('hidden');
+                formVenta.classList.remove('hidden'); 
+                viewHist.classList.add('hidden');
+                
                 document.getElementById('venta-estado').value = isAnulacion ? 'Anulación' : 'Venta';
                 document.getElementById('div-anulacion-motivo').classList.toggle('hidden', !isAnulacion);
                 document.getElementById('anulacion-motivo').required = isAnulacion;
+                
                 const btn = document.getElementById('btn-venta');
                 if(isAnulacion) { 
                     btn.className = 'w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow text-lg transition'; 
                     btn.innerText = 'CONFIRMAR ANULACIÓN'; 
                 } else { 
                     btn.className = 'btn-action w-full text-white font-bold py-4 rounded-lg shadow-md text-lg transition'; 
-                    btn.innerText = 'REGISTRAR'; 
+                    btn.innerText = 'REGISTRAR VENTA'; 
                 }
             }
         }
 
+        // Nueva lógica de búsqueda y llenado manual
+        function checkDocOtro(sel) {
+            const inp = document.getElementById('venta-tipo-doc-otro');
+            if(sel.value === 'OTRO') {
+                inp.classList.remove('hidden'); 
+            } else {
+                inp.classList.add('hidden');
+            }
+        }
+
         function buscarPacienteVenta() {
-            const dni = document.getElementById('venta-dni').value;
-            fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify({ action: 'buscarPaciente', dni: dni }) }).then(r => r.json()).then(d => {
-                if(d.found){ document.getElementById('venta-paciente').value = d.nombres + ' ' + d.apellidos; document.getElementById('venta-celular').value = d.celular; document.getElementById('venta-email').value = d.email; } 
-                else alert("Paciente no encontrado");
+            const dniBusqueda = document.getElementById('venta-search-dni').value;
+            if(!dniBusqueda) return alert("Ingresa un número para buscar.");
+            
+            const btn = document.querySelector('button[onclick="buscarPacienteVenta()"]');
+            const originalIcon = btn.innerHTML; 
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>'; 
+            btn.disabled = true;
+
+            fetch(`${API_URL}?nocache=${Date.now()}`, { 
+                method: 'POST', 
+                body: JSON.stringify({ action: 'buscarPaciente', dni: dniBusqueda }) 
+            })
+            .then(r => r.json())
+            .then(d => {
+                if(d.found){ 
+                    // Si encuentra, llena todo y asume DNI o deja que el usuario ajuste
+                    document.getElementById('venta-nombres').value = d.nombres || d.nombreCompleto || '';
+                    document.getElementById('venta-apellidos').value = d.apellidos || '';
+                    document.getElementById('venta-celular').value = d.celular || '';
+                    document.getElementById('venta-email').value = d.email || '';
+                    
+                    // Asignar el número encontrado al campo de registro
+                    document.getElementById('venta-num-doc').value = dniBusqueda;
+                    
+                    // Intentar deducir tipo de documento
+                    if(dniBusqueda.length === 8) {
+                        document.getElementById('venta-tipo-doc').value = 'DNI';
+                    } else if(dniBusqueda.length > 8) {
+                        document.getElementById('venta-tipo-doc').value = 'CE';
+                    }
+                    
+                    alert("✅ Paciente encontrado");
+                } else {
+                    alert("⚠️ Paciente no registrado. Habilitando registro manual...");
+                    document.getElementById('venta-num-doc').value = dniBusqueda;
+                    document.getElementById('venta-nombres').value = '';
+                    document.getElementById('venta-apellidos').value = '';
+                    document.getElementById('venta-nombres').focus();
+                }
+            })
+            .finally(() => { 
+                btn.innerHTML = originalIcon; 
+                btn.disabled = false; 
             });
+        }
+
+        function renderServiceOptions() {
+            const tipo = document.getElementById('venta-servicio').value;
+            const container = document.getElementById('dynamic-options-container');
+            container.innerHTML = ''; 
+            container.classList.add('hidden');
+            
+            if (!tipo) return;
+            
+            container.classList.remove('hidden');
+            
+            if (tipo === 'Producto') {
+                container.innerHTML = `
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Cantidad de Productos</label>
+                    <input type="number" min="1" max="10" id="prod-cantidad" class="w-full p-2 border rounded mb-3" placeholder="Ej: 1" onchange="createProductInputs(this.value)">
+                    <div id="prod-inputs-list" class="space-y-2"></div>`;
+            } else if (tipo === 'Paquetes') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nombre Paquete</label>
+                            <input type="text" id="paq-nombre" class="w-full p-2 border rounded" placeholder="Ej: Pack Dolor">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Num. Sesiones</label>
+                            <input type="number" id="paq-sesiones" class="w-full p-2 border rounded" placeholder="Ej: 5">
+                        </div>
+                    </div>`;
+            } else {
+                container.innerHTML = `
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Tiempo de Sesión</label>
+                    <select id="serv-tiempo" class="w-full p-2 border rounded bg-white" onchange="checkOtroTiempo(this)">
+                        <option value="30">30 Minutos</option>
+                        <option value="45">45 Minutos</option>
+                        <option value="60">60 Minutos</option>
+                        <option value="Otro">Otro...</option>
+                    </select>
+                    <input type="number" id="serv-tiempo-otro" class="w-full p-2 border rounded mt-2 hidden dynamic-input" placeholder="Ingresa minutos (Ej: 90)">`;
+            }
+        }
+
+        function checkOtroTiempo(sel) { 
+            const inp = document.getElementById('serv-tiempo-otro'); 
+            if(sel.value === 'Otro') {
+                inp.classList.remove('hidden'); 
+            } else {
+                inp.classList.add('hidden');
+            }
+        }
+
+        function createProductInputs(qty) { 
+            const list = document.getElementById('prod-inputs-list'); 
+            list.innerHTML = ''; 
+            const n = parseInt(qty); 
+            if(n > 0) { 
+                for(let i=1; i<=n; i++) { 
+                    list.innerHTML += `<input type="text" class="w-full p-2 border rounded dynamic-input" placeholder="Nombre del Producto ${i}" name="prod-detalle">`; 
+                } 
+            } 
+        }
+
+        function toggleFuenteOtro() { 
+            const sel = document.getElementById('venta-fuente'); 
+            const inp = document.getElementById('venta-fuente-otro'); 
+            if(sel.value === 'Otro') {
+                inp.classList.remove('hidden'); 
+            } else {
+                inp.classList.add('hidden');
+            }
         }
 
         function registrarVenta(e) {
-            e.preventDefault(); const btn = document.getElementById('btn-venta'); btn.innerText = 'Guardando...'; btn.disabled = true;
-            const data = { action: 'registrarVenta', usuarioLogueado: staffUser, terapeuta: document.getElementById('venta-terapeuta').value, paciente: document.getElementById('venta-paciente').value, fechaSesion: document.getElementById('venta-fecha').value, servicio: document.getElementById('venta-servicio').value, monto: document.getElementById('venta-monto').value, medioPago: document.getElementById('venta-pago').value, estado: document.getElementById('venta-estado').value, origen: document.getElementById('anulacion-motivo').value || 'Venta', dni: document.getElementById('venta-dni').value, email: document.getElementById('venta-email').value, celular: document.getElementById('venta-celular').value };
-            fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify(data) }).then(() => { alert('✅ Registrado'); e.target.reset(); document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; setStaffMode('venta'); }).finally(() => { btn.innerText = 'REGISTRAR'; btn.disabled = false; });
-        }
-        function autoPrice(select) { const price = select.options[select.selectedIndex].getAttribute('data-price'); if(price) document.getElementById('venta-monto').value = price; }
+            e.preventDefault(); 
+            const btn = document.getElementById('btn-venta'); 
+            const txt = btn.innerText; 
+            btn.innerText = 'Guardando...'; 
+            btn.disabled = true;
 
-        // --- GERENCIA & HISTORIA ---
+            let tiempoServicio = '';
+            let detalleProductos = '';
+            let detallePaquete = '';
+            
+            const tipoServicio = document.getElementById('venta-servicio').value;
+            
+            if(tipoServicio === 'Producto') { 
+                const inputs = document.getElementsByName('prod-detalle'); 
+                let prods = []; 
+                inputs.forEach(i => { if(i.value) prods.push(i.value) }); 
+                detalleProductos = prods.join(', '); 
+            } else if (tipoServicio === 'Paquetes') { 
+                const nom = document.getElementById('paq-nombre').value; 
+                const ses = document.getElementById('paq-sesiones').value; 
+                detallePaquete = `${nom} (${ses} sesiones)`; 
+            } else { 
+                const selT = document.getElementById('serv-tiempo'); 
+                if(selT) { 
+                    tiempoServicio = selT.value === 'Otro' ? document.getElementById('serv-tiempo-otro').value : selT.value; 
+                } 
+            }
+
+            const fuenteSel = document.getElementById('venta-fuente').value;
+            const fuenteFinal = fuenteSel === 'Otro' ? document.getElementById('venta-fuente-otro').value : fuenteSel;
+
+            // Construir DNI Completo
+            const tipoDoc = document.getElementById('venta-tipo-doc').value;
+            const tipoDocFinal = tipoDoc === 'OTRO' ? document.getElementById('venta-tipo-doc-otro').value : tipoDoc;
+            const numDoc = document.getElementById('venta-num-doc').value;
+            const dniFull = `${tipoDocFinal} ${numDoc}`;
+
+            const data = { 
+                action: 'registrarVenta', 
+                usuarioLogueado: staffUser, 
+                terapeuta: document.getElementById('venta-terapeuta').value, 
+                
+                nombres: document.getElementById('venta-nombres').value, 
+                apellidos: document.getElementById('venta-apellidos').value,
+                
+                fechaSesion: document.getElementById('venta-fecha').value, 
+                servicio: tipoServicio, 
+                monto: document.getElementById('venta-monto').value, 
+                medioPago: document.getElementById('venta-pago').value, 
+                estado: document.getElementById('venta-estado').value, 
+                origen: document.getElementById('anulacion-motivo').value || 'Venta', 
+                dni: dniFull, 
+                email: document.getElementById('venta-email').value, 
+                celular: document.getElementById('venta-celular').value,
+                
+                fuente: fuenteFinal, 
+                observaciones: document.getElementById('venta-obs').value,
+                tiempoServicio: tiempoServicio, 
+                detalleProductos: detalleProductos, 
+                detallePaquete: detallePaquete
+            };
+
+            fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify(data) })
+            .then(() => { 
+                alert('✅ Operación registrada correctamente'); 
+                e.target.reset(); 
+                document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; 
+                renderServiceOptions(); 
+                setStaffMode('venta'); 
+            })
+            .finally(() => { 
+                btn.innerText = txt; 
+                btn.disabled = false; 
+            });
+        }
+
+        // --- GERENCIA & HISTORIA (INTACTO) ---
         function cargarFinanzas() {
-            const tbody = document.getElementById('tabla-resumen-body'); tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Cargando...</td></tr>';
-            fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) }).then(r => r.json()).then(d => {
-                document.getElementById('kpi-ingresos').innerText = `S/ ${d.ingresos}`; document.getElementById('kpi-gastos').innerText = `S/ ${d.egresos}`; document.getElementById('kpi-utilidad').innerText = `S/ ${d.utilidad}`;
-                tbody.innerHTML = ''; d.listaVentas.forEach(v => { tbody.innerHTML += `<tr class="border-b"><td class="p-4">${new Date(v[1]).toLocaleDateString()}</td><td class="p-4 font-bold">${v[4]}</td><td class="p-4 font-bold text-right">S/ ${v[6]}</td></tr>`; });
+            const tbody = document.getElementById('tabla-resumen-body'); 
+            tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Cargando...</td></tr>';
+            
+            fetch(`${API_URL}?nocache=${Date.now()}`, { 
+                method: 'POST', body: JSON.stringify({action: 'obtenerFinanzas'}) 
+            })
+            .then(r => r.json())
+            .then(d => {
+                document.getElementById('kpi-ingresos').innerText = `S/ ${d.ingresos}`; 
+                document.getElementById('kpi-gastos').innerText = `S/ ${d.egresos}`; 
+                document.getElementById('kpi-utilidad').innerText = `S/ ${d.utilidad}`;
+                
+                tbody.innerHTML = ''; 
+                d.listaVentas.forEach(v => { 
+                    tbody.innerHTML += `
+                        <tr class="border-b">
+                            <td class="p-4">${new Date(v[1]).toLocaleDateString()}</td>
+                            <td class="p-4 font-bold">${v[4]}</td>
+                            <td class="p-4 font-bold text-right">S/ ${v[6]}</td>
+                        </tr>`; 
+                });
             });
         }
+
         function buscarHistorial(inputId, divId) {
-             const t = document.getElementById(inputId || 'historia-search').value; const div = document.getElementById(divId || 'resultados-historia');
-             fetch(`${API_URL}?nocache=${Date.now()}`, { method: 'POST', body: JSON.stringify({ action: 'buscarHistorialVentas', termino: t }) }).then(r => r.json()).then(d => {
+             const t = document.getElementById(inputId || 'historia-search').value; 
+             const div = document.getElementById(divId || 'resultados-historia');
+             
+             fetch(`${API_URL}?nocache=${Date.now()}`, { 
+                 method: 'POST', body: JSON.stringify({ action: 'buscarHistorialVentas', termino: t }) 
+             })
+             .then(r => r.json())
+             .then(d => {
                 let h = '<table class="w-full text-sm"><thead><tr class="bg-gray-100"><th class="p-2">Fecha</th><th class="p-2">Servicio</th><th class="p-2">S/</th></tr></thead><tbody>';
-                d.forEach(v => h += `<tr><td class="p-2 border-b">${v.fecha}</td><td class="p-2 border-b">${v.servicio}</td><td class="p-2 border-b font-bold">${v.monto}</td></tr>`);
-                div.innerHTML = d.length ? h+'</tbody></table>' : 'Sin datos'; div.classList.remove('hidden');
+                d.forEach(v => {
+                    h += `<tr><td class="p-2 border-b">${v.fecha}</td><td class="p-2 border-b">${v.servicio}</td><td class="p-2 border-b font-bold">${v.monto}</td></tr>`;
+                });
+                div.innerHTML = d.length ? h+'</tbody></table>' : 'Sin datos'; 
+                div.classList.remove('hidden');
             });
         }
-        function buscarHistoria() { buscarHistorial('historia-search', 'resultados-historia'); }
-        function guardarHistoria(e) { e.preventDefault(); alert('✅ Evolución guardada (Simulación Frontend).'); e.target.reset(); }
+
+        function buscarHistoria() { 
+            buscarHistorial('historia-search', 'resultados-historia'); 
+        }
+
+        function guardarHistoria(e) { 
+            e.preventDefault(); 
+            alert('✅ Evolución guardada (Simulación Frontend).'); 
+            e.target.reset(); 
+        }
         
-        // --- INICIALIZACIÓN ---
-        document.addEventListener('DOMContentLoaded', () => { if(document.getElementById('venta-fecha')) document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0]; });
+        // --- INICIALIZACIÓN (INTACTO) ---
+        document.addEventListener('DOMContentLoaded', () => { 
+            if(document.getElementById('venta-fecha')) {
+                document.getElementById('venta-fecha').value = new Date().toISOString().split('T')[0];
+            }
+        });
 
     </script>
 </body>
